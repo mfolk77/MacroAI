@@ -1,0 +1,29 @@
+{
+  "id": "valentines",
+  "name": "Valentine's Day",
+  "description": "Romantic Valentine's Day celebration with hearts and roses",
+  "isPremium": true,
+  "seasonStart": "02-01",
+  "seasonEnd": "02-28",
+  "plateStyle": {
+    "background": "hearts",
+    "borderColor": "#FF1493",
+    "plateColor": "#FFF0F5"
+  },
+  "foodIcons": {
+    "protein": "turkey",
+    "carbs": "potato",
+    "fats": "butter"
+  },
+  "colors": {
+    "primary": "#FF1493",
+    "secondary": "#FF69B4",
+    "accent": "#FFD700",
+    "background": "#FFF0F5"
+  },
+  "specialEffects": {
+    "particles": "heart_float",
+    "celebrationAnimation": "rose_bloom",
+    "overfillEffect": "burn_effect"
+  }
+} 

@@ -1,0 +1,52 @@
+{
+  "id": "carnivore",
+  "name": "Carnivore",
+  "description": "Animal-based nutrition for optimal health",
+  "isPremium": true,
+  "macroDistribution": {
+    "protein": 40,
+    "carbs": 0,
+    "fats": 60
+  },
+  "recommendations": {
+    "dailyCalories": 2000,
+    "mealsPerDay": 2,
+    "snacksPerDay": 0,
+    "maxNetCarbs": 0,
+    "maxCarbsPerMeal": 0,
+    "minProteinGrams": 150,
+    "maxMealSize": "Large"
+  },
+  "guidelines": [
+    "Elimination diet",
+    "Reduced inflammation",
+    "Focus on animal proteins",
+    "Avoid all plant foods",
+    "Eat when hungry, stop when full"
+  ],
+  "restrictedFoods": [
+    "All grains",
+    "All fruits",
+    "All vegetables",
+    "All legumes",
+    "All nuts and seeds",
+    "All processed foods",
+    "All sugars"
+  ],
+  "recommendedFoods": [
+    "Beef",
+    "Lamb",
+    "Pork",
+    "Chicken",
+    "Turkey",
+    "Fish",
+    "Eggs",
+    "Organ meats",
+    "Bone broth",
+    "Butter",
+    "Ghee",
+    "Tallow"
+  ],
+  "icon": "fork.knife",
+  "primaryColor": "blue"
+} 

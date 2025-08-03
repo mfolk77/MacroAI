@@ -1,0 +1,49 @@
+{
+  "id": "gastric_sleeve",
+  "name": "Gastric Sleeve",
+  "description": "Post-surgery nutrition for gastric sleeve patients",
+  "isPremium": true,
+  "macroDistribution": {
+    "protein": 35,
+    "carbs": 35,
+    "fats": 30
+  },
+  "recommendations": {
+    "dailyCalories": 1000,
+    "mealsPerDay": 5,
+    "snacksPerDay": 1,
+    "maxNetCarbs": 87,
+    "maxCarbsPerMeal": 20,
+    "minProteinGrams": 87,
+    "maxMealSize": "3/4 cup"
+  },
+  "guidelines": [
+    "Prioritize protein at every meal",
+    "Eat slowly and mindfully",
+    "Stop eating at first sign of fullness",
+    "Separate liquids from meals by 30 minutes",
+    "Take bariatric-specific vitamins",
+    "Avoid empty calories and processed foods",
+    "Focus on nutrient-dense choices"
+  ],
+  "restrictedFoods": [
+    "Sugary drinks and desserts",
+    "Carbonated beverages",
+    "High-calorie, low-nutrition foods",
+    "Large pieces of tough meat",
+    "Excessive amounts of raw vegetables",
+    "High-fat processed foods",
+    "Alcohol (especially early post-op)"
+  ],
+  "recommendedFoods": [
+    "Lean proteins (chicken, fish, turkey)",
+    "Eggs and low-fat dairy",
+    "Protein supplements",
+    "Soft cooked vegetables",
+    "Small amounts of whole grains",
+    "Berries and soft fruits",
+    "Healthy fats in moderation"
+  ],
+  "icon": "scalemass.fill",
+  "primaryColor": "purple"
+}

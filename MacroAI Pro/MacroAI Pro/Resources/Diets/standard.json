@@ -1,0 +1,38 @@
+{
+  "id": "standard",
+  "name": "Standard Diet",
+  "description": "Balanced macronutrient distribution for general health",
+  "isPremium": false,
+  "macroDistribution": {
+    "protein": 25,
+    "carbs": 45,
+    "fats": 30
+  },
+  "recommendations": {
+    "dailyCalories": 2000,
+    "mealsPerDay": 3,
+    "snacksPerDay": 2,
+    "maxNetCarbs": null,
+    "maxCarbsPerMeal": null,
+    "minProteinGrams": null,
+    "maxMealSize": null
+  },
+  "guidelines": [
+    "Eat a variety of nutrient-dense foods",
+    "Include lean proteins, whole grains, and vegetables",
+    "Stay hydrated with 8+ glasses of water daily",
+    "Practice portion control",
+    "Include healthy fats from nuts, oils, and fish"
+  ],
+  "restrictedFoods": [],
+  "recommendedFoods": [
+    "Lean meats and poultry",
+    "Fish and seafood",
+    "Eggs and dairy",
+    "Whole grains",
+    "Fruits and vegetables",
+    "Nuts and seeds"
+  ],
+  "icon": "leaf.fill",
+  "primaryColor": "green"
+}

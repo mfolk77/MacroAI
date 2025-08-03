@@ -1,0 +1,502 @@
+{
+  "dietId": "standard",
+  "recipes": [
+    {
+      "id": "standard_oatmeal_bowl",
+      "name": "Protein-Packed Oatmeal Bowl",
+      "description": "Hearty oatmeal with Greek yogurt and berries",
+      "category": "breakfast",
+      "prepTime": "8 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 385,
+        "protein": 22,
+        "carbs": 58,
+        "fats": 8,
+        "fiber": 9
+      },
+      "ingredients": [
+        "1/2 cup rolled oats",
+        "1/2 cup Greek yogurt (0% fat)",
+        "1/2 cup mixed berries",
+        "1 tbsp almond butter",
+        "1 tsp honey",
+        "1/4 cup unsweetened almond milk",
+        "1 tbsp chia seeds"
+      ],
+      "instructions": [
+        "Cook oats with almond milk according to package directions",
+        "Stir in Greek yogurt while warm",
+        "Top with berries, almond butter, and chia seeds",
+        "Drizzle with honey"
+      ],
+      "difficulty": "Easy",
+      "tags": ["high-protein", "fiber-rich", "heart-healthy"]
+    },
+    {
+      "id": "standard_chicken_quinoa_bowl",
+      "name": "Mediterranean Chicken Quinoa Bowl",
+      "description": "Balanced bowl with lean protein and whole grains",
+      "category": "lunch",
+      "prepTime": "25 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 485,
+        "protein": 42,
+        "carbs": 45,
+        "fats": 16,
+        "fiber": 8
+      },
+      "ingredients": [
+        "6 oz chicken breast, grilled",
+        "3/4 cup cooked quinoa",
+        "1 cup mixed greens",
+        "1/4 cup cucumber, diced",
+        "1/4 cup cherry tomatoes",
+        "2 tbsp hummus",
+        "1 tbsp olive oil",
+        "1 tbsp lemon juice",
+        "1/4 avocado, sliced"
+      ],
+      "instructions": [
+        "Season and grill chicken breast until cooked through",
+        "Arrange quinoa and mixed greens in bowl",
+        "Top with sliced chicken, vegetables, and avocado",
+        "Drizzle with olive oil and lemon juice",
+        "Serve with hummus on the side"
+      ],
+      "difficulty": "Medium",
+      "tags": ["balanced-macros", "whole-grains", "lean-protein"]
+    },
+    {
+      "id": "standard_salmon_sweet_potato",
+      "name": "Herb-Crusted Salmon with Sweet Potato",
+      "description": "Omega-3 rich salmon with complex carbohydrates",
+      "category": "dinner",
+      "prepTime": "30 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 525,
+        "protein": 38,
+        "carbs": 42,
+        "fats": 22,
+        "fiber": 6
+      },
+      "ingredients": [
+        "6 oz salmon fillet",
+        "1 medium roasted sweet potato",
+        "2 cups steamed broccoli",
+        "1 tbsp olive oil",
+        "1 tsp dried herbs (dill, parsley)",
+        "1/2 tbsp butter",
+        "Salt and pepper to taste",
+        "Lemon wedge"
+      ],
+      "instructions": [
+        "Preheat oven to 400°F",
+        "Season salmon with herbs, salt, and pepper",
+        "Roast sweet potato and salmon for 20 minutes",
+        "Steam broccoli until tender",
+        "Finish salmon with butter and lemon"
+      ],
+      "difficulty": "Medium",
+      "tags": ["omega-3", "complex-carbs", "nutrient-dense"]
+    },
+    {
+      "id": "standard_turkey_wrap",
+      "name": "Turkey and Veggie Wrap",
+      "description": "Lean protein wrap with fresh vegetables",
+      "category": "lunch",
+      "prepTime": "10 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 345,
+        "protein": 28,
+        "carbs": 32,
+        "fats": 14,
+        "fiber": 5
+      },
+      "ingredients": [
+        "1 whole wheat tortilla (8-inch)",
+        "4 oz sliced turkey breast",
+        "2 tbsp avocado, mashed",
+        "1/4 cup shredded lettuce",
+        "2 tbsp shredded carrots",
+        "2 tbsp bell pepper strips",
+        "1 tbsp low-fat cheese",
+        "1 tsp mustard"
+      ],
+      "instructions": [
+        "Spread mashed avocado on tortilla",
+        "Layer turkey, vegetables, and cheese",
+        "Add mustard and roll tightly",
+        "Cut in half to serve"
+      ],
+      "difficulty": "Easy",
+      "tags": ["portable", "lean-protein", "veggie-packed"]
+    },
+    {
+      "id": "standard_greek_yogurt_parfait",
+      "name": "Greek Yogurt Berry Parfait",
+      "description": "Protein-rich snack with natural sweetness",
+      "category": "snack",
+      "prepTime": "5 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 215,
+        "protein": 18,
+        "carbs": 28,
+        "fats": 5,
+        "fiber": 4
+      },
+      "ingredients": [
+        "3/4 cup Greek yogurt (0% fat)",
+        "1/2 cup mixed berries",
+        "2 tbsp granola",
+        "1 tsp honey",
+        "1 tbsp chopped almonds"
+      ],
+      "instructions": [
+        "Layer half the yogurt in a glass",
+        "Add half the berries and granola",
+        "Repeat layers",
+        "Top with almonds and honey drizzle"
+      ],
+      "difficulty": "Easy",
+      "tags": ["high-protein", "probiotic", "antioxidants"]
+    },
+    {
+      "id": "standard_veggie_stir_fry",
+      "name": "Tofu and Vegetable Stir-Fry",
+      "description": "Plant-based protein with colorful vegetables",
+      "category": "dinner",
+      "prepTime": "20 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 395,
+        "protein": 24,
+        "carbs": 38,
+        "fats": 18,
+        "fiber": 8
+      },
+      "ingredients": [
+        "5 oz firm tofu, cubed",
+        "2/3 cup brown rice, cooked",
+        "1 cup mixed stir-fry vegetables",
+        "1 tbsp sesame oil",
+        "2 tbsp low-sodium soy sauce",
+        "1 tsp fresh ginger, minced",
+        "1 clove garlic, minced",
+        "1 tsp sesame seeds"
+      ],
+      "instructions": [
+        "Heat sesame oil in large pan",
+        "Cook tofu until golden on all sides",
+        "Add vegetables, ginger, and garlic",
+        "Stir-fry for 5-7 minutes",
+        "Add soy sauce and serve over rice",
+        "Garnish with sesame seeds"
+      ],
+      "difficulty": "Medium",
+      "tags": ["plant-based", "fiber-rich", "asian-inspired"]
+    },
+    {
+      "id": "standard_tuna_salad",
+      "name": "Mediterranean Tuna Salad",
+      "description": "Protein-packed salad with healthy fats",
+      "category": "lunch",
+      "prepTime": "12 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 425,
+        "protein": 35,
+        "carbs": 25,
+        "fats": 22,
+        "fiber": 7
+      },
+      "ingredients": [
+        "1 can (5 oz) tuna in water, drained",
+        "2 cups mixed salad greens",
+        "1/4 cup chickpeas, drained",
+        "1/4 cup cherry tomatoes, halved",
+        "2 tbsp olives, sliced",
+        "1/4 cucumber, diced",
+        "2 tbsp feta cheese, crumbled",
+        "1 tbsp olive oil",
+        "1 tbsp balsamic vinegar"
+      ],
+      "instructions": [
+        "Combine greens, tomatoes, cucumber, and chickpeas",
+        "Top with tuna, olives, and feta",
+        "Whisk olive oil and balsamic vinegar",
+        "Drizzle dressing over salad"
+      ],
+      "difficulty": "Easy",
+      "tags": ["mediterranean", "omega-3", "no-cook"]
+    },
+    {
+      "id": "standard_protein_smoothie",
+      "name": "Green Protein Power Smoothie",
+      "description": "Nutrient-dense smoothie with hidden vegetables",
+      "category": "snack",
+      "prepTime": "5 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 285,
+        "protein": 26,
+        "carbs": 32,
+        "fats": 8,
+        "fiber": 6
+      },
+      "ingredients": [
+        "1 scoop vanilla protein powder",
+        "1 cup unsweetened almond milk",
+        "1/2 banana",
+        "1 cup fresh spinach",
+        "1/2 cup frozen mango",
+        "1 tbsp almond butter",
+        "1 tsp chia seeds",
+        "Ice cubes"
+      ],
+      "instructions": [
+        "Add all ingredients to blender",
+        "Blend until smooth and creamy",
+        "Add ice for desired consistency",
+        "Serve immediately"
+      ],
+      "difficulty": "Easy",
+      "tags": ["post-workout", "veggie-packed", "portable"]
+    },
+    {
+      "id": "standard_chicken_soup",
+      "name": "Hearty Chicken and Vegetable Soup",
+      "description": "Comforting soup with balanced nutrition",
+      "category": "dinner",
+      "prepTime": "35 minutes",
+      "servings": 2,
+      "macros": {
+        "calories": 315,
+        "protein": 32,
+        "carbs": 28,
+        "fats": 9,
+        "fiber": 5
+      },
+      "ingredients": [
+        "8 oz chicken breast, diced",
+        "1/2 cup brown rice or quinoa",
+        "2 cups low-sodium chicken broth",
+        "1/2 cup carrots, diced",
+        "1/2 cup celery, diced",
+        "1/4 cup onion, diced",
+        "1 cup kale, chopped",
+        "1 tbsp olive oil",
+        "Herbs and seasonings"
+      ],
+      "instructions": [
+        "Heat olive oil in large pot",
+        "Sauté onion, carrots, and celery",
+        "Add chicken and cook through",
+        "Add broth and rice, simmer 20 minutes",
+        "Stir in kale last 5 minutes"
+      ],
+      "difficulty": "Medium",
+      "tags": ["comfort-food", "meal-prep", "immune-boost"]
+    },
+    {
+      "id": "standard_overnight_oats",
+      "name": "Overnight Oats with Protein",
+      "description": "Make-ahead breakfast with sustained energy",
+      "category": "breakfast",
+      "prepTime": "5 minutes (overnight)",
+      "servings": 1,
+      "macros": {
+        "calories": 365,
+        "protein": 20,
+        "carbs": 52,
+        "fats": 10,
+        "fiber": 8
+      },
+      "ingredients": [
+        "1/2 cup rolled oats",
+        "1/2 cup unsweetened almond milk",
+        "1/4 cup Greek yogurt",
+        "1 tbsp chia seeds",
+        "1 tbsp peanut butter",
+        "1/2 sliced banana",
+        "1 tsp vanilla extract",
+        "1 tsp maple syrup"
+      ],
+      "instructions": [
+        "Mix oats, milk, yogurt, and chia seeds",
+        "Add peanut butter, vanilla, and maple syrup",
+        "Stir well and refrigerate overnight",
+        "Top with banana before serving"
+      ],
+      "difficulty": "Easy",
+      "tags": ["meal-prep", "make-ahead", "sustained-energy"]
+    },
+    {
+      "id": "standard_egg_veggie_scramble",
+      "name": "Veggie-Packed Egg Scramble",
+      "description": "High-protein breakfast with colorful vegetables",
+      "category": "breakfast",
+      "prepTime": "12 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 295,
+        "protein": 22,
+        "carbs": 12,
+        "fats": 18,
+        "fiber": 4
+      },
+      "ingredients": [
+        "2 large eggs",
+        "1/4 cup bell peppers, diced",
+        "1/4 cup spinach, chopped",
+        "2 tbsp onion, diced",
+        "1/4 cup mushrooms, sliced",
+        "2 tbsp shredded cheese",
+        "1 tbsp olive oil",
+        "Salt, pepper, herbs"
+      ],
+      "instructions": [
+        "Heat olive oil in non-stick pan",
+        "Sauté vegetables until tender",
+        "Beat eggs and pour into pan",
+        "Scramble gently with vegetables",
+        "Top with cheese and herbs"
+      ],
+      "difficulty": "Easy",
+      "tags": ["high-protein", "veggie-rich", "quick-breakfast"]
+    },
+    {
+      "id": "standard_lentil_salad",
+      "name": "Mediterranean Lentil Salad",
+      "description": "Fiber-rich plant protein with fresh herbs",
+      "category": "lunch",
+      "prepTime": "15 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 385,
+        "protein": 18,
+        "carbs": 45,
+        "fats": 15,
+        "fiber": 12
+      },
+      "ingredients": [
+        "3/4 cup cooked green lentils",
+        "1/4 cup cherry tomatoes, halved",
+        "1/4 cup cucumber, diced",
+        "2 tbsp red onion, minced",
+        "2 tbsp fresh parsley, chopped",
+        "2 tbsp feta cheese, crumbled",
+        "2 tbsp olive oil",
+        "1 tbsp lemon juice",
+        "1 tsp dried oregano"
+      ],
+      "instructions": [
+        "Combine lentils with vegetables and herbs",
+        "Whisk olive oil, lemon juice, and oregano",
+        "Toss salad with dressing",
+        "Top with crumbled feta",
+        "Let sit 10 minutes for flavors to meld"
+      ],
+      "difficulty": "Easy",
+      "tags": ["plant-protein", "high-fiber", "mediterranean"]
+    },
+    {
+      "id": "standard_apple_almond_snack",
+      "name": "Apple Slices with Almond Butter",
+      "description": "Simple snack with protein and fiber",
+      "category": "snack",
+      "prepTime": "3 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 245,
+        "protein": 8,
+        "carbs": 28,
+        "fats": 14,
+        "fiber": 6
+      },
+      "ingredients": [
+        "1 medium apple, sliced",
+        "2 tbsp natural almond butter",
+        "1 tsp chia seeds",
+        "Pinch of cinnamon"
+      ],
+      "instructions": [
+        "Core and slice apple",
+        "Serve with almond butter for dipping",
+        "Sprinkle with chia seeds and cinnamon"
+      ],
+      "difficulty": "Easy",
+      "tags": ["portable", "natural-sugars", "heart-healthy"]
+    },
+    {
+      "id": "standard_beef_rice_bowl",
+      "name": "Lean Beef and Brown Rice Bowl",
+      "description": "Iron-rich protein with complex carbohydrates",
+      "category": "dinner",
+      "prepTime": "25 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 485,
+        "protein": 38,
+        "carbs": 42,
+        "fats": 16,
+        "fiber": 6
+      },
+      "ingredients": [
+        "5 oz lean ground beef (93/7)",
+        "2/3 cup cooked brown rice",
+        "1 cup steamed green beans",
+        "1/4 cup corn kernels",
+        "1 tbsp olive oil",
+        "1 tsp garlic powder",
+        "1 tsp onion powder",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+      ],
+      "instructions": [
+        "Cook ground beef with seasonings until browned",
+        "Steam green beans until tender-crisp",
+        "Serve beef over brown rice",
+        "Add green beans and corn as sides",
+        "Drizzle with olive oil and garnish with herbs"
+      ],
+      "difficulty": "Medium",
+      "tags": ["iron-rich", "muscle-building", "balanced-meal"]
+    },
+    {
+      "id": "standard_cottage_cheese_bowl",
+      "name": "Cottage Cheese Power Bowl",
+      "description": "High-protein snack with fresh toppings",
+      "category": "snack",
+      "prepTime": "5 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 225,
+        "protein": 24,
+        "carbs": 18,
+        "fats": 7,
+        "fiber": 3
+      },
+      "ingredients": [
+        "3/4 cup low-fat cottage cheese",
+        "1/2 cup fresh berries",
+        "1 tbsp chopped walnuts",
+        "1 tsp honey",
+        "1 tbsp hemp seeds",
+        "Fresh mint for garnish"
+      ],
+      "instructions": [
+        "Place cottage cheese in bowl",
+        "Top with berries and nuts",
+        "Drizzle with honey",
+        "Sprinkle hemp seeds and mint"
+      ],
+      "difficulty": "Easy",
+      "tags": ["high-protein", "probiotics", "omega-3"]
+    }
+  ]
+} 

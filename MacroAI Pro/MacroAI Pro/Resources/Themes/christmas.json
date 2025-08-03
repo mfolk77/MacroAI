@@ -1,0 +1,29 @@
+{
+  "id": "christmas",
+  "name": "Christmas Feast",
+  "description": "Festive red and green with holiday spirit",
+  "isPremium": true,
+  "seasonStart": "12-01",
+  "seasonEnd": "12-31",
+  "plateStyle": {
+    "background": "snowflakes",
+    "borderColor": "#006400",
+    "plateColor": "#F8F8FF"
+  },
+  "foodIcons": {
+    "protein": "turkey",
+    "carbs": "potato",
+    "fats": "butter"
+  },
+  "colors": {
+    "primary": "#006400",
+    "secondary": "#DC143C",
+    "accent": "#FFD700",
+    "background": "#F8F8FF"
+  },
+  "specialEffects": {
+    "particles": "snow_falling",
+          "celebrationAnimation": "santa_wave",
+      "overfillEffect": "burn_effect"    
+  }
+}

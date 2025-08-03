@@ -1,0 +1,681 @@
+{
+  "dietId": "keto",
+  "recipes": [
+    {
+      "id": "keto_avocado_bowl",
+      "name": "Keto Avocado Power Bowl",
+      "description": "Creamy avocado with bacon and eggs",
+      "category": "breakfast",
+      "prepTime": "10 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 520,
+        "protein": 24,
+        "carbs": 8,
+        "fats": 45,
+        "netCarbs": 4,
+        "fiber": 4
+      },
+      "ingredients": [
+        "1 large avocado",
+        "2 eggs",
+        "3 strips bacon",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "1 tbsp chives"
+      ],
+      "instructions": [
+        "Cook bacon until crispy, set aside",
+        "Fry eggs in bacon fat",
+        "Halve avocado and remove pit",
+        "Place eggs and bacon on avocado",
+        "Drizzle with olive oil and season",
+        "Garnish with chives"
+      ],
+      "difficulty": "Easy",
+      "tags": ["high-fat", "low-carb", "breakfast"]
+    },
+    {
+      "id": "keto_salmon_asparagus",
+      "name": "Garlic Butter Salmon with Asparagus",
+      "description": "Pan-seared salmon with buttery asparagus",
+      "category": "dinner",
+      "prepTime": "20 minutes",
+      "servings": 2,
+      "macros": {
+        "calories": 485,
+        "protein": 35,
+        "carbs": 6,
+        "fats": 36,
+        "netCarbs": 3,
+        "fiber": 3
+      },
+      "ingredients": [
+        "2 salmon fillets (6 oz each)",
+        "1 lb asparagus",
+        "4 tbsp butter",
+        "3 cloves garlic",
+        "Lemon juice",
+        "Salt and herbs"
+      ],
+      "instructions": [
+        "Season salmon with salt and pepper",
+        "Heat 2 tbsp butter in pan, sear salmon",
+        "Steam asparagus until tender",
+        "Make garlic butter with remaining butter",
+        "Serve salmon over asparagus with garlic butter"
+      ],
+      "difficulty": "Medium",
+      "tags": ["omega-3", "low-carb", "garlic"]
+    },
+    {
+      "id": "keto_cauliflower_mash",
+      "name": "Creamy Cauliflower Mash",
+      "description": "Low-carb alternative to mashed potatoes",
+      "category": "side",
+      "prepTime": "15 minutes",
+      "servings": 4,
+      "macros": {
+        "calories": 180,
+        "protein": 6,
+        "carbs": 8,
+        "fats": 15,
+        "netCarbs": 5,
+        "fiber": 3
+      },
+      "ingredients": [
+        "1 head cauliflower",
+        "4 tbsp heavy cream",
+        "3 tbsp butter",
+        "2 cloves garlic",
+        "Salt and pepper",
+        "Chives for garnish"
+      ],
+      "instructions": [
+        "Steam cauliflower until very tender",
+        "Sauté garlic in butter",
+        "Mash cauliflower with cream and garlic butter",
+        "Season to taste",
+        "Garnish with chives"
+      ],
+      "difficulty": "Easy",
+      "tags": ["comfort-food", "low-carb", "creamy"]
+    },
+    {
+      "id": "keto_beef_zucchini_noodles",
+      "name": "Beef and Zucchini Noodles",
+      "description": "Ground beef with spiralized zucchini pasta",
+      "category": "dinner",
+      "prepTime": "15 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 475,
+        "protein": 32,
+        "carbs": 8,
+        "fats": 35,
+        "netCarbs": 6,
+        "fiber": 2
+      },
+      "ingredients": [
+        "5 oz ground beef (80/20)",
+        "2 medium zucchini, spiralized",
+        "2 tbsp olive oil",
+        "1/4 cup onion, diced",
+        "2 cloves garlic, minced",
+        "2 tbsp parmesan cheese",
+        "Italian herbs",
+        "Salt and pepper"
+      ],
+      "instructions": [
+        "Spiralize zucchini into noodles",
+        "Cook ground beef until browned",
+        "Sauté onion and garlic in olive oil",
+        "Add zucchini noodles, cook 2-3 minutes",
+        "Top with beef and parmesan"
+      ],
+      "difficulty": "Medium",
+      "tags": ["pasta-alternative", "high-protein", "italian"]
+    },
+    {
+      "id": "keto_cheese_chips",
+      "name": "Crispy Parmesan Cheese Chips",
+      "description": "Baked cheese crisps for snacking",
+      "category": "snack",
+      "prepTime": "12 minutes",
+      "servings": 2,
+      "macros": {
+        "calories": 165,
+        "protein": 15,
+        "carbs": 1,
+        "fats": 11,
+        "netCarbs": 1,
+        "fiber": 0
+      },
+      "ingredients": [
+        "1 cup grated parmesan cheese",
+        "1/2 tsp garlic powder",
+        "1/2 tsp paprika",
+        "Black pepper to taste"
+      ],
+      "instructions": [
+        "Preheat oven to 400°F",
+        "Mix cheese with spices",
+        "Spread in small circles on parchment",
+        "Bake 8-10 minutes until golden",
+        "Cool until crispy"
+      ],
+      "difficulty": "Easy",
+      "tags": ["snack", "crispy", "zero-carb"]
+    },
+    {
+      "id": "keto_chicken_thighs",
+      "name": "Herb-Crusted Chicken Thighs",
+      "description": "Juicy chicken thighs with crispy skin",
+      "category": "dinner",
+      "prepTime": "35 minutes",
+      "servings": 2,
+      "macros": {
+        "calories": 445,
+        "protein": 38,
+        "carbs": 2,
+        "fats": 31,
+        "netCarbs": 2,
+        "fiber": 0
+      },
+      "ingredients": [
+        "4 chicken thighs (skin-on)",
+        "2 tbsp olive oil",
+        "1 tsp dried rosemary",
+        "1 tsp thyme",
+        "1 tsp garlic powder",
+        "Salt and pepper",
+        "Lemon wedges"
+      ],
+      "instructions": [
+        "Preheat oven to 425°F",
+        "Mix herbs and spices with olive oil",
+        "Rub mixture under and over chicken skin",
+        "Roast 25-30 minutes until crispy",
+        "Serve with lemon wedges"
+      ],
+      "difficulty": "Medium",
+      "tags": ["crispy-skin", "herbs", "roasted"]
+    },
+    {
+      "id": "keto_fat_bomb_chocolate",
+      "name": "Chocolate Peanut Butter Fat Bombs",
+      "description": "High-fat treat to satisfy sweet cravings",
+      "category": "snack",
+      "prepTime": "15 minutes (plus chilling)",
+      "servings": 12,
+      "macros": {
+        "calories": 135,
+        "protein": 3,
+        "carbs": 3,
+        "fats": 13,
+        "netCarbs": 2,
+        "fiber": 1
+      },
+      "ingredients": [
+        "1/2 cup coconut oil, melted",
+        "1/4 cup natural peanut butter",
+        "2 tbsp cocoa powder",
+        "2 tbsp erythritol",
+        "1 tsp vanilla extract",
+        "Pinch of sea salt"
+      ],
+      "instructions": [
+        "Mix all ingredients until smooth",
+        "Pour into silicone molds",
+        "Refrigerate 2 hours until firm",
+        "Store in fridge"
+      ],
+      "difficulty": "Easy",
+      "tags": ["sweet-treat", "high-fat", "make-ahead"]
+    },
+    {
+      "id": "keto_spinach_salad",
+      "name": "Warm Spinach and Bacon Salad",
+      "description": "Wilted spinach with warm bacon dressing",
+      "category": "lunch",
+      "prepTime": "12 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 385,
+        "protein": 18,
+        "carbs": 7,
+        "fats": 33,
+        "netCarbs": 4,
+        "fiber": 3
+      },
+      "ingredients": [
+        "4 cups fresh spinach",
+        "4 strips bacon, chopped",
+        "1/4 cup red onion, sliced",
+        "2 tbsp apple cider vinegar",
+        "1 hard-boiled egg, sliced",
+        "2 tbsp olive oil",
+        "Salt and pepper"
+      ],
+      "instructions": [
+        "Cook bacon until crispy",
+        "Remove bacon, sauté onion in bacon fat",
+        "Add vinegar to deglaze pan",
+        "Pour warm dressing over spinach",
+        "Top with bacon and egg"
+      ],
+      "difficulty": "Medium",
+      "tags": ["warm-salad", "bacon", "wilted-greens"]
+    },
+    {
+      "id": "keto_egg_muffins",
+      "name": "Keto Breakfast Egg Muffins",
+      "description": "Make-ahead egg cups with vegetables",
+      "category": "breakfast",
+      "prepTime": "25 minutes",
+      "servings": 6,
+      "macros": {
+        "calories": 185,
+        "protein": 14,
+        "carbs": 3,
+        "fats": 13,
+        "netCarbs": 2,
+        "fiber": 1
+      },
+      "ingredients": [
+        "8 large eggs",
+        "1/2 cup heavy cream",
+        "1/2 cup shredded cheese",
+        "1/4 cup bell peppers, diced",
+        "1/4 cup spinach, chopped",
+        "3 strips bacon, cooked and crumbled",
+        "Salt, pepper, herbs"
+      ],
+      "instructions": [
+        "Preheat oven to 350°F",
+        "Whisk eggs with cream and seasonings",
+        "Divide vegetables and bacon into muffin cups",
+        "Pour egg mixture over fillings",
+        "Bake 18-20 minutes until set"
+      ],
+      "difficulty": "Easy",
+      "tags": ["meal-prep", "portable", "make-ahead"]
+    },
+    {
+      "id": "keto_taco_bowl",
+      "name": "Keto Taco Bowl with Cauliflower Rice",
+      "description": "Mexican-inspired bowl without the carbs",
+      "category": "dinner",
+      "prepTime": "20 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 495,
+        "protein": 35,
+        "carbs": 9,
+        "fats": 36,
+        "netCarbs": 6,
+        "fiber": 3
+      },
+      "ingredients": [
+        "5 oz ground beef (80/20)",
+        "1 cup cauliflower rice",
+        "1/4 avocado, sliced",
+        "2 tbsp sour cream",
+        "2 tbsp shredded cheese",
+        "1 tbsp olive oil",
+        "1 tsp cumin",
+        "1 tsp chili powder",
+        "Cilantro and lime"
+      ],
+      "instructions": [
+        "Season and cook ground beef with spices",
+        "Sauté cauliflower rice in olive oil",
+        "Serve beef over cauliflower rice",
+        "Top with avocado, sour cream, and cheese",
+        "Garnish with cilantro and lime"
+      ],
+      "difficulty": "Medium",
+      "tags": ["mexican", "bowl", "spicy"]
+    },
+    {
+      "id": "keto_butter_coffee",
+      "name": "Bulletproof Butter Coffee",
+      "description": "High-fat coffee for sustained energy",
+      "category": "breakfast",
+      "prepTime": "5 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 325,
+        "protein": 1,
+        "carbs": 0,
+        "fats": 36,
+        "netCarbs": 0,
+        "fiber": 0
+      },
+      "ingredients": [
+        "1 cup hot coffee",
+        "2 tbsp grass-fed butter",
+        "1 tbsp MCT oil",
+        "1 tsp vanilla extract (optional)",
+        "Pinch of cinnamon"
+      ],
+      "instructions": [
+        "Brew strong coffee",
+        "Add butter and MCT oil",
+        "Blend until frothy",
+        "Add vanilla and cinnamon if desired"
+      ],
+      "difficulty": "Easy",
+      "tags": ["energy-drink", "MCT", "morning"]
+    },
+    {
+      "id": "keto_mackerel_salad",
+      "name": "Smoked Mackerel Avocado Salad",
+      "description": "Omega-3 rich fish with creamy avocado",
+      "category": "lunch",
+      "prepTime": "8 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 465,
+        "protein": 28,
+        "carbs": 8,
+        "fats": 38,
+        "netCarbs": 4,
+        "fiber": 4
+      },
+      "ingredients": [
+        "4 oz smoked mackerel, flaked",
+        "1 large avocado, cubed",
+        "2 cups arugula",
+        "1/4 cucumber, sliced",
+        "2 tbsp olive oil",
+        "1 tbsp lemon juice",
+        "1 tsp capers",
+        "Fresh dill"
+      ],
+      "instructions": [
+        "Arrange arugula and cucumber on plate",
+        "Top with avocado and mackerel",
+        "Whisk olive oil and lemon juice",
+        "Drizzle dressing over salad",
+        "Garnish with capers and dill"
+      ],
+      "difficulty": "Easy",
+      "tags": ["omega-3", "no-cook", "fresh"]
+    },
+    {
+      "id": "keto_pork_chops",
+      "name": "Garlic Herb Pork Chops",
+      "description": "Juicy pork chops with aromatic herbs",
+      "category": "dinner",
+      "prepTime": "25 minutes",
+      "servings": 2,
+      "macros": {
+        "calories": 425,
+        "protein": 42,
+        "carbs": 2,
+        "fats": 27,
+        "netCarbs": 1,
+        "fiber": 1
+      },
+      "ingredients": [
+        "2 bone-in pork chops (8 oz each)",
+        "3 tbsp butter",
+        "4 cloves garlic, minced",
+        "1 tbsp fresh rosemary",
+        "1 tbsp fresh thyme",
+        "Salt and pepper",
+        "Lemon wedges"
+      ],
+      "instructions": [
+        "Season pork chops with salt and pepper",
+        "Sear in hot pan 4 minutes per side",
+        "Add butter, garlic, and herbs to pan",
+        "Baste chops with herb butter",
+        "Rest 5 minutes before serving"
+      ],
+      "difficulty": "Medium",
+      "tags": ["herb-crusted", "pan-seared", "butter"]
+    },
+    {
+      "id": "keto_broccoli_cheese_soup",
+      "name": "Creamy Broccoli Cheese Soup",
+      "description": "Rich, comforting soup without flour",
+      "category": "lunch",
+      "prepTime": "25 minutes",
+      "servings": 2,
+      "macros": {
+        "calories": 385,
+        "protein": 18,
+        "carbs": 9,
+        "fats": 32,
+        "netCarbs": 6,
+        "fiber": 3
+      },
+      "ingredients": [
+        "3 cups broccoli florets",
+        "1 cup heavy cream",
+        "1 cup chicken broth",
+        "1 cup sharp cheddar, shredded",
+        "2 tbsp butter",
+        "1/4 onion, diced",
+        "2 cloves garlic, minced",
+        "Salt, pepper, nutmeg"
+      ],
+      "instructions": [
+        "Sauté onion and garlic in butter",
+        "Add broth and broccoli, simmer 15 minutes",
+        "Blend until smooth",
+        "Stir in cream and cheese",
+        "Season to taste"
+      ],
+      "difficulty": "Medium",
+      "tags": ["creamy", "comfort-food", "cheese"]
+    },
+    {
+      "id": "keto_shrimp_scampi",
+      "name": "Keto Shrimp Scampi with Zucchini",
+      "description": "Garlic butter shrimp over zucchini noodles",
+      "category": "dinner",
+      "prepTime": "15 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 445,
+        "protein": 35,
+        "carbs": 7,
+        "fats": 32,
+        "netCarbs": 5,
+        "fiber": 2
+      },
+      "ingredients": [
+        "6 oz large shrimp, peeled",
+        "2 medium zucchini, spiralized",
+        "4 tbsp butter",
+        "4 cloves garlic, minced",
+        "1/4 cup white wine (optional)",
+        "2 tbsp lemon juice",
+        "Red pepper flakes",
+        "Fresh parsley"
+      ],
+      "instructions": [
+        "Sauté garlic in butter",
+        "Add shrimp, cook 2 minutes per side",
+        "Add wine and lemon juice",
+        "Toss in zucchini noodles briefly",
+        "Garnish with parsley and red pepper"
+      ],
+      "difficulty": "Medium",
+      "tags": ["seafood", "garlic", "quick"]
+    },
+    {
+      "id": "keto_mozzarella_sticks",
+      "name": "Baked Mozzarella Sticks",
+      "description": "Crispy cheese sticks without breadcrumbs",
+      "category": "snack",
+      "prepTime": "20 minutes",
+      "servings": 3,
+      "macros": {
+        "calories": 235,
+        "protein": 18,
+        "carbs": 4,
+        "fats": 17,
+        "netCarbs": 3,
+        "fiber": 1
+      },
+      "ingredients": [
+        "6 mozzarella string cheese sticks",
+        "1/2 cup almond flour",
+        "1/4 cup parmesan cheese, grated",
+        "1 egg, beaten",
+        "1 tsp Italian seasoning",
+        "1/2 tsp garlic powder",
+        "Marinara sauce for dipping"
+      ],
+      "instructions": [
+        "Freeze cheese sticks 1 hour",
+        "Mix almond flour, parmesan, and spices",
+        "Dip cheese in egg, then coating",
+        "Bake at 400°F for 8-10 minutes",
+        "Serve with marinara"
+      ],
+      "difficulty": "Medium",
+      "tags": ["crispy", "cheesy", "appetizer"]
+    },
+    {
+      "id": "keto_chocolate_mousse",
+      "name": "Keto Chocolate Avocado Mousse",
+      "description": "Rich chocolate dessert with hidden avocado",
+      "category": "dessert",
+      "prepTime": "10 minutes",
+      "servings": 2,
+      "macros": {
+        "calories": 285,
+        "protein": 5,
+        "carbs": 12,
+        "fats": 26,
+        "netCarbs": 6,
+        "fiber": 6
+      },
+      "ingredients": [
+        "2 ripe avocados",
+        "1/4 cup cocoa powder",
+        "1/4 cup erythritol",
+        "1/4 cup heavy cream",
+        "1 tsp vanilla extract",
+        "Pinch of salt",
+        "Dark chocolate shavings"
+      ],
+      "instructions": [
+        "Blend all ingredients until smooth",
+        "Taste and adjust sweetness",
+        "Chill 2 hours",
+        "Serve with chocolate shavings"
+      ],
+      "difficulty": "Easy",
+      "tags": ["dessert", "chocolate", "avocado"]
+    },
+    {
+      "id": "keto_caesar_salad",
+      "name": "Keto Chicken Caesar Salad",
+      "description": "Classic Caesar with grilled chicken",
+      "category": "lunch",
+      "prepTime": "15 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 525,
+        "protein": 42,
+        "carbs": 6,
+        "fats": 38,
+        "netCarbs": 4,
+        "fiber": 2
+      },
+      "ingredients": [
+        "6 oz grilled chicken breast",
+        "3 cups romaine lettuce",
+        "1/4 cup parmesan cheese",
+        "3 tbsp Caesar dressing (keto)",
+        "2 tbsp olive oil",
+        "1 tbsp lemon juice",
+        "2 anchovies (optional)",
+        "Black pepper"
+      ],
+      "instructions": [
+        "Chop romaine lettuce",
+        "Slice grilled chicken",
+        "Toss lettuce with dressing",
+        "Top with chicken and parmesan",
+        "Drizzle with olive oil and lemon"
+      ],
+      "difficulty": "Easy",
+      "tags": ["classic", "protein-rich", "caesar"]
+    },
+    {
+      "id": "keto_stuffed_peppers",
+      "name": "Keto Stuffed Bell Peppers",
+      "description": "Bell peppers filled with cheesy ground beef",
+      "category": "dinner",
+      "prepTime": "35 minutes",
+      "servings": 2,
+      "macros": {
+        "calories": 455,
+        "protein": 32,
+        "carbs": 12,
+        "fats": 32,
+        "netCarbs": 9,
+        "fiber": 3
+      },
+      "ingredients": [
+        "2 large bell peppers, tops cut and seeded",
+        "8 oz ground beef (80/20)",
+        "1/2 cup cauliflower rice",
+        "1/2 cup shredded cheese",
+        "1/4 onion, diced",
+        "2 tbsp olive oil",
+        "1 tsp Italian seasoning",
+        "Salt and pepper"
+      ],
+      "instructions": [
+        "Preheat oven to 375°F",
+        "Cook beef with onion and seasonings",
+        "Mix in cauliflower rice and half the cheese",
+        "Stuff peppers with mixture",
+        "Top with remaining cheese, bake 25 minutes"
+      ],
+      "difficulty": "Medium",
+      "tags": ["stuffed", "comfort-food", "baked"]
+    },
+    {
+      "id": "keto_chia_pudding",
+      "name": "Vanilla Chia Pudding",
+      "description": "Make-ahead pudding with healthy fats",
+      "category": "breakfast",
+      "prepTime": "5 minutes (overnight)",
+      "servings": 1,
+      "macros": {
+        "calories": 295,
+        "protein": 8,
+        "carbs": 12,
+        "fats": 24,
+        "netCarbs": 4,
+        "fiber": 8
+      },
+      "ingredients": [
+        "3 tbsp chia seeds",
+        "1 cup unsweetened almond milk",
+        "2 tbsp heavy cream",
+        "1 tbsp erythritol",
+        "1 tsp vanilla extract",
+        "Berries for topping",
+        "Chopped nuts"
+      ],
+      "instructions": [
+        "Mix all ingredients except toppings",
+        "Stir well to prevent clumping",
+        "Refrigerate overnight",
+        "Top with berries and nuts before serving"
+      ],
+      "difficulty": "Easy",
+      "tags": ["make-ahead", "chia", "creamy"]
+    }
+  ]
+}

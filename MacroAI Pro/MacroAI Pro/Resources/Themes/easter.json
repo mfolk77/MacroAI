@@ -1,0 +1,29 @@
+{
+  "id": "easter",
+  "name": "Easter",
+  "description": "Spring Easter celebration with eggs and bunnies",
+  "isPremium": true,
+  "seasonStart": "03-20",
+  "seasonEnd": "04-30",
+  "plateStyle": {
+    "background": "eggs",
+    "borderColor": "#FF69B4",
+    "plateColor": "#F0F8FF"
+  },
+  "foodIcons": {
+    "protein": "turkey",
+    "carbs": "potato",
+    "fats": "butter"
+  },
+  "colors": {
+    "primary": "#FF69B4",
+    "secondary": "#98FB98",
+    "accent": "#FFD700",
+    "background": "#F0F8FF"
+  },
+  "specialEffects": {
+    "particles": "egg_hunt",
+    "celebrationAnimation": "bunny_hop",
+    "overfillEffect": "burn_effect"
+  }
+} 

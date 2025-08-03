@@ -1,0 +1,587 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		23C39B322E2F259B00A8BE4A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23C39B1C2E2F259900A8BE4A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 23C39B232E2F259900A8BE4A;
+			remoteInfo = "MacroAI Pro";
+		};
+		23C39B3C2E2F259B00A8BE4A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23C39B1C2E2F259900A8BE4A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 23C39B232E2F259900A8BE4A;
+			remoteInfo = "MacroAI Pro";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		23C39B242E2F259900A8BE4A /* MacroAI Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MacroAI Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		23C39B312E2F259B00A8BE4A /* MacroAI ProTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MacroAI ProTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		23C39B3B2E2F259B00A8BE4A /* MacroAI ProUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MacroAI ProUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		23C39B262E2F259900A8BE4A /* MacroAI Pro */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "MacroAI Pro";
+			sourceTree = "<group>";
+		};
+		23C39B342E2F259B00A8BE4A /* MacroAI ProTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "MacroAI ProTests";
+			sourceTree = "<group>";
+		};
+		23C39B3E2E2F259B00A8BE4A /* MacroAI ProUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "MacroAI ProUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		23C39B212E2F259900A8BE4A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23C39B2E2E2F259B00A8BE4A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23C39B382E2F259B00A8BE4A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		23C39B1B2E2F259900A8BE4A = {
+			isa = PBXGroup;
+			children = (
+				23C39B262E2F259900A8BE4A /* MacroAI Pro */,
+				23C39B342E2F259B00A8BE4A /* MacroAI ProTests */,
+				23C39B3E2E2F259B00A8BE4A /* MacroAI ProUITests */,
+				23C39B252E2F259900A8BE4A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		23C39B252E2F259900A8BE4A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				23C39B242E2F259900A8BE4A /* MacroAI Pro.app */,
+				23C39B312E2F259B00A8BE4A /* MacroAI ProTests.xctest */,
+				23C39B3B2E2F259B00A8BE4A /* MacroAI ProUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		23C39B232E2F259900A8BE4A /* MacroAI Pro */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23C39B452E2F259B00A8BE4A /* Build configuration list for PBXNativeTarget "MacroAI Pro" */;
+			buildPhases = (
+				23C39B202E2F259900A8BE4A /* Sources */,
+				23C39B212E2F259900A8BE4A /* Frameworks */,
+				23C39B222E2F259900A8BE4A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				23C39B262E2F259900A8BE4A /* MacroAI Pro */,
+			);
+			name = "MacroAI Pro";
+			packageProductDependencies = (
+			);
+			productName = "MacroAI Pro";
+			productReference = 23C39B242E2F259900A8BE4A /* MacroAI Pro.app */;
+			productType = "com.apple.product-type.application";
+		};
+		23C39B302E2F259B00A8BE4A /* MacroAI ProTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23C39B482E2F259B00A8BE4A /* Build configuration list for PBXNativeTarget "MacroAI ProTests" */;
+			buildPhases = (
+				23C39B2D2E2F259B00A8BE4A /* Sources */,
+				23C39B2E2E2F259B00A8BE4A /* Frameworks */,
+				23C39B2F2E2F259B00A8BE4A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				23C39B332E2F259B00A8BE4A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				23C39B342E2F259B00A8BE4A /* MacroAI ProTests */,
+			);
+			name = "MacroAI ProTests";
+			packageProductDependencies = (
+			);
+			productName = "MacroAI ProTests";
+			productReference = 23C39B312E2F259B00A8BE4A /* MacroAI ProTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		23C39B3A2E2F259B00A8BE4A /* MacroAI ProUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23C39B4B2E2F259B00A8BE4A /* Build configuration list for PBXNativeTarget "MacroAI ProUITests" */;
+			buildPhases = (
+				23C39B372E2F259B00A8BE4A /* Sources */,
+				23C39B382E2F259B00A8BE4A /* Frameworks */,
+				23C39B392E2F259B00A8BE4A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				23C39B3D2E2F259B00A8BE4A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				23C39B3E2E2F259B00A8BE4A /* MacroAI ProUITests */,
+			);
+			name = "MacroAI ProUITests";
+			packageProductDependencies = (
+			);
+			productName = "MacroAI ProUITests";
+			productReference = 23C39B3B2E2F259B00A8BE4A /* MacroAI ProUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		23C39B1C2E2F259900A8BE4A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					23C39B232E2F259900A8BE4A = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					23C39B302E2F259B00A8BE4A = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 23C39B232E2F259900A8BE4A;
+					};
+					23C39B3A2E2F259B00A8BE4A = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 23C39B232E2F259900A8BE4A;
+					};
+				};
+			};
+			buildConfigurationList = 23C39B1F2E2F259900A8BE4A /* Build configuration list for PBXProject "MacroAI Pro" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 23C39B1B2E2F259900A8BE4A;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 23C39B252E2F259900A8BE4A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				23C39B232E2F259900A8BE4A /* MacroAI Pro */,
+				23C39B302E2F259B00A8BE4A /* MacroAI ProTests */,
+				23C39B3A2E2F259B00A8BE4A /* MacroAI ProUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		23C39B222E2F259900A8BE4A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23C39B2F2E2F259B00A8BE4A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23C39B392E2F259B00A8BE4A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		23C39B202E2F259900A8BE4A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23C39B2D2E2F259B00A8BE4A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23C39B372E2F259B00A8BE4A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		23C39B332E2F259B00A8BE4A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 23C39B232E2F259900A8BE4A /* MacroAI Pro */;
+			targetProxy = 23C39B322E2F259B00A8BE4A /* PBXContainerItemProxy */;
+		};
+		23C39B3D2E2F259B00A8BE4A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 23C39B232E2F259900A8BE4A /* MacroAI Pro */;
+			targetProxy = 23C39B3C2E2F259B00A8BE4A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		23C39B432E2F259B00A8BE4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		23C39B442E2F259B00A8BE4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		23C39B462E2F259B00A8BE4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "MacroAI Pro/MacroAI.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VV7N83X7GR;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "MacroAI Pro uses the camera to scan food items and barcodes for nutrition tracking, allowing you to quickly log meals and get accurate macro information.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "MacroAI Pro uses HealthKit to sync your nutrition data and meal tracking with the Health app, allowing you to view your macro intake alongside other health metrics.\n";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "MacroAI Pro saves your meal data and nutrition information to the Health app so you can track your daily macro intake and maintain a complete health record.\n";
+				INFOPLIST_KEY_NSHomeKitUsageDescription = "MacroAI Pro uses the camera to scan food items and barcodes for nutrition tracking.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "comFolkTechAI.MacroAI-Pro";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		23C39B472E2F259B00A8BE4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "MacroAI Pro/MacroAI.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VV7N83X7GR;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "MacroAI Pro uses the camera to scan food items and barcodes for nutrition tracking, allowing you to quickly log meals and get accurate macro information.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "MacroAI Pro uses HealthKit to sync your nutrition data and meal tracking with the Health app, allowing you to view your macro intake alongside other health metrics.\n";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "MacroAI Pro saves your meal data and nutrition information to the Health app so you can track your daily macro intake and maintain a complete health record.\n";
+				INFOPLIST_KEY_NSHomeKitUsageDescription = "MacroAI Pro uses the camera to scan food items and barcodes for nutrition tracking.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "comFolkTechAI.MacroAI-Pro";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		23C39B492E2F259B00A8BE4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VV7N83X7GR;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "comFolkTechAI.MacroAI-ProTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MacroAI Pro.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MacroAI Pro";
+			};
+			name = Debug;
+		};
+		23C39B4A2E2F259B00A8BE4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VV7N83X7GR;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "comFolkTechAI.MacroAI-ProTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MacroAI Pro.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MacroAI Pro";
+			};
+			name = Release;
+		};
+		23C39B4C2E2F259B00A8BE4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VV7N83X7GR;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "comFolkTechAI.MacroAI-ProUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "MacroAI Pro";
+			};
+			name = Debug;
+		};
+		23C39B4D2E2F259B00A8BE4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VV7N83X7GR;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "comFolkTechAI.MacroAI-ProUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "MacroAI Pro";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		23C39B1F2E2F259900A8BE4A /* Build configuration list for PBXProject "MacroAI Pro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23C39B432E2F259B00A8BE4A /* Debug */,
+				23C39B442E2F259B00A8BE4A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		23C39B452E2F259B00A8BE4A /* Build configuration list for PBXNativeTarget "MacroAI Pro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23C39B462E2F259B00A8BE4A /* Debug */,
+				23C39B472E2F259B00A8BE4A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		23C39B482E2F259B00A8BE4A /* Build configuration list for PBXNativeTarget "MacroAI ProTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23C39B492E2F259B00A8BE4A /* Debug */,
+				23C39B4A2E2F259B00A8BE4A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		23C39B4B2E2F259B00A8BE4A /* Build configuration list for PBXNativeTarget "MacroAI ProUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23C39B4C2E2F259B00A8BE4A /* Debug */,
+				23C39B4D2E2F259B00A8BE4A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 23C39B1C2E2F259900A8BE4A /* Project object */;
+}

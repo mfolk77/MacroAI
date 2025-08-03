@@ -1,0 +1,299 @@
+{
+  "mealPlanningTemplates": {
+    "standard": {
+      "weeklyStructure": {
+        "breakfastRotation": [
+          "standard_oatmeal_bowl",
+          "standard_egg_veggie_scramble", 
+          "standard_overnight_oats",
+          "standard_protein_smoothie"
+        ],
+        "lunchRotation": [
+          "standard_chicken_quinoa_bowl",
+          "standard_turkey_wrap",
+          "standard_tuna_salad",
+          "standard_lentil_salad"
+        ],
+        "dinnerRotation": [
+          "standard_salmon_sweet_potato",
+          "standard_veggie_stir_fry",
+          "standard_chicken_soup",
+          "standard_beef_rice_bowl"
+        ],
+        "snackOptions": [
+          "standard_greek_yogurt_parfait",
+          "standard_apple_almond_snack",
+          "standard_cottage_cheese_bowl"
+        ]
+      },
+      "macroTargets": {
+        "caloriesMin": 1200,
+        "caloriesMax": 2000,
+        "proteinPercent": "20-30%",
+        "carbPercent": "45-65%",
+        "fatPercent": "20-35%"
+      },
+      "mealPrepTips": [
+        "Cook grains in batches on Sunday",
+        "Pre-cut vegetables for quick assembly",
+        "Prepare overnight oats 3 days ahead",
+        "Batch cook proteins for the week"
+      ]
+    },
+    "keto": {
+      "weeklyStructure": {
+        "breakfastRotation": [
+          "keto_avocado_bowl",
+          "keto_egg_muffins",
+          "keto_butter_coffee",
+          "keto_chia_pudding"
+        ],
+        "lunchRotation": [
+          "keto_spinach_salad",
+          "keto_caesar_salad",
+          "keto_mackerel_salad",
+          "keto_broccoli_cheese_soup"
+        ],
+        "dinnerRotation": [
+          "keto_salmon_asparagus",
+          "keto_chicken_thighs",
+          "keto_beef_zucchini_noodles",
+          "keto_stuffed_peppers"
+        ],
+        "snackOptions": [
+          "keto_cheese_chips",
+          "keto_fat_bomb_chocolate",
+          "keto_mozzarella_sticks"
+        ]
+      },
+      "macroTargets": {
+        "caloriesMin": 1200,
+        "caloriesMax": 1800,
+        "proteinPercent": "20-25%",
+        "carbPercent": "5-10%",
+        "fatPercent": "70-80%",
+        "netCarbsMax": "20g"
+      },
+      "ketoTips": [
+        "Track net carbs, not total carbs",
+        "Increase electrolyte intake",
+        "Stay hydrated - drink more water",
+        "Meal prep fat bombs for quick energy"
+      ]
+    },
+    "diabetic": {
+      "weeklyStructure": {
+        "breakfastRotation": [
+          "diabetic_oatmeal_bowl",
+          "diabetic_veggie_omelet",
+          "diabetic_berry_smoothie",
+          "diabetic_chia_pudding"
+        ],
+        "lunchRotation": [
+          "diabetic_salmon_quinoa",
+          "diabetic_turkey_wrap",
+          "diabetic_greek_salad",
+          "diabetic_lentil_soup"
+        ],
+        "dinnerRotation": [
+          "diabetic_chicken_veggie_stir_fry",
+          "diabetic_baked_cod",
+          "diabetic_turkey_meatballs",
+          "diabetic_stuffed_zucchini"
+        ],
+        "snackOptions": [
+          "diabetic_cottage_cheese_bowl",
+          "diabetic_tuna_stuffed_avocado",
+          "diabetic_cauliflower_rice_bowl"
+        ]
+      },
+      "macroTargets": {
+        "caloriesMin": 1200,
+        "caloriesMax": 1800,
+        "proteinPercent": "25-30%",
+        "carbPercent": "40-50%",
+        "fatPercent": "25-35%",
+        "fiberMin": "25g"
+      },
+      "diabeticGuidelines": [
+        "Monitor blood sugar 2 hours after meals",
+        "Choose low-glycemic carbohydrates",
+        "Include protein with every meal",
+        "Spread carbs evenly throughout the day",
+        "Focus on fiber-rich foods"
+      ]
+    },
+    "gastric_bypass": {
+      "weeklyStructure": {
+        "phase1_liquids": [
+          "bypass_protein_smoothie",
+          "bypass_protein_pudding"
+        ],
+        "phase2_purees": [
+          "bypass_chicken_puree",
+          "bypass_fish_mousse",
+          "bypass_tuna_mousse",
+          "bypass_vegetable_soup"
+        ],
+        "phase3_soft": [
+          "bypass_egg_salad",
+          "bypass_cottage_cheese_bowl",
+          "bypass_yogurt_parfait",
+          "bypass_ricotta_bake"
+        ]
+      },
+      "macroTargets": {
+        "caloriesMin": 600,
+        "caloriesMax": 1000,
+        "proteinMin": "60g",
+        "proteinPercent": "30-40%",
+        "carbPercent": "30-40%",
+        "fatPercent": "20-30%"
+      },
+      "surgicalGuidelines": [
+        "Protein first, always",
+        "Eat slowly - 20-30 minutes per meal",
+        "Stop drinking 30 minutes before eating",
+        "Chew each bite 20-30 times",
+        "Take recommended vitamins daily",
+        "No carbonated beverages"
+      ]
+    },
+    "gastric_sleeve": {
+      "weeklyStructure": {
+        "phase1_liquids": [
+          "sleeve_protein_shake",
+          "sleeve_soup_shot"
+        ],
+        "phase2_soft": [
+          "sleeve_scrambled_eggs",
+          "sleeve_protein_yogurt",
+          "sleeve_protein_mousse"
+        ],
+        "phase3_regular": [
+          "sleeve_mini_meatballs",
+          "sleeve_fish_flakes",
+          "sleeve_chicken_salad",
+          "sleeve_tender_beef"
+        ],
+        "snackOptions": [
+          "sleeve_cheese_crisps"
+        ]
+      },
+      "macroTargets": {
+        "caloriesMin": 800,
+        "caloriesMax": 1200,
+        "proteinMin": "60g",
+        "proteinPercent": "30-40%",
+        "carbPercent": "30-40%",
+        "fatPercent": "20-30%"
+      },
+      "sleeveGuidelines": [
+        "Protein goal: 60-80g daily",
+        "Eat tiny portions - stop when satisfied",
+        "Chew thoroughly and eat slowly",
+        "No drinking with meals",
+        "Take vitamins as prescribed",
+        "Focus on nutrient-dense foods"
+      ]
+    }
+  },
+  "weeklyScheduleTemplates": {
+    "standard_week": {
+      "monday": {
+        "breakfast": "standard_oatmeal_bowl",
+        "lunch": "standard_chicken_quinoa_bowl", 
+        "dinner": "standard_salmon_sweet_potato",
+        "snack": "standard_greek_yogurt_parfait"
+      },
+      "tuesday": {
+        "breakfast": "standard_egg_veggie_scramble",
+        "lunch": "standard_turkey_wrap",
+        "dinner": "standard_veggie_stir_fry",
+        "snack": "standard_apple_almond_snack"
+      },
+      "wednesday": {
+        "breakfast": "standard_overnight_oats",
+        "lunch": "standard_tuna_salad",
+        "dinner": "standard_chicken_soup",
+        "snack": "standard_cottage_cheese_bowl"
+      },
+      "thursday": {
+        "breakfast": "standard_protein_smoothie",
+        "lunch": "standard_lentil_salad",
+        "dinner": "standard_beef_rice_bowl",
+        "snack": "standard_greek_yogurt_parfait"
+      },
+      "friday": {
+        "breakfast": "standard_oatmeal_bowl",
+        "lunch": "standard_chicken_quinoa_bowl",
+        "dinner": "standard_salmon_sweet_potato",
+        "snack": "standard_apple_almond_snack"
+      },
+      "saturday": {
+        "breakfast": "standard_egg_veggie_scramble",
+        "lunch": "standard_turkey_wrap",
+        "dinner": "standard_veggie_stir_fry",
+        "snack": "standard_cottage_cheese_bowl"
+      },
+      "sunday": {
+        "breakfast": "standard_overnight_oats",
+        "lunch": "standard_tuna_salad",
+        "dinner": "standard_chicken_soup",
+        "snack": "standard_greek_yogurt_parfait"
+      }
+    }
+  },
+  "substitutionGuides": {
+    "proteins": {
+      "chicken_breast": ["turkey_breast", "lean_pork", "white_fish"],
+      "salmon": ["mackerel", "sardines", "tuna"],
+      "eggs": ["egg_whites", "tofu_scramble", "chickpea_flour"],
+      "greek_yogurt": ["cottage_cheese", "protein_powder", "silken_tofu"]
+    },
+    "carbohydrates": {
+      "quinoa": ["brown_rice", "farro", "bulgur"],
+      "sweet_potato": ["butternut_squash", "regular_potato", "carrots"],
+      "oats": ["quinoa_flakes", "buckwheat", "millet"],
+      "whole_wheat_bread": ["ezekiel_bread", "sourdough", "rye_bread"]
+    },
+    "vegetables": {
+      "broccoli": ["cauliflower", "brussels_sprouts", "cabbage"],
+      "spinach": ["kale", "arugula", "swiss_chard"],
+      "bell_peppers": ["zucchini", "eggplant", "mushrooms"],
+      "carrots": ["parsnips", "beets", "turnips"]
+    },
+    "fats": {
+      "olive_oil": ["avocado_oil", "coconut_oil", "sesame_oil"],
+      "avocado": ["nuts", "seeds", "nut_butter"],
+      "nuts": ["seeds", "nut_butter", "olives"],
+      "cheese": ["nutritional_yeast", "tahini", "hemp_hearts"]
+    }
+  },
+  "portionGuides": {
+    "standard": {
+      "protein": "6-8 oz (palm size)",
+      "carbs": "1/2-1 cup (cupped hand)",
+      "vegetables": "1-2 cups (2 cupped hands)",
+      "fats": "1-2 tbsp (thumb size)"
+    },
+    "keto": {
+      "protein": "6-8 oz (palm size)",
+      "carbs": "1/4 cup max (1/4 cupped hand)",
+      "vegetables": "2+ cups non-starchy",
+      "fats": "3-4 tbsp (2 thumb sizes)"
+    },
+    "diabetic": {
+      "protein": "4-6 oz (palm size)",
+      "carbs": "1/3-1/2 cup (1/3 cupped hand)",
+      "vegetables": "1-2 cups non-starchy",
+      "fats": "1-2 tbsp (thumb size)"
+    },
+    "post_surgery": {
+      "protein": "2-4 oz (1/2 palm size)",
+      "carbs": "1-2 tbsp (fingertip)",
+      "vegetables": "1-2 tbsp (fingertip)",
+      "fats": "1/2-1 tbsp (1/2 thumb)"
+    }
+  }
+}

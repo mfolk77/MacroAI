@@ -1,0 +1,44 @@
+{
+  "id": "intermittent_fasting",
+  "name": "Intermittent Fasting",
+  "description": "Time-restricted eating for metabolic health",
+  "isPremium": true,
+  "macroDistribution": {
+    "protein": 25,
+    "carbs": 40,
+    "fats": 35
+  },
+  "recommendations": {
+    "dailyCalories": 1800,
+    "mealsPerDay": 2,
+    "snacksPerDay": 1,
+    "maxNetCarbs": 50,
+    "maxCarbsPerMeal": 25,
+    "minProteinGrams": 120,
+    "maxMealSize": "Medium"
+  },
+  "guidelines": [
+    "Improved insulin sensitivity",
+    "Cellular autophagy",
+    "16:8 fasting protocol",
+    "Eat within 8-hour window",
+    "Stay hydrated during fast"
+  ],
+  "restrictedFoods": [
+    "Sugary beverages",
+    "Processed snacks",
+    "Excessive refined carbs",
+    "Late night eating"
+  ],
+  "recommendedFoods": [
+    "Lean proteins",
+    "Healthy fats",
+    "Complex carbohydrates",
+    "Vegetables",
+    "Water",
+    "Black coffee",
+    "Green tea"
+  ],
+  "icon": "clock.fill",
+  "primaryColor": "purple"
+} 

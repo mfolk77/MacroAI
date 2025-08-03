@@ -1,0 +1,29 @@
+{
+  "id": "pride",
+  "name": "Pride Celebration",
+  "description": "Celebrate Pride with rainbow colors and inclusivity",
+  "isPremium": false,
+  "seasonStart": "06-01",
+  "seasonEnd": "06-30",
+  "plateStyle": {
+    "background": "rainbow",
+    "borderColor": "#FF6B6B",
+    "plateColor": "#F7F7F7"
+  },
+  "foodIcons": {
+    "protein": "turkey",
+    "carbs": "potato",
+    "fats": "butter"
+  },
+  "colors": {
+    "primary": "#FF6B6B",
+    "secondary": "#4ECDC4",
+    "accent": "#45B7D1",
+    "background": "#F7F7F7"
+  },
+  "specialEffects": {
+    "particles": "rainbow_sparkles",
+    "celebrationAnimation": "pride_celebration",
+    "overfillEffect": "rainbow_burst"
+  }
+} 

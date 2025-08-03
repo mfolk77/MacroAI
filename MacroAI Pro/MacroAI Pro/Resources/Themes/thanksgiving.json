@@ -1,0 +1,29 @@
+{
+  "id": "thanksgiving",
+  "name": "Thanksgiving Harvest",
+  "description": "Warm autumn colors with turkey and harvest themes",
+  "isPremium": true,
+  "seasonStart": "11-01",
+  "seasonEnd": "11-30",
+  "plateStyle": {
+    "background": "autumn_leaves",
+    "borderColor": "#8B4513",
+    "plateColor": "#FFF8DC"
+  },
+  "foodIcons": {
+    "protein": "turkey",
+    "carbs": "potato",
+    "fats": "butter"
+  },
+  "colors": {
+    "primary": "#8B4513",
+    "secondary": "#FF8C00",
+    "accent": "#DC143C",
+    "background": "#FFF8DC"
+  },
+  "specialEffects": {
+    "particles": "falling_leaves",
+    "celebrationAnimation": "turkey_dance",
+    "overfillEffect": "burn_effect"
+  }
+}

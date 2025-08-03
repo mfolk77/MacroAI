@@ -1,0 +1,658 @@
+{
+  "dietId": "diabetic",
+  "recipes": [
+    {
+      "id": "diabetic_oatmeal_bowl",
+      "name": "Steel-Cut Oats with Protein",
+      "description": "Slow-releasing carbs with blood sugar stability",
+      "category": "breakfast",
+      "prepTime": "15 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 285,
+        "protein": 18,
+        "carbs": 35,
+        "fats": 8,
+        "fiber": 6,
+        "sugar": 5
+      },
+      "bloodSugarImpact": "low",
+      "glycemicIndex": "low",
+      "ingredients": [
+        "1/3 cup steel-cut oats",
+        "1/2 cup Greek yogurt (plain, low-fat)",
+        "1 tbsp ground flaxseed",
+        "1/4 cup blueberries",
+        "1 tbsp chopped walnuts",
+        "1 tsp cinnamon",
+        "Stevia to taste"
+      ],
+      "instructions": [
+        "Cook steel-cut oats according to package directions",
+        "Stir in Greek yogurt while warm",
+        "Top with blueberries, walnuts, and flaxseed",
+        "Sprinkle with cinnamon and sweeten if needed"
+      ],
+      "difficulty": "Easy",
+      "tags": ["slow-carbs", "high-fiber", "protein-rich"],
+      "diabeticNotes": [
+        "Steel-cut oats have lower glycemic index than instant",
+        "Protein helps slow carbohydrate absorption",
+        "Blueberries are low in natural sugars",
+        "Monitor blood sugar 2 hours after eating"
+      ]
+    },
+    {
+      "id": "diabetic_salmon_quinoa",
+      "name": "Baked Salmon with Quinoa Pilaf",
+      "description": "Omega-3 rich fish with complete protein grain",
+      "category": "lunch",
+      "prepTime": "25 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 415,
+        "protein": 38,
+        "carbs": 30,
+        "fats": 18,
+        "fiber": 4,
+        "sugar": 3
+      },
+      "bloodSugarImpact": "low",
+      "glycemicIndex": "low",
+      "ingredients": [
+        "5 oz salmon fillet",
+        "1/2 cup cooked quinoa",
+        "1 cup steamed broccoli",
+        "1 tbsp olive oil",
+        "1 tbsp lemon juice",
+        "1 tsp dried herbs",
+        "1/4 avocado, sliced",
+        "Salt and pepper"
+      ],
+      "instructions": [
+        "Season salmon with herbs, salt, and pepper",
+        "Bake at 400°F for 12-15 minutes",
+        "Steam broccoli until tender-crisp",
+        "Serve salmon over quinoa with vegetables",
+        "Drizzle with olive oil and lemon",
+        "Garnish with avocado slices"
+      ],
+      "difficulty": "Medium",
+      "tags": ["omega-3", "complete-protein", "heart-healthy"],
+      "diabeticNotes": [
+        "Salmon provides heart-healthy omega-3s",
+        "Quinoa is a low-glycemic complete protein",
+        "Vegetables add nutrients without sugar spikes"
+      ]
+    },
+    {
+      "id": "diabetic_turkey_meatballs",
+      "name": "Lean Turkey Meatballs with Zucchini",
+      "description": "Protein-rich meatballs with low-carb vegetables",
+      "category": "dinner",
+      "prepTime": "25 minutes",
+      "servings": 2,
+      "macros": {
+        "calories": 295,
+        "protein": 32,
+        "carbs": 12,
+        "fats": 14,
+        "fiber": 3,
+        "sugar": 8
+      },
+      "bloodSugarImpact": "low",
+      "glycemicIndex": "low",
+      "ingredients": [
+        "8 oz ground turkey (93/7 lean)",
+        "2 medium zucchini, spiralized",
+        "1 egg white",
+        "2 tbsp almond flour",
+        "1/4 cup onion, minced",
+        "2 cloves garlic, minced",
+        "1 tbsp olive oil",
+        "1/2 cup marinara sauce (no sugar added)",
+        "Italian herbs and spices"
+      ],
+      "instructions": [
+        "Mix turkey, egg white, almond flour, onion, and garlic",
+        "Form into 12 small meatballs",
+        "Brown meatballs in olive oil",
+        "Add marinara sauce, simmer 10 minutes",
+        "Serve over spiralized zucchini noodles"
+      ],
+      "difficulty": "Medium",
+      "tags": ["lean-protein", "low-carb", "pasta-alternative"],
+      "diabeticNotes": [
+        "Zucchini noodles replace high-carb pasta",
+        "Lean turkey provides protein without excess fat",
+        "Choose marinara without added sugars"
+      ]
+    },
+    {
+      "id": "diabetic_veggie_omelet",
+      "name": "Mediterranean Vegetable Omelet",
+      "description": "Protein-rich breakfast with non-starchy vegetables",
+      "category": "breakfast",
+      "prepTime": "12 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 285,
+        "protein": 22,
+        "carbs": 8,
+        "fats": 18,
+        "fiber": 3,
+        "sugar": 5
+      },
+      "bloodSugarImpact": "low",
+      "glycemicIndex": "low",
+      "ingredients": [
+        "2 large eggs",
+        "1 egg white",
+        "1/4 cup spinach, chopped",
+        "1/4 cup bell peppers, diced",
+        "2 tbsp onion, diced",
+        "2 tbsp feta cheese",
+        "1 tbsp olive oil",
+        "1 tbsp fresh herbs (dill, parsley)",
+        "Salt and pepper"
+      ],
+      "instructions": [
+        "Beat eggs and egg white with salt and pepper",
+        "Heat olive oil in non-stick pan",
+        "Sauté vegetables until tender",
+        "Pour in egg mixture",
+        "Add feta and herbs to one half",
+        "Fold omelet and serve immediately"
+      ],
+      "difficulty": "Medium",
+      "tags": ["high-protein", "low-carb", "mediterranean"],
+      "diabeticNotes": [
+        "Eggs won't raise blood sugar",
+        "Vegetables add nutrients without carbs",
+        "High protein helps morning blood sugar stability"
+      ]
+    },
+    {
+      "id": "diabetic_tuna_stuffed_avocado",
+      "name": "Tuna-Stuffed Avocado",
+      "description": "Omega-3 rich lunch with healthy fats",
+      "category": "lunch",
+      "prepTime": "8 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 365,
+        "protein": 28,
+        "carbs": 12,
+        "fats": 25,
+        "fiber": 8,
+        "sugar": 2
+      },
+      "bloodSugarImpact": "very low",
+      "glycemicIndex": "very low",
+      "ingredients": [
+        "1 large avocado, halved and pitted",
+        "1 can (5 oz) tuna in water, drained",
+        "1 tbsp Greek yogurt (plain)",
+        "1 tbsp lemon juice",
+        "1 tbsp red onion, minced",
+        "1 tbsp capers",
+        "1 tbsp fresh dill",
+        "Salt and pepper",
+        "Paprika for garnish"
+      ],
+      "instructions": [
+        "Scoop out some avocado flesh to create wells",
+        "Mash scooped avocado with lemon juice",
+        "Mix tuna with yogurt, onion, capers, and dill",
+        "Combine tuna mixture with mashed avocado",
+        "Fill avocado halves with mixture",
+        "Garnish with paprika"
+      ],
+      "difficulty": "Easy",
+      "tags": ["omega-3", "no-cook", "low-carb"],
+      "diabeticNotes": [
+        "Avocado provides healthy monounsaturated fats",
+        "Minimal carbohydrates won't spike blood sugar",
+        "Protein helps maintain satiety"
+      ]
+    },
+    {
+      "id": "diabetic_cauliflower_rice_bowl",
+      "name": "Cauliflower Rice Power Bowl",
+      "description": "Low-carb rice alternative with balanced toppings",
+      "category": "lunch",
+      "prepTime": "15 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 345,
+        "protein": 26,
+        "carbs": 18,
+        "fats": 20,
+        "fiber": 7,
+        "sugar": 9
+      },
+      "bloodSugarImpact": "low",
+      "glycemicIndex": "low",
+      "ingredients": [
+        "1.5 cups cauliflower rice",
+        "4 oz grilled chicken breast, sliced",
+        "1/4 cup black beans, rinsed",
+        "1/4 avocado, sliced",
+        "1/4 cup cherry tomatoes, halved",
+        "2 tbsp plain Greek yogurt",
+        "1 tbsp olive oil",
+        "1 tbsp lime juice",
+        "Cilantro and spices"
+      ],
+      "instructions": [
+        "Sauté cauliflower rice in olive oil 5 minutes",
+        "Season with salt, pepper, and cumin",
+        "Arrange in bowl with chicken and beans",
+        "Top with avocado and tomatoes",
+        "Drizzle with lime juice",
+        "Serve with Greek yogurt and cilantro"
+      ],
+      "difficulty": "Medium",
+      "tags": ["low-carb", "balanced", "grain-free"],
+      "diabeticNotes": [
+        "Cauliflower rice has minimal carbs",
+        "Controlled portion of beans for fiber",
+        "Balanced protein and healthy fats"
+      ]
+    },
+    {
+      "id": "diabetic_berry_smoothie",
+      "name": "Low-Sugar Berry Protein Smoothie",
+      "description": "Antioxidant-rich smoothie with controlled sweetness",
+      "category": "snack",
+      "prepTime": "5 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 245,
+        "protein": 22,
+        "carbs": 18,
+        "fats": 10,
+        "fiber": 6,
+        "sugar": 12
+      },
+      "bloodSugarImpact": "low-medium",
+      "glycemicIndex": "low",
+      "ingredients": [
+        "1 scoop unflavored protein powder",
+        "1/2 cup frozen mixed berries",
+        "1 cup unsweetened almond milk",
+        "1 tbsp ground flaxseed",
+        "1/2 cup ice",
+        "1 tsp vanilla extract",
+        "Stevia to taste",
+        "1 tbsp almond butter"
+      ],
+      "instructions": [
+        "Add all ingredients to blender",
+        "Blend until smooth and creamy",
+        "Taste and adjust sweetness with stevia",
+        "Add more ice if needed for consistency",
+        "Serve immediately"
+      ],
+      "difficulty": "Easy",
+      "tags": ["antioxidants", "protein-rich", "low-sugar"],
+      "diabeticNotes": [
+        "Berries are lower in natural sugars",
+        "Protein powder helps stabilize blood sugar",
+        "Flaxseed adds fiber and omega-3s"
+      ]
+    },
+    {
+      "id": "diabetic_stuffed_zucchini",
+      "name": "Turkey and Herb Stuffed Zucchini",
+      "description": "Low-carb dinner with lean protein and vegetables",
+      "category": "dinner",
+      "prepTime": "35 minutes",
+      "servings": 2,
+      "macros": {
+        "calories": 265,
+        "protein": 28,
+        "carbs": 12,
+        "fats": 12,
+        "fiber": 4,
+        "sugar": 7
+      },
+      "bloodSugarImpact": "low",
+      "glycemicIndex": "low",
+      "ingredients": [
+        "2 large zucchini, halved lengthwise",
+        "8 oz ground turkey (93/7 lean)",
+        "1/4 cup onion, diced",
+        "2 cloves garlic, minced",
+        "1/4 cup low-fat mozzarella",
+        "1 tbsp olive oil",
+        "1 tbsp fresh basil, chopped",
+        "1 tsp Italian seasoning",
+        "Salt and pepper"
+      ],
+      "instructions": [
+        "Preheat oven to 375°F",
+        "Scoop out zucchini centers, chop and set aside",
+        "Cook turkey with onion, garlic, and chopped zucchini",
+        "Season with herbs, salt, and pepper",
+        "Fill zucchini boats with turkey mixture",
+        "Top with mozzarella, bake 20 minutes"
+      ],
+      "difficulty": "Medium",
+      "tags": ["low-carb", "stuffed", "lean-protein"],
+      "diabeticNotes": [
+        "Zucchini is very low in carbs",
+        "Lean turkey provides quality protein",
+        "Minimal cheese keeps fat content controlled"
+      ]
+    },
+    {
+      "id": "diabetic_chicken_veggie_stir_fry",
+      "name": "Lean Chicken and Vegetable Stir-Fry",
+      "description": "High-protein, low-carb stir-fry with non-starchy vegetables",
+      "category": "dinner",
+      "prepTime": "18 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 375,
+        "protein": 42,
+        "carbs": 15,
+        "fats": 16,
+        "fiber": 5,
+        "sugar": 8
+      },
+      "bloodSugarImpact": "low",
+      "glycemicIndex": "low",
+      "ingredients": [
+        "6 oz chicken breast, sliced thin",
+        "2 cups broccoli florets",
+        "1/2 cup bell peppers, sliced",
+        "1/2 cup snap peas",
+        "1 tbsp sesame oil",
+        "2 tbsp low-sodium soy sauce",
+        "1 tsp fresh ginger, grated",
+        "2 cloves garlic, minced",
+        "1 tsp sesame seeds"
+      ],
+      "instructions": [
+        "Heat sesame oil in large pan or wok",
+        "Cook chicken until no longer pink, set aside",
+        "Stir-fry vegetables until tender-crisp",
+        "Add ginger and garlic, cook 30 seconds",
+        "Return chicken to pan with soy sauce",
+        "Garnish with sesame seeds"
+      ],
+      "difficulty": "Medium",
+      "tags": ["high-protein", "low-carb", "asian-inspired"],
+      "diabeticNotes": [
+        "Non-starchy vegetables won't spike blood sugar",
+        "Lean protein helps maintain stable glucose",
+        "Use low-sodium soy sauce to control sodium"
+      ]
+    },
+    {
+      "id": "diabetic_cottage_cheese_bowl",
+      "name": "Cottage Cheese and Veggie Bowl",
+      "description": "High-protein snack with blood sugar benefits",
+      "category": "snack",
+      "prepTime": "5 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 195,
+        "protein": 24,
+        "carbs": 12,
+        "fats": 6,
+        "fiber": 3,
+        "sugar": 8
+      },
+      "bloodSugarImpact": "very low",
+      "glycemicIndex": "very low",
+      "ingredients": [
+        "3/4 cup low-fat cottage cheese",
+        "1/4 cup cucumber, diced",
+        "1/4 cup cherry tomatoes, halved",
+        "1 tbsp chives, chopped",
+        "1 tsp everything bagel seasoning",
+        "Freshly ground black pepper",
+        "Optional: 1 tbsp pumpkin seeds"
+      ],
+      "instructions": [
+        "Place cottage cheese in bowl",
+        "Top with diced vegetables",
+        "Sprinkle with chives and seasoning",
+        "Add pumpkin seeds if desired",
+        "Serve immediately"
+      ],
+      "difficulty": "Easy",
+      "tags": ["high-protein", "no-cook", "probiotic"],
+      "diabeticNotes": [
+        "Cottage cheese has minimal impact on blood sugar",
+        "High protein promotes satiety",
+        "Vegetables add crunch without carbs",
+        "Great between-meal snack option"
+      ]
+    },
+    {
+      "id": "diabetic_baked_cod",
+      "name": "Herb-Crusted Baked Cod",
+      "description": "Lean white fish with diabetes-friendly sides",
+      "category": "dinner",
+      "prepTime": "20 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 285,
+        "protein": 36,
+        "carbs": 18,
+        "fats": 8,
+        "fiber": 6,
+        "sugar": 4
+      },
+      "bloodSugarImpact": "low",
+      "glycemicIndex": "low",
+      "ingredients": [
+        "5 oz cod fillet",
+        "1 tbsp olive oil",
+        "1/4 cup whole wheat breadcrumbs",
+        "1 tbsp fresh parsley, chopped",
+        "1 cup roasted Brussels sprouts",
+        "1/2 cup roasted sweet potato, cubed",
+        "1 tbsp lemon juice",
+        "Garlic powder, salt, pepper"
+      ],
+      "instructions": [
+        "Preheat oven to 425°F",
+        "Mix breadcrumbs with herbs and half the olive oil",
+        "Brush cod with lemon juice, season",
+        "Top fish with breadcrumb mixture",
+        "Bake 12-15 minutes until flaky",
+        "Serve with roasted vegetables"
+      ],
+      "difficulty": "Medium",
+      "tags": ["lean-fish", "omega-3", "roasted-veggies"],
+      "diabeticNotes": [
+        "Cod is virtually carb-free",
+        "Sweet potato portion is controlled",
+        "Brussels sprouts are low-glycemic",
+        "Baking preserves nutrients without added fats"
+      ]
+    },
+    {
+      "id": "diabetic_greek_salad",
+      "name": "Greek Salad with Chickpeas",
+      "description": "Mediterranean salad with plant protein",
+      "category": "lunch",
+      "prepTime": "12 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 385,
+        "protein": 16,
+        "carbs": 32,
+        "fats": 22,
+        "fiber": 9,
+        "sugar": 8
+      },
+      "bloodSugarImpact": "low",
+      "glycemicIndex": "low",
+      "ingredients": [
+        "3 cups mixed greens",
+        "1/2 cup canned chickpeas, drained",
+        "1/4 cup cherry tomatoes, halved",
+        "1/4 cup cucumber, diced",
+        "2 tbsp red onion, sliced",
+        "2 tbsp kalamata olives",
+        "2 tbsp feta cheese, crumbled",
+        "2 tbsp olive oil",
+        "1 tbsp red wine vinegar",
+        "1 tsp dried oregano"
+      ],
+      "instructions": [
+        "Combine greens, chickpeas, and vegetables",
+        "Whisk olive oil, vinegar, and oregano",
+        "Toss salad with dressing",
+        "Top with feta and olives",
+        "Let flavors meld 5 minutes before serving"
+      ],
+      "difficulty": "Easy",
+      "tags": ["mediterranean", "plant-protein", "no-cook"],
+      "diabeticNotes": [
+        "Chickpeas provide slow-releasing energy",
+        "Olive oil supports heart health",
+        "High fiber helps regulate blood sugar"
+      ]
+    },
+    {
+      "id": "diabetic_chia_pudding",
+      "name": "Vanilla Almond Chia Pudding",
+      "description": "Make-ahead breakfast with blood sugar stability",
+      "category": "breakfast",
+      "prepTime": "5 minutes (plus overnight)",
+      "servings": 1,
+      "macros": {
+        "calories": 225,
+        "protein": 12,
+        "carbs": 15,
+        "fats": 14,
+        "fiber": 12,
+        "sugar": 6
+      },
+      "bloodSugarImpact": "very low",
+      "glycemicIndex": "very low",
+      "ingredients": [
+        "3 tbsp chia seeds",
+        "3/4 cup unsweetened almond milk",
+        "1 tbsp almond butter",
+        "1/2 tsp vanilla extract",
+        "Stevia to taste",
+        "2 tbsp Greek yogurt",
+        "1 tbsp sliced almonds",
+        "Cinnamon for garnish"
+      ],
+      "instructions": [
+        "Whisk chia seeds with almond milk",
+        "Add almond butter, vanilla, and sweetener",
+        "Refrigerate overnight until thick",
+        "Top with yogurt and almonds",
+        "Sprinkle with cinnamon"
+      ],
+      "difficulty": "Easy",
+      "tags": ["make-ahead", "omega-3", "high-fiber"],
+      "diabeticNotes": [
+        "Chia seeds expand slowly, promoting satiety",
+        "Extremely high fiber content",
+        "Virtually no impact on blood sugar",
+        "Perfect make-ahead option"
+      ]
+    },
+    {
+      "id": "diabetic_lentil_soup",
+      "name": "Mediterranean Lentil Soup",
+      "description": "Fiber-rich plant protein with controlled carbs",
+      "category": "lunch",
+      "prepTime": "30 minutes",
+      "servings": 2,
+      "macros": {
+        "calories": 285,
+        "protein": 18,
+        "carbs": 38,
+        "fats": 7,
+        "fiber": 14,
+        "sugar": 6
+      },
+      "bloodSugarImpact": "low-medium",
+      "glycemicIndex": "low",
+      "ingredients": [
+        "3/4 cup red lentils, rinsed",
+        "2 cups low-sodium vegetable broth",
+        "1/4 cup onion, diced",
+        "1/4 cup carrots, diced",
+        "2 cloves garlic, minced",
+        "1 tbsp olive oil",
+        "1 tsp cumin",
+        "1/2 tsp turmeric",
+        "1 cup spinach, chopped",
+        "1 tbsp lemon juice"
+      ],
+      "instructions": [
+        "Heat olive oil in pot, sauté onion and carrots",
+        "Add garlic, cumin, and turmeric",
+        "Add lentils and broth, bring to boil",
+        "Simmer 15-20 minutes until lentils are soft",
+        "Stir in spinach and lemon juice",
+        "Season to taste"
+      ],
+      "difficulty": "Medium",
+      "tags": ["plant-protein", "high-fiber", "anti-inflammatory"],
+      "diabeticNotes": [
+        "Lentils have low glycemic index despite carbs",
+        "Extremely high fiber slows glucose absorption",
+        "Plant protein supports blood sugar stability",
+        "Great make-ahead meal option"
+      ]
+    },
+    {
+      "id": "diabetic_turkey_wrap",
+      "name": "Low-Carb Turkey Lettuce Wrap",
+      "description": "Protein-packed wrap with minimal carbohydrates",
+      "category": "lunch",
+      "prepTime": "8 minutes",
+      "servings": 1,
+      "macros": {
+        "calories": 245,
+        "protein": 28,
+        "carbs": 8,
+        "fats": 12,
+        "fiber": 4,
+        "sugar": 4
+      },
+      "bloodSugarImpact": "very low",
+      "glycemicIndex": "very low",
+      "ingredients": [
+        "4 oz sliced turkey breast (low-sodium)",
+        "4 large butter lettuce leaves",
+        "1/4 avocado, sliced",
+        "1/4 cup shredded carrots",
+        "1/4 cup cucumber, julienned",
+        "2 tbsp hummus",
+        "1 tbsp Greek yogurt",
+        "Fresh herbs (cilantro, mint)",
+        "Black pepper to taste"
+      ],
+      "instructions": [
+        "Lay out lettuce leaves on plate",
+        "Mix hummus with Greek yogurt",
+        "Spread mixture on lettuce",
+        "Layer turkey, avocado, and vegetables",
+        "Roll up carefully and secure",
+        "Serve immediately"
+      ],
+      "difficulty": "Easy",
+      "tags": ["low-carb", "no-cook", "portable"],
+      "diabeticNotes": [
+        "Lettuce wraps eliminate bread carbs",
+        "Lean turkey provides quality protein",
+        "Vegetables add crunch and nutrients",
+        "Portion control built into format"
+      ]
+    }
+  ]
+}

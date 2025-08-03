@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>root</key>
+	<dict>
+		<key>children</key>
+		<array>
+			<dict>
+				<key>children</key>
+				<array>
+					<dict>
+						<key>isa</key>
+						<string>PBXFileReference</string>
+						<key>lastKnownFileType</key>
+						<string>sourcecode.swift</string>
+						<key>name</key>
+						<string>PremiumDancingTree.swift</string>
+						<key>path</key>
+						<string>MacroAI Pro/PremiumDancingTree.swift</string>
+						<key>sourceTree</key>
+						<string>SOURCE_ROOT</string>
+					</dict>
+				</array>
+				<key>isa</key>
+				<string>PBXGroup</string>
+				<key>name</key>
+				<string>MacroAI Pro</string>
+				<key>path</key>
+				<string>MacroAI Pro</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+		</array>
+		<key>isa</key>
+		<string>PBXGroup</string>
+		<key>sourceTree</key>
+		<string>SOURCE_ROOT</string>
+	</dict>
+</dict>
+</plist>

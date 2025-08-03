@@ -1,0 +1,29 @@
+{
+  "id": "hanukkah",
+  "name": "Hanukkah",
+  "description": "Festive Hanukkah celebration with menorah and dreidels",
+  "isPremium": true,
+  "seasonStart": "12-01",
+  "seasonEnd": "12-31",
+  "plateStyle": {
+    "background": "menorah",
+    "borderColor": "#0066CC",
+    "plateColor": "#F8F8FF"
+  },
+  "foodIcons": {
+    "protein": "turkey",
+    "carbs": "potato",
+    "fats": "butter"
+  },
+  "colors": {
+    "primary": "#0066CC",
+    "secondary": "#C0C0C0",
+    "accent": "#FFFFFF",
+    "background": "#F8F8FF"
+  },
+  "specialEffects": {
+    "particles": "dreidel_spin",
+    "celebrationAnimation": "menorah_light",
+    "overfillEffect": "burn_effect"
+  }
+} 

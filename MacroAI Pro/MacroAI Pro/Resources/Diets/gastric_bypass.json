@@ -1,0 +1,49 @@
+{
+  "id": "gastric_bypass",
+  "name": "Gastric Bypass",
+  "description": "Post-surgery nutrition for gastric bypass patients",
+  "isPremium": true,
+  "macroDistribution": {
+    "protein": 40,
+    "carbs": 30,
+    "fats": 30
+  },
+  "recommendations": {
+    "dailyCalories": 1200,
+    "mealsPerDay": 6,
+    "snacksPerDay": 0,
+    "maxNetCarbs": 90,
+    "maxCarbsPerMeal": 15,
+    "minProteinGrams": 120,
+    "maxMealSize": "1/2 cup"
+  },
+  "guidelines": [
+    "Eat protein first at every meal",
+    "Take small bites and chew thoroughly",
+    "Stop eating when full",
+    "Wait 30 minutes between eating and drinking",
+    "Take recommended vitamin supplements",
+    "Avoid high-sugar and high-fat foods",
+    "Eat 6 small meals throughout the day"
+  ],
+  "restrictedFoods": [
+    "Carbonated beverages",
+    "High-sugar foods and drinks",
+    "Tough, fibrous meats",
+    "Raw vegetables in large pieces",
+    "Nuts and seeds (initially)",
+    "High-fat fried foods",
+    "Alcohol"
+  ],
+  "recommendedFoods": [
+    "Lean ground meats",
+    "Fish and seafood",
+    "Eggs and egg whites",
+    "Low-fat dairy",
+    "Soft cooked vegetables",
+    "Protein shakes and powders",
+    "Soft fruits without skin"
+  ],
+  "icon": "scalemass.fill",
+  "primaryColor": "blue"
+}

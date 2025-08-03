@@ -1,0 +1,29 @@
+{
+  "id": "new_year",
+  "name": "New Year",
+  "description": "Celebratory New Year with fireworks and champagne",
+  "isPremium": true,
+  "seasonStart": "12-31",
+  "seasonEnd": "01-07",
+  "plateStyle": {
+    "background": "fireworks",
+    "borderColor": "#FFD700",
+    "plateColor": "#000080"
+  },
+  "foodIcons": {
+    "protein": "turkey",
+    "carbs": "potato",
+    "fats": "butter"
+  },
+  "colors": {
+    "primary": "#FFD700",
+    "secondary": "#FF1493",
+    "accent": "#00FFFF",
+    "background": "#000080"
+  },
+  "specialEffects": {
+    "particles": "firework_burst",
+    "celebrationAnimation": "champagne_pop",
+    "overfillEffect": "burn_effect"
+  }
+} 

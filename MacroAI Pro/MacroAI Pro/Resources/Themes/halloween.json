@@ -1,0 +1,29 @@
+{
+  "id": "halloween",
+  "name": "Halloween",
+  "description": "Spooky Halloween celebration with pumpkins and ghosts",
+  "isPremium": true,
+  "seasonStart": "10-01",
+  "seasonEnd": "10-31",
+  "plateStyle": {
+    "background": "pumpkins",
+    "borderColor": "#FF8C00",
+    "plateColor": "#2F2F2F"
+  },
+  "foodIcons": {
+    "protein": "turkey",
+    "carbs": "potato",
+    "fats": "butter"
+  },
+  "colors": {
+    "primary": "#FF8C00",
+    "secondary": "#800080",
+    "accent": "#FFD700",
+    "background": "#2F2F2F"
+  },
+  "specialEffects": {
+    "particles": "ghost_float",
+    "celebrationAnimation": "pumpkin_glow",
+    "overfillEffect": "burn_effect"
+  }
+} 

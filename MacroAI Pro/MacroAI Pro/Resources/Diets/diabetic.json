@@ -1,0 +1,47 @@
+{
+  "id": "diabetic",
+  "name": "Diabetic-Friendly",
+  "description": "Blood sugar management through controlled carbohydrates",
+  "isPremium": true,
+  "macroDistribution": {
+    "protein": 30,
+    "carbs": 35,
+    "fats": 35
+  },
+  "recommendations": {
+    "dailyCalories": 1600,
+    "mealsPerDay": 3,
+    "snacksPerDay": 2,
+    "maxNetCarbs": 140,
+    "maxCarbsPerMeal": 45,
+    "minProteinGrams": 120,
+    "maxMealSize": null
+  },
+  "guidelines": [
+    "Monitor blood glucose levels regularly",
+    "Choose complex carbohydrates over simple sugars",
+    "Include protein with each meal",
+    "Eat consistent meal times",
+    "Focus on high-fiber foods",
+    "Limit processed foods and added sugars"
+  ],
+  "restrictedFoods": [
+    "White bread and refined grains",
+    "Sugary drinks and desserts",
+    "Candy and sweets",
+    "Fried foods",
+    "High-sodium processed foods",
+    "Full-fat dairy in large amounts"
+  ],
+  "recommendedFoods": [
+    "Whole grains and quinoa",
+    "Lean proteins (chicken, fish, tofu)",
+    "Non-starchy vegetables",
+    "Berries and low-glycemic fruits",
+    "Nuts and seeds in moderation",
+    "Low-fat dairy",
+    "Beans and legumes"
+  ],
+  "icon": "heart.fill",
+  "primaryColor": "red"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "summer_beach_body",
+  "name": "Summer Beach Body",
+  "description": "Light, refreshing nutrition for hot weather",
+  "isPremium": true,
+  "macroDistribution": {
+    "protein": 25,
+    "carbs": 40,
+    "fats": 35
+  },
+  "recommendations": {
+    "dailyCalories": 1600,
+    "mealsPerDay": 4,
+    "snacksPerDay": 2,
+    "maxNetCarbs": 60,
+    "maxCarbsPerMeal": 30,
+    "minProteinGrams": 100,
+    "maxMealSize": "Small"
+  },
+  "guidelines": [
+    "Hydrating foods",
+    "Light summer meals",
+    "Fresh fruits and vegetables",
+    "Lean proteins",
+    "Stay hydrated"
+  ],
+  "restrictedFoods": [
+    "Heavy fried foods",
+    "Excessive dairy",
+    "Processed meats",
+    "Sugary beverages",
+    "Heavy sauces"
+  ],
+  "recommendedFoods": [
+    "Grilled chicken",
+    "Fresh fish",
+    "Salads",
+    "Smoothies",
+    "Fruits",
+    "Vegetables",
+    "Quinoa",
+    "Greek yogurt",
+    "Nuts and seeds",
+    "Coconut water"
+  ],
+  "icon": "sun.max.fill",
+  "primaryColor": "orange"
+} 

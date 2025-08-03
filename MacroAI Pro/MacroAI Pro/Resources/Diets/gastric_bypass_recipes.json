@@ -1,0 +1,511 @@
+{
+  "dietId": "gastric_bypass",
+  "recipes": [
+    {
+      "id": "bypass_protein_smoothie_1",
+      "name": "Vanilla Protein Power Smoothie",
+      "description": "High-protein, easily digestible smoothie for early recovery",
+      "category": "beverage",
+      "phase": "liquid-foods",
+      "prepTime": "5 minutes",
+      "servings": 1,
+      "portionSize": "4-6 oz",
+      "macros": {
+        "calories": 180,
+        "protein": 25,
+        "carbs": 8,
+        "fats": 3,
+        "fiber": 2,
+        "sugar": 6
+      },
+      "nutritionDensity": "very-high",
+      "surgicalNotes": "Sip slowly over 30 minutes. Stop if you feel full. Excellent protein source for healing.",
+      "ingredients": [
+        "1 scoop vanilla whey protein isolate",
+        "1/2 cup unsweetened almond milk",
+        "1/4 cup Greek yogurt (plain, fat-free)",
+        "1 tsp vanilla extract",
+        "1/2 cup ice",
+        "1 tsp sugar-free vanilla syrup (optional)"
+      ],
+      "instructions": [
+        "Blend all ingredients until smooth",
+        "Pour into a small glass",
+        "Sip slowly over 30 minutes",
+        "Stop drinking if you feel full or uncomfortable"
+      ],
+      "difficulty": "easy",
+      "tags": ["high-protein", "liquid", "post-surgery", "healing", "vitamin-enriched"]
+    },
+    {
+      "id": "bypass_bone_broth",
+      "name": "Fortified Bone Broth",
+      "description": "Protein-rich, healing bone broth with added nutrients",
+      "category": "soup",
+      "phase": "liquid-foods",
+      "prepTime": "10 minutes",
+      "servings": 1,
+      "portionSize": "6-8 oz",
+      "macros": {
+        "calories": 45,
+        "protein": 9,
+        "carbs": 1,
+        "fats": 1,
+        "fiber": 0,
+        "sodium": 580
+      },
+      "nutritionDensity": "high",
+      "surgicalNotes": "Excellent for hydration and protein. Easy on the stomach. Contains collagen for healing.",
+      "ingredients": [
+        "1 cup high-quality bone broth",
+        "1 tsp unflavored gelatin powder",
+        "1/4 tsp sea salt",
+        "1/8 tsp turmeric (anti-inflammatory)",
+        "Fresh herbs (optional)"
+      ],
+      "instructions": [
+        "Heat bone broth gently (don't boil)",
+        "Whisk in gelatin powder until dissolved",
+        "Add seasonings",
+        "Sip warm slowly"
+      ],
+      "difficulty": "easy",
+      "tags": ["healing", "anti-inflammatory", "hydrating", "collagen", "liquid"]
+    },
+    {
+      "id": "bypass_cottage_cheese_bowl",
+      "name": "Soft Cottage Cheese Bowl",
+      "description": "Gentle, protein-rich meal for pureed foods phase",
+      "category": "meal",
+      "phase": "pureed-foods",
+      "prepTime": "5 minutes",
+      "servings": 1,
+      "portionSize": "1/3 cup",
+      "macros": {
+        "calories": 120,
+        "protein": 14,
+        "carbs": 6,
+        "fats": 4,
+        "fiber": 0,
+        "calcium": "15% DV"
+      },
+      "nutritionDensity": "high",
+      "surgicalNotes": "Mash thoroughly. Chew very well. High in protein and calcium for healing.",
+      "ingredients": [
+        "1/3 cup low-fat cottage cheese",
+        "1 tsp sugar-free jam (optional)",
+        "1/8 tsp vanilla extract",
+        "Pinch of cinnamon"
+      ],
+      "instructions": [
+        "Mash cottage cheese with fork until very smooth",
+        "Add flavorings if desired",
+        "Eat very slowly, chewing thoroughly",
+        "Stop when you feel the first sign of fullness"
+      ],
+      "difficulty": "easy",
+      "tags": ["high-protein", "calcium-rich", "soft", "pureed", "healing"]
+    },
+    {
+      "id": "bypass_scrambled_egg",
+      "name": "Ultra-Soft Scrambled Egg",
+      "description": "Perfectly soft scrambled egg with cheese for extra protein",
+      "category": "breakfast",
+      "phase": "soft-foods",
+      "prepTime": "8 minutes",
+      "servings": 1,
+      "portionSize": "1/4 cup",
+      "macros": {
+        "calories": 155,
+        "protein": 12,
+        "carbs": 1,
+        "fats": 11,
+        "fiber": 0,
+        "choline": "high"
+      },
+      "nutritionDensity": "very-high",
+      "surgicalNotes": "Cook until very soft. Chew thoroughly. Excellent protein source. Stop if texture feels difficult.",
+      "ingredients": [
+        "1 large egg",
+        "1 tbsp low-fat milk",
+        "1 tbsp shredded low-fat cheese",
+        "1/4 tsp butter",
+        "Salt and pepper to taste"
+      ],
+      "instructions": [
+        "Beat egg with milk until smooth",
+        "Cook on low heat, stirring constantly",
+        "Add cheese when almost set",
+        "Cook until very soft and creamy",
+        "Let cool slightly before eating"
+      ],
+      "difficulty": "easy",
+      "tags": ["high-protein", "soft", "healing", "brain-food", "calcium"]
+    },
+    {
+      "id": "bypass_protein_pudding",
+      "name": "Greek Yogurt Protein Pudding",
+      "description": "Smooth, protein-packed pudding perfect for any phase",
+      "category": "snack",
+      "phase": "pureed-foods",
+      "prepTime": "5 minutes",
+      "servings": 1,
+      "portionSize": "1/4 cup",
+      "macros": {
+        "calories": 95,
+        "protein": 15,
+        "carbs": 8,
+        "fats": 1,
+        "fiber": 0,
+        "probiotics": "high"
+      },
+      "nutritionDensity": "very-high",
+      "surgicalNotes": "Excellent for gut health. High protein aids healing. Very smooth texture.",
+      "ingredients": [
+        "1/4 cup Greek yogurt (plain, fat-free)",
+        "1/2 scoop vanilla protein powder",
+        "1 tsp sugar-free vanilla syrup",
+        "1/8 tsp vanilla extract",
+        "Pinch of cinnamon"
+      ],
+      "instructions": [
+        "Mix protein powder with small amount of yogurt until smooth",
+        "Add remaining yogurt and flavorings",
+        "Whisk until completely smooth",
+        "Chill for 10 minutes if desired"
+      ],
+      "difficulty": "easy",
+      "tags": ["high-protein", "probiotics", "smooth", "healing", "gut-friendly"]
+    },
+    {
+      "id": "bypass_egg_salad",
+      "name": "Soft Egg Salad",
+      "description": "Protein-rich, easy-to-digest egg salad",
+      "category": "lunch",
+      "prepTime": "10 minutes",
+      "servings": 2,
+      "portionSize": "very-small",
+      "macros": {
+        "calories": 165,
+        "protein": 14,
+        "carbs": 2,
+        "fats": 11,
+        "fiber": 0
+      },
+      "nutritionDensity": "high",
+      "ingredients": [
+        "2 hard-boiled eggs",
+        "1 tbsp low-fat mayonnaise",
+        "1 tsp Dijon mustard",
+        "1 tbsp Greek yogurt",
+        "Salt and pepper to taste",
+        "Fresh chives, finely chopped"
+      ],
+      "instructions": [
+        "Mash eggs very thoroughly",
+        "Mix with mayo, mustard, and yogurt",
+        "Season to taste",
+        "Eat slowly, chew thoroughly",
+        "Portion: 2-3 tablespoons per serving"
+      ],
+      "difficulty": "Easy",
+      "tags": ["high-protein", "soft-texture", "easy-chew"],
+      "surgicalNotes": [
+        "Mash completely to avoid chunks",
+        "Eat slowly to prevent dumping syndrome",
+        "High protein supports healing",
+        "Monitor tolerance to eggs"
+      ],
+      "phase": "soft-foods"
+    },
+    {
+      "id": "bypass_cottage_cheese_bowl",
+      "name": "Protein-Packed Cottage Cheese Bowl",
+      "description": "Soft, high-protein meal with gentle flavors",
+      "category": "snack",
+      "prepTime": "3 minutes",
+      "servings": 1,
+      "portionSize": "small",
+      "macros": {
+        "calories": 145,
+        "protein": 18,
+        "carbs": 8,
+        "fats": 5,
+        "fiber": 1
+      },
+      "nutritionDensity": "high",
+      "ingredients": [
+        "1/2 cup low-fat cottage cheese",
+        "2 tbsp unsweetened applesauce",
+        "1 tsp ground cinnamon",
+        "1 tbsp chopped soft nuts (optional)",
+        "Stevia to taste"
+      ],
+      "instructions": [
+        "Mix cottage cheese with applesauce",
+        "Add cinnamon and sweetener",
+        "Top with finely chopped nuts if tolerated",
+        "Eat slowly, one small spoonful at a time"
+      ],
+      "difficulty": "Easy",
+      "tags": ["high-protein", "soft-texture", "calcium-rich"],
+      "surgicalNotes": [
+        "Cottage cheese is easily digestible",
+        "Provides calcium for bone health",
+        "Avoid nuts if experiencing dumping",
+        "Monitor portion size carefully"
+      ],
+      "phase": "soft-foods"
+    },
+    {
+      "id": "bypass_chicken_puree",
+      "name": "Smooth Chicken and Vegetable Puree",
+      "description": "Protein-rich puree for early post-surgery phase",
+      "category": "dinner",
+      "prepTime": "20 minutes",
+      "servings": 3,
+      "portionSize": "very-small",
+      "macros": {
+        "calories": 125,
+        "protein": 22,
+        "carbs": 4,
+        "fats": 2,
+        "fiber": 1
+      },
+      "nutritionDensity": "very-high",
+      "ingredients": [
+        "4 oz cooked chicken breast",
+        "1/4 cup low-sodium chicken broth",
+        "2 tbsp cooked carrots",
+        "1 tbsp Greek yogurt",
+        "Herbs and mild seasonings"
+      ],
+      "instructions": [
+        "Cook chicken until very tender",
+        "Puree chicken with broth until smooth",
+        "Add cooked carrots and puree again",
+        "Stir in Greek yogurt",
+        "Strain if necessary for smoothness",
+        "Serve at body temperature"
+      ],
+      "difficulty": "Medium",
+      "tags": ["pureed", "high-protein", "easy-digest"],
+      "surgicalNotes": [
+        "Must be completely smooth",
+        "No lumps or chunks allowed",
+        "Provides essential amino acids",
+        "Eat 1-2 tablespoons per meal"
+      ],
+      "phase": "pureed-foods"
+    },
+    {
+      "id": "bypass_fish_mousse",
+      "name": "Salmon and Herb Mousse",
+      "description": "Omega-3 rich, smooth protein source",
+      "category": "dinner",
+      "prepTime": "15 minutes",
+      "servings": 2,
+      "portionSize": "very-small",
+      "macros": {
+        "calories": 155,
+        "protein": 20,
+        "carbs": 1,
+        "fats": 8,
+        "fiber": 0
+      },
+      "nutritionDensity": "very-high",
+      "ingredients": [
+        "4 oz cooked salmon fillet",
+        "2 tbsp Greek yogurt",
+        "1 tbsp lemon juice",
+        "1 tsp fresh dill",
+        "1 tbsp low-sodium chicken broth",
+        "White pepper to taste"
+      ],
+      "instructions": [
+        "Ensure salmon is fully cooked and cooled",
+        "Puree salmon with broth until smooth",
+        "Add yogurt, lemon juice, and herbs",
+        "Blend until mousse-like consistency",
+        "Chill before serving",
+        "Serve at cool temperature"
+      ],
+      "difficulty": "Medium",
+      "tags": ["omega-3", "smooth-texture", "anti-inflammatory"],
+      "surgicalNotes": [
+        "Omega-3s support healing",
+        "Smooth texture prevents obstruction",
+        "High-quality protein for recovery",
+        "Monitor for fish tolerance"
+      ],
+      "phase": "pureed-foods"
+    },
+    {
+      "id": "bypass_yogurt_parfait",
+      "name": "Protein-Enhanced Yogurt Parfait",
+      "description": "Layered parfait with extra protein and probiotics",
+      "category": "breakfast",
+      "prepTime": "5 minutes",
+      "servings": 1,
+      "portionSize": "small",
+      "macros": {
+        "calories": 175,
+        "protein": 20,
+        "carbs": 15,
+        "fats": 6,
+        "fiber": 2
+      },
+      "nutritionDensity": "high",
+      "ingredients": [
+        "1/2 cup Greek yogurt (plain, low-fat)",
+        "1/2 scoop vanilla protein powder",
+        "2 tbsp sugar-free applesauce",
+        "1 tbsp ground flaxseed",
+        "Cinnamon to taste",
+        "Stevia if needed"
+      ],
+      "instructions": [
+        "Mix protein powder with small amount of yogurt",
+        "Gradually add remaining yogurt",
+        "Layer with applesauce",
+        "Sprinkle with flaxseed and cinnamon",
+        "Eat slowly, small spoonfuls"
+      ],
+      "difficulty": "Easy",
+      "tags": ["high-protein", "probiotics", "calcium-rich"],
+      "surgicalNotes": [
+        "Probiotics support gut health",
+        "Extra protein from powder",
+        "Avoid if lactose intolerant",
+        "Monitor sugar content carefully"
+      ],
+      "phase": "soft-foods"
+    },
+    {
+      "id": "bypass_vegetable_soup",
+      "name": "Smooth Vegetable and Protein Soup",
+      "description": "Nutrient-dense soup with hidden protein",
+      "category": "lunch",
+      "prepTime": "25 minutes",
+      "servings": 4,
+      "portionSize": "small",
+      "macros": {
+        "calories": 95,
+        "protein": 8,
+        "carbs": 12,
+        "fats": 2,
+        "fiber": 3
+      },
+      "nutritionDensity": "high",
+      "ingredients": [
+        "1 cup butternut squash, cooked",
+        "1/2 cup low-sodium vegetable broth",
+        "2 tbsp silken tofu",
+        "1 tbsp Greek yogurt",
+        "1 tsp olive oil",
+        "Mild herbs and spices"
+      ],
+      "instructions": [
+        "Cook squash until very tender",
+        "Puree with broth until smooth",
+        "Blend in tofu and yogurt",
+        "Add olive oil and seasonings",
+        "Strain for ultra-smooth texture",
+        "Serve warm but not hot"
+      ],
+      "difficulty": "Medium",
+      "tags": ["smooth", "vitamin-rich", "hidden-protein"],
+      "surgicalNotes": [
+        "Vegetables provide essential vitamins",
+        "Hidden protein from tofu",
+        "Easy to digest when smooth",
+        "Avoid if experiencing dumping"
+      ],
+      "phase": "pureed-foods"
+    },
+    {
+      "id": "bypass_tuna_mousse",
+      "name": "Creamy Tuna Protein Mousse",
+      "description": "Smooth, protein-packed seafood mousse",
+      "category": "lunch",
+      "prepTime": "8 minutes",
+      "servings": 2,
+      "portionSize": "very-small",
+      "macros": {
+        "calories": 135,
+        "protein": 18,
+        "carbs": 2,
+        "fats": 6,
+        "fiber": 0
+      },
+      "nutritionDensity": "very-high",
+      "ingredients": [
+        "1 can (5 oz) tuna in water, drained",
+        "3 tbsp Greek yogurt",
+        "1 tbsp low-fat cream cheese",
+        "1 tsp lemon juice",
+        "1 tsp fresh herbs",
+        "White pepper to taste"
+      ],
+      "instructions": [
+        "Drain tuna completely",
+        "Puree tuna with yogurt until smooth",
+        "Add cream cheese and blend",
+        "Season with lemon juice and herbs",
+        "Ensure completely smooth texture",
+        "Chill before serving"
+      ],
+      "difficulty": "Easy",
+      "tags": ["high-protein", "omega-3", "smooth-texture"],
+      "surgicalNotes": [
+        "Excellent protein source",
+        "Mercury-conscious serving size",
+        "Must be completely smooth",
+        "Monitor for seafood tolerance"
+      ],
+      "phase": "pureed-foods"
+    },
+    {
+      "id": "bypass_ricotta_bake",
+      "name": "Herbed Ricotta Protein Bake",
+      "description": "Soft, protein-rich baked dish",
+      "category": "dinner",
+      "prepTime": "20 minutes",
+      "servings": 3,
+      "portionSize": "small",
+      "macros": {
+        "calories": 155,
+        "protein": 16,
+        "carbs": 5,
+        "fats": 8,
+        "fiber": 0
+      },
+      "nutritionDensity": "high",
+      "ingredients": [
+        "1/2 cup part-skim ricotta cheese",
+        "1 egg white",
+        "2 tbsp grated parmesan",
+        "1 tbsp fresh herbs",
+        "1 tsp olive oil",
+        "Salt and pepper to taste"
+      ],
+      "instructions": [
+        "Preheat oven to 350°F",
+        "Mix ricotta with egg white",
+        "Add parmesan and herbs",
+        "Pour into small ramekins",
+        "Bake 15 minutes until set",
+        "Cool slightly before serving"
+      ],
+      "difficulty": "Medium",
+      "tags": ["high-protein", "soft-texture", "calcium-rich"],
+      "surgicalNotes": [
+        "Provides calcium and protein",
+        "Soft texture when baked",
+        "Monitor cheese tolerance",
+        "Eat slowly and chew well"
+      ],
+      "phase": "soft-foods"
+    }
+  ]
+}

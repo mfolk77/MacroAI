@@ -1,0 +1,47 @@
+{
+  "id": "keto",
+  "name": "Ketogenic Diet",
+  "description": "Ultra-low carb, high fat diet for ketosis",
+  "isPremium": false,
+  "macroDistribution": {
+    "protein": 20,
+    "carbs": 5,
+    "fats": 75
+  },
+  "recommendations": {
+    "dailyCalories": 1800,
+    "mealsPerDay": 2,
+    "snacksPerDay": 1,
+    "maxNetCarbs": 20,
+    "maxCarbsPerMeal": 10,
+    "minProteinGrams": 80,
+    "maxMealSize": null
+  },
+  "guidelines": [
+    "Keep net carbs under 20g daily",
+    "Focus on high-quality fats",
+    "Moderate protein intake",
+    "Stay hydrated and supplement electrolytes",
+    "Monitor ketone levels",
+    "Avoid all grains, sugar, and starchy vegetables"
+  ],
+  "restrictedFoods": [
+    "Bread, pasta, rice",
+    "Sugar and sweets",
+    "Potatoes and root vegetables",
+    "Fruits (except small amounts of berries)",
+    "Beans and legumes",
+    "Low-fat dairy products"
+  ],
+  "recommendedFoods": [
+    "Avocados and MCT oil",
+    "Fatty fish (salmon, mackerel)",
+    "Grass-fed meats",
+    "Eggs and full-fat dairy",
+    "Nuts and seeds",
+    "Leafy greens and low-carb vegetables",
+    "Olive oil and coconut oil"
+  ],
+  "icon": "flame.fill",
+  "primaryColor": "orange"
+}
