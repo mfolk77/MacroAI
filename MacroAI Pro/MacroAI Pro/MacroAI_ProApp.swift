@@ -99,7 +99,7 @@ struct MacroAIApp: App {
                 isOnboardingComplete = hasSeenOnboarding
                 print("🔄 [MacroAIApp] Onboarding state: UserDefaults=\(hasSeenOnboarding), isOnboardingComplete=\(isOnboardingComplete)")
             }
-            .onChange(of: isOnboardingComplete) { newValue in
+            .onChange(of: isOnboardingComplete) { _, newValue in
                 print("🔄 [MacroAIApp] isOnboardingComplete changed to: \(newValue)")
             }
             

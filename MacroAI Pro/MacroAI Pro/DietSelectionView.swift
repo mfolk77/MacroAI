@@ -490,7 +490,9 @@ struct DietCard: View {
                     y: isSelected ? 4 : 2
                 )
         )
-        .onTapGesture(perform: onTap)
+        .onTapGesture {
+            onTap()
+        }
         .scaleEffect(isSelected ? 1.02 : 1.0)
         .animation(.easeInOut(duration: 0.2), value: isSelected)
     }

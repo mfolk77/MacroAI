@@ -4,7 +4,7 @@
 import Foundation
 @preconcurrency import AVFoundation
 import UIKit
-import Vision
+@preconcurrency import Vision
 internal import Combine
 
 @MainActor

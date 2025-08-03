@@ -246,7 +246,7 @@ struct SettingsView: View {
                                     switch result {
                                     case .success(let authResults):
                                         print("✅ Sign in with Apple successful")
-                                        if let appleIDCredential = authResults as? ASAuthorizationAppleIDCredential {
+                                        if let appleIDCredential = authResults.credential as? ASAuthorizationAppleIDCredential {
                                             // Store user ID for future reference
                                             UserDefaults.standard.set(appleIDCredential.user, forKey: "AppleUserID")
                                             
@@ -910,7 +910,7 @@ struct SignInWithAppleView: View {
                         switch result {
                         case .success(let authResults):
                             print("✅ Sign in with Apple successful")
-                            if let appleIDCredential = authResults as? ASAuthorizationAppleIDCredential {
+                            if let appleIDCredential = authResults.credential as? ASAuthorizationAppleIDCredential {
                                 // Store user ID for future reference
                                 UserDefaults.standard.set(appleIDCredential.user, forKey: "AppleUserID")
                                 

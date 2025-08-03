@@ -524,7 +524,7 @@ final class MacroEntryStore: ObservableObject {
                 print("✅ [MacroEntryStore] Image data preserved: \(savedImageData.count) bytes")
                 
                 // Try to create UIImage from saved data
-                if let uiImage = UIImage(data: savedImageData) {
+                if UIImage(data: savedImageData) != nil {
                     print("✅ [MacroEntryStore] Successfully recreated UIImage from saved data")
                 } else {
                     print("❌ [MacroEntryStore] Failed to recreate UIImage from saved data")
