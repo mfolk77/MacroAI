@@ -137,6 +137,17 @@ final class MacroEntryStore: ObservableObject {
             return nil
         }
         
+        // Enforce freemium daily meal limit for free users
+        let sub = UserSubscriptionManager.shared
+        if !sub.isPremium {
+            if !sub.canLogMeal() {
+                Analytics.dailyLimitHit(mealCount: sub.mealsLoggedToday)
+                Analytics.paywallShown(trigger: "daily_limit")
+                NotificationCenter.default.post(name: NSNotification.Name("ShowPaywallDueToDailyLimit"), object: nil)
+                return nil
+            }
+        }
+
         isSaving = true
         defer { isSaving = false }
         
@@ -191,6 +202,11 @@ final class MacroEntryStore: ObservableObject {
                 "name": entry.foodName,
                 "cal": String(entry.calories)
             ])
+
+            // Update daily count for free users
+            if !sub.isPremium {
+                sub.incrementMealCount()
+            }
             
             // Sync to HealthKit (now free for all users)
             await HealthKitManager.shared.writeMealToHealthKit(entry)

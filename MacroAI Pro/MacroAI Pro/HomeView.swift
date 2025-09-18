@@ -362,6 +362,17 @@ struct HomeView: View {
                 }
             }
             
+            // Free tier meal counter
+            if !UserSubscriptionManager.shared.isPremium {
+                HStack {
+                    Text("Meals today: \(UserSubscriptionManager.shared.mealsLoggedToday)/2")
+                        .font(.system(size: 12, weight: .semibold, design: .rounded))
+                        .foregroundColor(.secondary)
+                    Spacer()
+                }
+                .padding(.horizontal, 4)
+            }
+
             // Interactive Macro Chips
             HStack(spacing: 15) { // Reduced spacing from 20 to 15
                 InteractiveMacroChip(

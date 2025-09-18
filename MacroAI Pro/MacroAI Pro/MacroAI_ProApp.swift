@@ -135,6 +135,9 @@ struct MacroAIApp: App {
                     .environmentObject(subscriptionManager)
                     .preferredColorScheme(colorScheme) // Apply the selected color scheme
             }
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ShowPaywallDueToDailyLimit"))) { _ in
+                showPaywall = true
+            }
         }
     }
     

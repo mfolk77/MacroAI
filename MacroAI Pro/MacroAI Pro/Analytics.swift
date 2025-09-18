@@ -11,6 +11,7 @@ enum Analytics {
     private static let paywallLog   = Logger(subsystem: subsystem, category: "paywall")
     private static let revenueLog   = Logger(subsystem: subsystem, category: "revenue")
     private static let lifecycleLog = Logger(subsystem: subsystem, category: "lifecycle")
+    private static let freemiumLog  = Logger(subsystem: subsystem, category: "freemium")
 
     static func screenView(_ name: String, context: [String: String] = [:]) {
         screenLog.log("screen_view name=\(name, privacy: .public) context=\(serialize(context), privacy: .private)")
@@ -51,6 +52,32 @@ enum Analytics {
             return s
         }
         return "{}"
+    }
+
+    // MARK: - Freemium Helpers
+
+    static func dailyLimitHit(mealCount: Int) {
+        freemiumLog.log("daily_limit_hit meal_count=\(mealCount, privacy: .public)")
+    }
+
+    static func paywallShown(trigger: String) {
+        freemiumLog.log("paywall_shown trigger=\(trigger, privacy: .public)")
+    }
+
+    static func paywallDismissed(action: String) {
+        freemiumLog.log("paywall_dismissed action=\(action, privacy: .public)")
+    }
+
+    static func continueTrackingTapped() {
+        freemiumLog.log("continue_tracking_tapped")
+    }
+
+    static func trialStarted(context: String) {
+        freemiumLog.log("trial_started context=\(context, privacy: .public)")
+    }
+
+    static func trialConverted(day: Int) {
+        freemiumLog.log("trial_converted day=\(day, privacy: .public)")
     }
 }
 

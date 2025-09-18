@@ -152,6 +152,12 @@ struct PaywallView: View {
                 .font(.caption)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
+
+            // Compliance text
+            Text("Cancel anytime in Settings • No commitment")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
         }
         .padding()
         .background(Color.green.opacity(0.1))
