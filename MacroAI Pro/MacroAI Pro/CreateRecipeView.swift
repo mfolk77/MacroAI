@@ -712,9 +712,8 @@ struct NutritionField: View {
         return CreateRecipeView(recipeManager: recipeManager)
     } else {
         // Fallback for older iOS versions
-        Text("Preview only available for iOS 17+")
+        return Text("Preview only available for iOS 17+")
             .foregroundColor(.secondary)
             .padding()
     }
 }
-

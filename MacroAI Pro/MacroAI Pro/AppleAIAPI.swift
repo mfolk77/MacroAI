@@ -14,7 +14,6 @@ enum AppleAIAPI {
     static func nutritionChat(userMessage: String, completion: @escaping (Result<String, Error>) -> Void) {
         // TODO: Replace with real Apple foundation model call when SDK is available.
         // For now, simulate a successful response to validate integration path.
-        let prompt = "You are a nutrition expert assistant. Respond concisely and helpfully.\n\nUser: \(userMessage)"
         let simulated = "(Apple Model) Thanks for your question! Here are some practical nutrition tips related to: \(userMessage)."
         // Simulate slight latency
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.2) {
@@ -22,5 +21,4 @@ enum AppleAIAPI {
         }
     }
 }
-
 

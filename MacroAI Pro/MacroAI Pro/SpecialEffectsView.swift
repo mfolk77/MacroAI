@@ -1167,7 +1167,7 @@ struct SpecialEffectsView: View {
         case "yule", "winter_solstice", "log_burning", "solstice_light":
             print("🎭 [SpecialEffectsView] Mapped to yule")
             return "yule"
-        case "fall", "autumn", "falling_leaves", "pumpkin_glow":
+        case "fall", "autumn":
             print("🎭 [SpecialEffectsView] Mapped to fall")
             return "fall"
         case "summer", "ocean_waves", "beach_ball_bounce", "seagull_flight":

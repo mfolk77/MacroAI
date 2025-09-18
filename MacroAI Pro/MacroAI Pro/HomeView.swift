@@ -120,7 +120,7 @@ struct HomeView: View {
                 .environmentObject(storeKit)
         }
         .sheet(isPresented: $showPaywall) {
-            AnnoyingPaywallView(isPresented: $showPaywall)
+            PaywallView()
         }
         .onChange(of: showPaywall) { _, newValue in
             if newValue {
