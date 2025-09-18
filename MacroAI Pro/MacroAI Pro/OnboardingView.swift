@@ -98,19 +98,98 @@ struct OnboardingView: View {
                                     .foregroundColor(feature.color)
                             }
                             
+                            // Screen 1: Snap Food – usage badge
+                            if feature.title == "Snap Food" {
+                                Text("3 free scans daily")
+                                    .font(.caption)
+                                    .foregroundColor(.white.opacity(0.85))
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 4)
+                                    .background(Color.white.opacity(0.15))
+                                    .cornerRadius(10)
+                            }
+                            
                             // Title and description
                             VStack(spacing: 16) {
-                                Text(feature.title)
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.white)
-                                    .multilineTextAlignment(.center)
+                                if feature.title == "AI Nutrition Assistant" {
+                                    Text("⭐ PREMIUM · AI Nutrition Assistant")
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.white)
+                                        .multilineTextAlignment(.center)
+                                } else {
+                                    Text(feature.title)
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.white)
+                                        .multilineTextAlignment(.center)
+                                }
                                 
                                 Text(feature.description)
                                     .font(.body)
                                     .foregroundColor(.white.opacity(0.9))
                                     .multilineTextAlignment(.center)
                                     .padding(.horizontal, 40)
+                                
+                                if feature.title == "Snap Food" {
+                                    Text("Upgrade for unlimited scanning")
+                                        .font(.caption)
+                                        .foregroundColor(.white.opacity(0.85))
+                                }
+                                if feature.title == "AI Nutrition Assistant" {
+                                    Text("Included with premium subscription")
+                                        .font(.caption)
+                                        .foregroundColor(.white.opacity(0.85))
+                                }
+                                if feature.title == "Food Search" {
+                                    Text("Advanced search filters available with premium")
+                                        .font(.caption)
+                                        .foregroundColor(.white.opacity(0.85))
+                                }
+                            }
+                            
+                            Spacer()
+                            
+                            if feature.title == "Premium Features" {
+                                VStack(spacing: 10) {
+                                    Text("Unlock the full MacroAI experience")
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                        .multilineTextAlignment(.center)
+                                        .padding(.horizontal, 24)
+                                    
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        Text("✨ Unlimited AI food scanning")
+                                        Text("🥑 Advanced diet plans (Keto, Mediterranean, High-Protein)")
+                                        Text("🎨 Premium themes & customization")
+                                        Text("📊 Detailed progress analytics")
+                                        Text("📈 Macro trend analysis")
+                                        Text("🍽️ AI meal planning suggestions")
+                                        Text("📱 Data export capabilities")
+                                    }
+                                    .font(.subheadline)
+                                    .foregroundColor(.white.opacity(0.9))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.horizontal, 24)
+                                    
+                                    Text("7-Day Free Trial • Cancel Anytime")
+                                        .font(.caption)
+                                        .foregroundColor(.white.opacity(0.85))
+                                    
+                                    HStack(spacing: 12) {
+                                        Button("Start Free Trial") {
+                                            Analytics.onboardingPaywallShown()
+                                            NotificationCenter.default.post(name: NSNotification.Name("ShowPaywallOnboarding"), object: nil)
+                                            PaywallState.shared.hasShownOnboardingPaywallThisSession = true
+                                        }
+                                        .buttonStyle(.borderedProminent)
+                                        
+                                        Button("Continue with Free Version") {
+                                            // Continue without triggering paywall
+                                        }
+                                        .buttonStyle(.bordered)
+                                    }
+                                }
                             }
                             
                             Spacer()
