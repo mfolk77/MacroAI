@@ -98,6 +98,22 @@ struct MacroAIApp: App {
                             setupAPIKeys()
                         }
                 }
+                
+                // Paywall overlay (only shown when explicitly triggered)
+                if showPaywall {
+                    AnnoyingPaywallView(isPresented: $showPaywall)
+                        .modelContainer(modelContainer) // Use centralized ModelContainer
+                        .environmentObject(premiumManager)
+                        .environmentObject(storeKitManager)
+                        .environmentObject(themeManager)
+                        .environmentObject(marketplaceManager)
+                        .environmentObject(dietManager)
+                        .environmentObject(subscriptionManager)
+                        .preferredColorScheme(colorScheme) // Apply the selected color scheme
+                }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ShowPaywallDueToDailyLimit"))) { _ in
+                showPaywall = true
             }
             .onAppear {
                 Analytics.lifecycle("launch")
@@ -121,22 +137,6 @@ struct MacroAIApp: App {
             }
             .onChange(of: isOnboardingComplete) { _, newValue in
                 print("🔄 [MacroAIApp] isOnboardingComplete changed to: \(newValue)")
-            }
-            
-            // Paywall overlay (only shown when explicitly triggered)
-            if showPaywall {
-                AnnoyingPaywallView(isPresented: $showPaywall)
-                    .modelContainer(modelContainer) // Use centralized ModelContainer
-                    .environmentObject(premiumManager)
-                    .environmentObject(storeKitManager)
-                    .environmentObject(themeManager)
-                    .environmentObject(marketplaceManager)
-                    .environmentObject(dietManager)
-                    .environmentObject(subscriptionManager)
-                    .preferredColorScheme(colorScheme) // Apply the selected color scheme
-            }
-            .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ShowPaywallDueToDailyLimit"))) { _ in
-                showPaywall = true
             }
         }
     }

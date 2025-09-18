@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 final class UserSubscriptionManager: ObservableObject {
     static let shared = UserSubscriptionManager()

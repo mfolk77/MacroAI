@@ -8,10 +8,18 @@ struct ChatView: View {
     @State private var isTyping = false
     @State private var showingPaywall = false
     @State private var lastMessageTime = Date()
+    @StateObject private var chatService = AIChatService.shared
     
     var body: some View {
         NavigationView {
             VStack {
+                // Fallback notice when Apple model is unavailable
+                if chatService.isUsingAppleModel == false {
+                    Text("Using OpenAI due to device/OS compatibility")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .padding(.top, 4)
+                }
                 // Show upgrade prompt for Basic tier (chat locked)
                 if !subscriptionManager.currentTier.hasChatAccess {
                     upgradePromptBanner
@@ -72,7 +80,6 @@ struct ChatView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Upgrade") {
-                        Analytics.paywallTriggered(source: "chat_toolbar", feature: "upgrade_button")
                         showingPaywall = true
                     }
                     .opacity(subscriptionManager.currentTier == .basic ? 1 : 0)
@@ -88,11 +95,6 @@ struct ChatView: View {
         .sheet(isPresented: $showingPaywall) {
             PaywallView()
         }
-        .onChange(of: showingPaywall) { _, newValue in
-            if newValue {
-                Analytics.paywallTriggered(source: "chat", feature: "paywall_sheet")
-            }
-        }
     }
     
     private var upgradePromptBanner: some View {
@@ -104,7 +106,6 @@ struct ChatView: View {
                     .font(.headline)
                 Spacer()
                 Button("Upgrade") {
-                    Analytics.paywallTriggered(source: "chat_banner", feature: "upgrade_prompt")
                     showingPaywall = true
                 }
                 .buttonStyle(.borderedProminent)
@@ -129,6 +130,9 @@ struct ChatView: View {
                 .font(.caption)
                 .foregroundColor(.secondary)
             Spacer()
+            Text(chatService.isUsingAppleModel ? "Apple Model" : "OpenAI")
+                .font(.caption.bold())
+                .foregroundColor(.secondary)
             Text(subscriptionManager.currentTier.displayName)
                 .font(.caption.bold())
                 .foregroundColor(.blue)
@@ -228,8 +232,8 @@ struct ChatView: View {
         // Show typing indicator
         isTyping = true
         
-        // Try real AI first, fall back to mock if no API key
-        OpenAIAPI.nutritionChat(userMessage: currentMessage, subscriptionManager: subscriptionManager) { result in
+        // Prefer Apple model, fallback to OpenAI automatically
+        AIChatService.shared.chat(userMessage: currentMessage) { result in
             DispatchQueue.main.async {
                 isTyping = false
                 
