@@ -6,9 +6,11 @@
 
 import SwiftUI
 import SwiftData
+import Foundation
 
 @main
 struct MacroAIApp: App {
+    @Environment(\.scenePhase) private var scenePhase
     // Centralized ModelContainer to prevent data corruption
     let modelContainer: ModelContainer
     
@@ -25,12 +27,15 @@ struct MacroAIApp: App {
     }
     
     init() {
+        // Register custom value transformers for SwiftData
+        ValueTransformer.setValueTransformer(StringArrayTransformer(), forName: NSValueTransformerName("StringArrayTransformer"))
+        
         do {
             // Create a single ModelContainer for the entire app
             let schema = Schema([
-                MacroEntry.self,
-                Recipe.self,
-                NutritionCacheEntry.self
+                MacroEntry.self as any PersistentModel.Type,
+                Recipe.self as any PersistentModel.Type,
+                NutritionCacheEntry.self as any PersistentModel.Type
             ])
             let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
             modelContainer = try ModelContainer(for: schema, configurations: [modelConfiguration])
@@ -92,6 +97,21 @@ struct MacroAIApp: App {
                             // Setup production API keys
                             setupAPIKeys()
                         }
+                }
+            }
+            .onAppear {
+                Analytics.lifecycle("launch")
+            }
+            .onChange(of: scenePhase) { _, phase in
+                switch phase {
+                case .active:
+                    Analytics.lifecycle("foreground")
+                case .inactive:
+                    Analytics.lifecycle("inactive")
+                case .background:
+                    Analytics.lifecycle("background")
+                @unknown default:
+                    break
                 }
             }
             .onAppear {

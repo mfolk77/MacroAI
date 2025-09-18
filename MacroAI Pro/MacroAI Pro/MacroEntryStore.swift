@@ -4,7 +4,7 @@ import Foundation
 import SwiftData
 import SwiftUI
 import UIKit
-internal import Combine
+import Combine
 
 final class MacroEntryStore: ObservableObject {
     var modelContext: ModelContext
@@ -186,6 +186,11 @@ final class MacroEntryStore: ObservableObject {
             
             print("✅ [MacroEntryStore] Added entry: \(entry.foodName) - \(entry.calories) cal")
             print("📊 [MacroEntryStore] Updated today's totals: \(todaysTotals)")
+
+            Analytics.featureUse("food_log", action: "add", context: [
+                "name": entry.foodName,
+                "cal": String(entry.calories)
+            ])
             
             // Sync to HealthKit (now free for all users)
             await HealthKitManager.shared.writeMealToHealthKit(entry)

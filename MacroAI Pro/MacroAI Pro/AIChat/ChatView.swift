@@ -31,7 +31,7 @@ struct ChatView: View {
                         }
                         .padding()
                     }
-                    .onChange(of: messages.count) { _, _ in
+                    .onChange(of: messages.count) { _ in
                         withAnimation(.easeInOut(duration: 0.3)) {
                             proxy.scrollTo(messages.last?.id, anchor: .bottom)
                         }
@@ -133,17 +133,13 @@ struct ChatView: View {
     private func addWelcomeMessage() {
         let welcomeText: String
         
-        if subscriptionManager.isTestFlightUser {
-            welcomeText = "Hi! I'm your MacroAI assistant with full AI capabilities. I can help you with nutrition questions, meal suggestions, and macro tracking tips. What would you like to know?"
-        } else {
-            switch subscriptionManager.currentTier {
-            case .basic:
-                welcomeText = "Hi! I'm your MacroAI assistant. Chat is locked for free users - upgrade to Pro or Elite to unlock AI conversations. You can still use camera scanning (5/hour, 10/day limit)!"
-            case .pro:
-                welcomeText = "Hi! I'm your MacroAI Pro assistant. You have \(subscriptionManager.getRemainingChatRequests()) this month. I can help with nutrition questions, meal suggestions, and macro tracking tips. What would you like to know?"
-            case .elite:
-                welcomeText = "Hi! I'm your MacroAI Elite assistant with unlimited AI access. I can help with advanced nutrition analysis, meal optimization, and personalized macro guidance. What would you like to know?"
-            }
+        switch subscriptionManager.currentTier {
+        case .basic:
+            welcomeText = "Hi! I'm your MacroAI assistant. Chat is locked for free users - upgrade to Pro or Elite to unlock AI conversations. You can still use camera scanning (5/hour, 10/day limit)!"
+        case .pro:
+            welcomeText = "Hi! I'm your MacroAI Pro assistant. You have \(subscriptionManager.getRemainingChatRequests()) this month. I can help with nutrition questions, meal suggestions, and macro tracking tips. What would you like to know?"
+        case .elite:
+            welcomeText = "Hi! I'm your MacroAI Elite assistant with unlimited AI access. I can help with advanced nutrition analysis, meal optimization, and personalized macro guidance. What would you like to know?"
         }
         
         let welcomeMessage = ChatMessage(

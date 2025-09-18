@@ -3,7 +3,7 @@
 import Foundation
 import HealthKit
 import SwiftUI
-internal import Combine
+import Combine
 
 @MainActor
 class HealthKitManager: ObservableObject {

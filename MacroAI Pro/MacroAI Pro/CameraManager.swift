@@ -5,7 +5,7 @@ import Foundation
 @preconcurrency import AVFoundation
 import UIKit
 @preconcurrency import Vision
-internal import Combine
+import Combine
 
 @MainActor
 class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -35,7 +35,6 @@ class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleB
     
     override init() {
         super.init()
-        configureCaptureSession()
         setupBarcodeDetection()
         
         // Check initial permission status
@@ -268,6 +267,12 @@ class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleB
     }
     
     nonisolated private func configurePhotoOutput() {
+        // Safety check: ensure photo output is properly set up
+        guard photoOutput.connection(with: .video) != nil else {
+            print("⚠️ CameraManager: Photo output not properly connected, skipping configuration")
+            return
+        }
+        
         // Use maxPhotoDimensions instead of deprecated isHighResolutionCaptureEnabled
         let maxDimensions = CMVideoDimensions(width: 4032, height: 3024) // High resolution
         photoOutput.maxPhotoDimensions = maxDimensions

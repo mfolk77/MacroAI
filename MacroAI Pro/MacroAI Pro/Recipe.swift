@@ -2,15 +2,17 @@
 // Recipe management system with Spoonacular integration
 import Foundation
 import SwiftData
-internal import Combine
+import Combine
 import SwiftUI
 
 @Model
 class Recipe {
     @Attribute(.unique) var id: UUID
     var name: String
-    var ingredients: [String]
-    var instructions: [String]
+    @Attribute(.transformable(by: StringArrayTransformer.self))
+    var ingredients: [String]?
+    @Attribute(.transformable(by: StringArrayTransformer.self))
+    var instructions: [String]?
     var servings: Int
     var prepTimeMinutes: Int?
     var cookTimeMinutes: Int?
@@ -25,7 +27,8 @@ class Recipe {
     var dateCreated: Date
     var lastUsed: Date?
     var useCount: Int
-    var tags: [String] // e.g., ["vegetarian", "quick", "healthy"]
+    @Attribute(.transformable(by: StringArrayTransformer.self))
+    var tags: [String]? // e.g., ["vegetarian", "quick", "healthy"]
     var notes: String?
     var imageData: Data?
     
@@ -36,8 +39,8 @@ class Recipe {
     init(
         id: UUID = UUID(),
         name: String,
-        ingredients: [String] = [],
-        instructions: [String] = [],
+        ingredients: [String]? = [],
+        instructions: [String]? = [],
         servings: Int = 1,
         prepTimeMinutes: Int? = nil,
         cookTimeMinutes: Int? = nil,
@@ -47,7 +50,7 @@ class Recipe {
         fatsPerServing: Int,
         dateCreated: Date = Date(),
         useCount: Int = 0,
-        tags: [String] = [],
+        tags: [String]? = [],
         notes: String? = nil,
         imageData: Data? = nil,
         source: RecipeSource = .userCreated,
@@ -84,11 +87,11 @@ class Recipe {
     }
     
     var formattedIngredients: String {
-        ingredients.joined(separator: "\n")
+        (ingredients ?? []).joined(separator: "\n")
     }
     
     var formattedInstructions: String {
-        instructions.enumerated().map { item in "\\(item.offset + 1). \\(item.element)" }.joined(separator: "\n\n")
+        (instructions ?? []).enumerated().map { item in "\\(item.offset + 1). \\(item.element)" }.joined(separator: "\n\n")
     }
 }
 
@@ -210,8 +213,8 @@ class RecipeManager: ObservableObject {
         
         return recipes.filter { recipe in
             recipe.name.localizedCaseInsensitiveContains(query) ||
-            recipe.ingredients.joined().localizedCaseInsensitiveContains(query) ||
-            recipe.tags.joined().localizedCaseInsensitiveContains(query)
+            (recipe.ingredients ?? []).joined().localizedCaseInsensitiveContains(query) ||
+            (recipe.tags ?? []).joined().localizedCaseInsensitiveContains(query)
         }
     }
     
@@ -341,4 +344,27 @@ extension Recipe {
             )
         ]
     }
-} 
+}
+
+// MARK: - Value Transformers for SwiftData
+
+@available(iOS 17, *)
+final class StringArrayTransformer: ValueTransformer {
+    override class func transformedValueClass() -> AnyClass {
+        return NSData.self
+    }
+    
+    override class func allowsReverseTransformation() -> Bool {
+        return true
+    }
+    
+    override func transformedValue(_ value: Any?) -> Any? {
+        guard let array = value as? [String] else { return nil }
+        return try? JSONEncoder().encode(array)
+    }
+    
+    override func reverseTransformedValue(_ value: Any?) -> Any? {
+        guard let data = value as? Data else { return nil }
+        return try? JSONDecoder().decode([String].self, from: data)
+    }
+}

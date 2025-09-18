@@ -6,7 +6,7 @@
 import Foundation
 import StoreKit
 import SwiftUI
-internal import Combine
+import Combine
 
 @MainActor
 class MarketplaceManager: ObservableObject {
@@ -94,11 +94,6 @@ class MarketplaceManager: ObservableObject {
     // MARK: - Access Control
     
     func canAccess(dietPack: DietPack) -> Bool {
-        // TestFlight users get everything
-        if subscriptionManager.isTestFlightUser {
-            return true
-        }
-        
         // Check if already purchased
         if purchaseState.owns(dietPack: dietPack) {
             return true
@@ -118,11 +113,6 @@ class MarketplaceManager: ObservableObject {
     }
     
     func canAccess(themePack: ThemePack) -> Bool {
-        // TestFlight users get everything
-        if subscriptionManager.isTestFlightUser {
-            return true
-        }
-        
         // Check if already purchased
         if purchaseState.owns(themePack: themePack) {
             return true
@@ -408,7 +398,7 @@ class MarketplaceManager: ObservableObject {
                 ),
                 iconName: "gift.fill",
                 category: .seasonal,
-                pricing: .seasonal(price: 4.99, productID: "com.FolkTechAI.MacroAI.christmas2024", season: .christmas),
+                pricing: .seasonal(price: 4.99, productID: "christmas_diet_2024", season: .christmas),
                 benefits: ["Holiday meal planning", "Festive recipes", "Guilt-free celebrations"],
                 sampleMeals: ["Healthy eggnog protein shake", "Turkey with smart sides", "Christmas cookie alternatives"],
                 isActive: true,
@@ -429,7 +419,7 @@ class MarketplaceManager: ObservableObject {
                 ),
                 iconName: "sun.max.fill",
                 category: .seasonal,
-                pricing: .seasonal(price: 4.99, productID: "com.FolkTechAI.MacroAI.summerbeachbody2024", season: .fourthOfJuly),
+                pricing: .seasonal(price: 4.99, productID: "summer_beach_body_2024", season: .fourthOfJuly),
                 benefits: ["Hydrating foods", "Light summer meals", "Beach-ready nutrition", "Fresh seasonal produce"],
                 sampleMeals: ["Watermelon & feta salad", "Grilled fish tacos", "Coconut smoothie bowl", "Cold gazpacho soup"],
                 isActive: true,
@@ -450,7 +440,7 @@ class MarketplaceManager: ObservableObject {
                 ),
                 iconName: "turkey.imageset",
                 category: .seasonal,
-                pricing: .seasonal(price: 3.99, productID: "com.FolkTechAI.MacroAI.thanksgivingprep2024", season: .thanksgiving),
+                pricing: .seasonal(price: 3.99, productID: "thanksgiving_prep_2024", season: .thanksgiving),
                 benefits: ["Holiday meal strategies", "Portion control tips", "Mindful eating practices", "Post-feast recovery"],
                 sampleMeals: ["Lighter breakfast pre-feast", "Veggie-heavy lunch", "Strategic Thanksgiving plate", "Recovery smoothie"],
                 isActive: true,
@@ -471,7 +461,7 @@ class MarketplaceManager: ObservableObject {
                 ),
                 iconName: "sparkles",
                 category: .seasonal,
-                pricing: .seasonal(price: 5.99, productID: "com.FolkTechAI.MacroAI.newyearreset2024", season: .newyear),
+                pricing: .seasonal(price: 5.99, productID: "new_year_reset_2024", season: .newyear),
                 benefits: ["Detox support", "Energy boosting foods", "Habit reset strategies", "Clean eating focus"],
                 sampleMeals: ["Green detox smoothie", "Quinoa power bowl", "Herbal tea blends", "Veggie-packed stir fry"],
                 isActive: true,
@@ -489,7 +479,7 @@ class MarketplaceManager: ObservableObject {
                 name: "Easter Joy",
                 description: "Celebrate Easter with pastel colors and spring renewal",
                 season: .easter,
-                pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.eastertheme2024", season: .easter),
+                pricing: .seasonal(price: 2.99, productID: "theme_pack_easterjoy", season: .easter),
                 theme: MarketplaceTheme(
                     primaryColor: ColorData(red: 0.9, green: 0.7, blue: 0.9), // Soft Pink
                     secondaryColor: ColorData(red: 0.7, green: 0.9, blue: 0.7), // Soft Green
@@ -514,7 +504,7 @@ class MarketplaceManager: ObservableObject {
                 name: "Love Bites",
                 description: "Romantic reds and pinks for the season of love",
                 season: .valentines,
-                pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.valentinestheme2024", season: .valentines),
+                pricing: .seasonal(price: 2.99, productID: "theme_pack_lovebites", season: .valentines),
                 theme: MarketplaceTheme(
                     primaryColor: ColorData(red: 0.9, green: 0.2, blue: 0.3), // Romantic Red
                     secondaryColor: ColorData(red: 1.0, green: 0.6, blue: 0.8), // Soft Pink
@@ -539,7 +529,7 @@ class MarketplaceManager: ObservableObject {
                 name: "Christmas Magic",
                 description: "Celebrate the holidays with classic red and green Christmas colors",
                 season: .christmas,
-                pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.christmastheme2024", season: .christmas),
+                pricing: .seasonal(price: 2.99, productID: "theme_pack_christmasmagic", season: .christmas),
                 theme: MarketplaceTheme(
                     primaryColor: ColorData(red: 0.8, green: 0.1, blue: 0.1), // Christmas Red
                     secondaryColor: ColorData(red: 0.0, green: 0.5, blue: 0.0), // Christmas Green
@@ -564,7 +554,7 @@ class MarketplaceManager: ObservableObject {
                 name: "Festival of Lights",
                 description: "Celebrate Hanukkah with the warm glow of the menorah",
                 season: .hanukkah,
-                pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.hanukkahtheme2024", season: .hanukkah),
+                pricing: .seasonal(price: 2.99, productID: "theme_pack_festivaloflights", season: .hanukkah),
                 theme: MarketplaceTheme(
                     primaryColor: ColorData(red: 0.0, green: 0.4, blue: 0.8), // Hanukkah Blue
                     secondaryColor: ColorData(red: 0.75, green: 0.75, blue: 0.75), // Silver
@@ -589,7 +579,7 @@ class MarketplaceManager: ObservableObject {
                 name: "Yule",
                 description: "Celebrate the longest night with Yule traditions",
                 season: .yule,
-                pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.yuletheme2024", season: .yule),
+                pricing: .seasonal(price: 2.99, productID: "theme_pack_yule", season: .yule),
                 theme: MarketplaceTheme(
                     primaryColor: ColorData(red: 0.1, green: 0.3, blue: 0.5), // Deep Winter Blue
                     secondaryColor: ColorData(red: 0.8, green: 0.6, blue: 0.4), // Warm Wood
@@ -616,7 +606,7 @@ class MarketplaceManager: ObservableObject {
                 name: "Spooky Treats",
                 description: "Halloween magic with pumpkin oranges and spooky purples",
                 season: .halloween,
-                pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.halloweentheme2024", season: .halloween),
+                pricing: .seasonal(price: 2.99, productID: "theme_pack_spookytreats", season: .halloween),
                 theme: MarketplaceTheme(
                     primaryColor: ColorData(red: 1.0, green: 0.4, blue: 0.0), // Pumpkin Orange
                     secondaryColor: ColorData(red: 0.4, green: 0.1, blue: 0.6), // Spooky Purple
@@ -641,7 +631,7 @@ class MarketplaceManager: ObservableObject {
                 name: "Thanksgiving Harvest",
                 description: "Celebrate gratitude with warm autumn harvest colors",
                 season: .thanksgiving,
-                pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.thanksgivingtheme2024", season: .thanksgiving),
+                pricing: .seasonal(price: 2.99, productID: "theme_pack_thanksgivingharvest", season: .thanksgiving),
                 theme: MarketplaceTheme(
                     primaryColor: ColorData(red: 0.8, green: 0.4, blue: 0.1), // Pumpkin Orange
                     secondaryColor: ColorData(red: 0.6, green: 0.3, blue: 0.1), // Brown
@@ -666,7 +656,7 @@ class MarketplaceManager: ObservableObject {
                 name: "Lucky Greens",
                 description: "Find your pot of nutritional gold with Irish greens and shamrock magic",
                 season: .stPatricks,
-                pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.stpatrickstheme2024", season: .stPatricks),
+                pricing: .seasonal(price: 2.99, productID: "theme_pack_luckygreens", season: .stPatricks),
                 theme: MarketplaceTheme(
                     primaryColor: ColorData(red: 0.0, green: 0.6, blue: 0.0), // Irish Green
                     secondaryColor: ColorData(red: 0.0, green: 0.4, blue: 0.0), // Forest Green
@@ -691,7 +681,7 @@ class MarketplaceManager: ObservableObject {
                 name: "Pride Celebration",
                 description: "Celebrate diversity and inclusion with vibrant rainbow colors",
                 season: .pride,
-                pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.pridetheme2024", season: .pride),
+                pricing: .seasonal(price: 2.99, productID: "theme_pack_pridecelebration", season: .pride),
                 theme: MarketplaceTheme(
                     primaryColor: ColorData(red: 1.0, green: 0.0, blue: 0.0), // Rainbow Red
                     secondaryColor: ColorData(red: 0.0, green: 0.0, blue: 1.0), // Rainbow Blue
@@ -716,7 +706,7 @@ class MarketplaceManager: ObservableObject {
                 name: "New Year Sparkle",
                 description: "Ring in the new year with glittering gold and silver sparkles",
                 season: .newyear,
-                pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.newyeartheme2024", season: .newyear),
+                pricing: .seasonal(price: 2.99, productID: "theme_pack_newyearsparkle", season: .newyear),
                 theme: MarketplaceTheme(
                     primaryColor: ColorData(red: 1.0, green: 0.8, blue: 0.0), // Gold
                     secondaryColor: ColorData(red: 0.8, green: 0.8, blue: 0.9), // Silver
@@ -741,7 +731,7 @@ class MarketplaceManager: ObservableObject {
                 name: "Spring Bloom",
                 description: "Welcome spring with cherry blossom pinks and fresh greens",
                 season: .spring,
-                pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.springtheme2024", season: .spring),
+                pricing: .seasonal(price: 2.99, productID: "theme_pack_springbloom", season: .spring),
                 theme: MarketplaceTheme(
                     primaryColor: ColorData(red: 1.0, green: 0.7, blue: 0.8), // Cherry Blossom Pink
                     secondaryColor: ColorData(red: 0.7, green: 0.9, blue: 0.7), // Fresh Green
@@ -766,7 +756,7 @@ class MarketplaceManager: ObservableObject {
                 name: "Summer Beach",
                 description: "Feel the ocean breeze with beach colors and tropical vibes",
                 season: .summer,
-                pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.summerbeachtheme2024", season: .summer),
+                pricing: .seasonal(price: 2.99, productID: "theme_pack_summerbeach", season: .summer),
                 theme: MarketplaceTheme(
                     primaryColor: ColorData(red: 0.2, green: 0.6, blue: 0.9), // Ocean Blue
                     secondaryColor: ColorData(red: 0.9, green: 0.8, blue: 0.6), // Sand Beige
@@ -791,7 +781,7 @@ class MarketplaceManager: ObservableObject {
                 name: "Autumn Harvest",
                 description: "Embrace fall with rich autumn colors and golden leaves",
                 season: .fall,
-                pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.falltheme2024", season: .fall),
+                pricing: .seasonal(price: 2.99, productID: "theme_pack_autumnharvest", season: .fall),
                 theme: MarketplaceTheme(
                     primaryColor: ColorData(red: 0.8, green: 0.4, blue: 0.1), // Pumpkin Orange
                     secondaryColor: ColorData(red: 0.6, green: 0.3, blue: 0.1), // Brown
@@ -816,7 +806,7 @@ class MarketplaceManager: ObservableObject {
                 name: "Winter Wonderland",
                 description: "Experience the magic of winter with frosty blues and warm whites",
                 season: .winter,
-                pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.wintertheme2024", season: .winter),
+                pricing: .seasonal(price: 2.99, productID: "theme_pack_winterwonderland", season: .winter),
                 theme: MarketplaceTheme(
                     primaryColor: ColorData(red: 0.7, green: 0.8, blue: 1.0), // Frost Blue
                     secondaryColor: ColorData(red: 1.0, green: 1.0, blue: 1.0), // Snow White
@@ -841,7 +831,7 @@ class MarketplaceManager: ObservableObject {
                 name: "Freedom Feast",
                 description: "Celebrate America with patriotic red, white, and blue colors plus victory fireworks!",
                 season: .fourthOfJuly,
-                pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.july4ththeme2024", season: .fourthOfJuly),
+                pricing: .seasonal(price: 2.99, productID: "theme_pack_freedomfeast", season: .fourthOfJuly),
                 theme: MarketplaceTheme(
                     primaryColor: ColorData(red: 0.8, green: 0.1, blue: 0.1), // Patriotic Red
                     secondaryColor: ColorData(red: 0.1, green: 0.2, blue: 0.8), // Freedom Blue

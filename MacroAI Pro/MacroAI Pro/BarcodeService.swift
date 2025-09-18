@@ -2,7 +2,7 @@
 // Service for barcode lookup and nutrition data retrieval
 
 import Foundation
-internal import Combine
+import Combine
 
 @MainActor
 class BarcodeService: ObservableObject {

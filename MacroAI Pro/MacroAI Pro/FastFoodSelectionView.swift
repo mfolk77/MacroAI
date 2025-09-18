@@ -153,12 +153,16 @@ struct FastFoodSelectionView: View {
 }
 
 #Preview {
-    FastFoodSelectionView(
-        macroEntryStore: MacroEntryStore(modelContext: try! ModelContainer(for: MacroEntry.self).mainContext),
-        macroAIManager: MacroAIManager(
-            foodVision: MockFoodVisionService(),
-            nutrition: MockNutritionService(),
-            barcode: BarcodeService(nutritionService: MockNutritionService())
+    if #available(iOS 17, *) {
+        FastFoodSelectionView(
+            macroEntryStore: MacroEntryStore(modelContext: try! ModelContainer(for: MacroEntry.self).mainContext),
+            macroAIManager: MacroAIManager(
+                foodVision: MockFoodVisionService(),
+                nutrition: MockNutritionService(),
+                barcode: BarcodeService(nutritionService: MockNutritionService())
+            )
         )
-    )
+    } else {
+        Text("Preview requires iOS 17 or newer")
+    }
 }

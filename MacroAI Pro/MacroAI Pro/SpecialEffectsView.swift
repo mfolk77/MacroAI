@@ -824,23 +824,8 @@ struct SpecialEffectsView: View {
     
     private var defaultCelebration: some View {
         VStack(spacing: 20) {
-            // Default sparkles
-            ZStack {
-                ForEach(0..<5, id: \.self) { index in
-                    Image(systemName: "sparkles")
-                        .font(.system(size: 60))
-                        .foregroundColor(.yellow)
-                        .scaleEffect(bounceScale)
-                        .offset(
-                            x: CGFloat(index * 25 - 50),
-                            y: CGFloat(index * 15 - 30)
-                        )
-                        .rotationEffect(.degrees(spinRotation))
-                }
-            }
-            .onAppear {
-                startDefaultAnimations()
-            }
+            // Sparkles removed - too distracting per requirements
+            EmptyView()
             
             Text("🎉 CONGRATULATIONS! 🎉")
                 .font(.title)

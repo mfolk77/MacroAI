@@ -6,6 +6,7 @@ import UIKit
 @MainActor
 final class ServiceFactory {
     
+    @MainActor
     enum ServiceError: Error, LocalizedError {
         case missingOpenAIKey
         case missingSpoonacularKey

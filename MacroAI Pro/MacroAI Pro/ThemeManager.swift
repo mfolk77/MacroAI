@@ -2,7 +2,7 @@
 // Manages seasonal themes and premium theme packs
 import Foundation
 import SwiftUI
-internal import Combine
+import Combine
 
 struct AppTheme: Codable, Identifiable, Equatable {
     let id: String
@@ -377,6 +377,7 @@ class ThemeManager: ObservableObject {
         self.currentTheme = theme
         saveTheme()
         print("✅ [ThemeManager] Selected theme: \(theme.name)")
+        Analytics.featureUse("theme", action: "change", context: ["new": theme.name])
     }
     
     private func saveTheme() {
@@ -518,6 +519,19 @@ class ThemeManager: ObservableObject {
     var proteinIcon: String { currentTheme.foodIcons.protein }
     var carbsIcon: String { currentTheme.foodIcons.carbs }
     var fatsIcon: String { currentTheme.foodIcons.fats }
+    
+    // MARK: - Reset to Defaults
+    
+    func resetToDefaults() {
+        // Reset to default theme
+        currentTheme = availableThemes.first { $0.id == "default" } ?? availableThemes[0]
+        saveTheme()
+        
+        // Clear UserDefaults for theme-related data
+        userDefaults.removeObject(forKey: currentThemeKey)
+        
+        print("✅ [ThemeManager] Reset to defaults")
+    }
 }
 
 // MARK: - Extensions

@@ -6,7 +6,7 @@
 
 import Foundation
 import SwiftUI
-internal import Combine
+import Combine
 
 class PremiumManager: ObservableObject {
     @Published var isPremium = false

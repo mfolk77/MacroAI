@@ -29,6 +29,7 @@ struct HomeView: View {
     @State private var showingMarketplace = false
     @State private var showingSettings = false
     
+    
     // Fun interactive states
     @State private var isShaking = false
     @State private var macroScale: [String: Double] = ["protein": 1.0, "carbs": 1.0, "fats": 1.0]
@@ -44,8 +45,14 @@ struct HomeView: View {
     
     init() {
         // Initialize with a temporary context, will be set properly in onAppear
-        let tempContainer = try! ModelContainer(for: MacroEntry.self, Recipe.self, NutritionCacheEntry.self)
-        self._entryStore = StateObject(wrappedValue: MacroEntryStore(modelContext: tempContainer.mainContext))
+        do {
+            let tempContainer = try ModelContainer(for: MacroEntry.self, Recipe.self, NutritionCacheEntry.self)
+            self._entryStore = StateObject(wrappedValue: MacroEntryStore(modelContext: tempContainer.mainContext))
+        } catch {
+            // Fallback to a basic container if the main one fails
+            let fallbackContainer = try! ModelContainer(for: MacroEntry.self)
+            self._entryStore = StateObject(wrappedValue: MacroEntryStore(modelContext: fallbackContainer.mainContext))
+        }
     }
     
     var body: some View {
@@ -82,6 +89,7 @@ struct HomeView: View {
                 startBreathingAnimation()
                 updateMacroMood()
                 calculateDailyStreak()
+                Analytics.screenView("home")
             }
         }
         .sheet(isPresented: $showingAIChat) {
@@ -94,7 +102,12 @@ struct HomeView: View {
             ManualEntryView(entryStore: entryStore)
         }
         .sheet(isPresented: $showingAddFood) {
+            #if DEBUG
             UnifiedFoodSearchView(macroEntryStore: entryStore, macroAIManager: ServiceFactory.createMockMacroAIManager())
+            #else
+            let manager = (try? ServiceFactory.createMacroAIManager()) ?? ServiceFactory.createMockMacroAIManager()
+            UnifiedFoodSearchView(macroEntryStore: entryStore, macroAIManager: manager)
+            #endif
         }
         .sheet(isPresented: $showingRecipes) {
             RecipeListView(modelContext: modelContext, entryStore: entryStore, storeKit: storeKit)
@@ -109,6 +122,7 @@ struct HomeView: View {
         .sheet(isPresented: $showPaywall) {
             AnnoyingPaywallView(isPresented: $showPaywall)
         }
+        
     }
     
     // MARK: - Animated Background
@@ -430,9 +444,12 @@ struct HomeView: View {
                     showingAddFood = true
                     trackTierUsage()
                     updateStreak()
+                    Analytics.featureUse("food_search", action: "open")
                 },
                 effect: .magnify
             )
+            
+            
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 8) // Reduced from 10 to 8
@@ -492,6 +509,7 @@ struct HomeView: View {
             Button(action: { 
                 showingAIChat = true
                 updateStreak()
+                Analytics.featureUse("chat", action: "open")
             }) {
                 HStack {
                     Image(systemName: "message.fill")
@@ -563,19 +581,7 @@ struct HomeView: View {
         return min(percentage.isFinite ? percentage : 0.0, 200)
     }
     
-    // MARK: - Testing Functions (Remove in production)
-    
-    private func triggerTestCelebration() {
-        print("🎉 [HomeView] Triggering test celebration")
-        NotificationCenter.default.post(name: .triggerCelebration, object: nil)
-    }
-    
-    private func activatePrideTheme() {
-        print("🌈 [HomeView] Activating Pride theme manually")
-        if let prideTheme = themeManager.availableThemes.first(where: { $0.id == "pride_theme_2024" }) {
-            themeManager.selectTheme(prideTheme)
-        }
-    }
+    // MARK: - Helper Functions
     
     private func startBreathingAnimation() {
         Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { _ in
@@ -606,6 +612,18 @@ struct HomeView: View {
     private func triggerHapticFeedback(_ style: UIImpactFeedbackGenerator.FeedbackStyle) {
         let impactFeedback = UIImpactFeedbackGenerator(style: style)
         impactFeedback.impactOccurred()
+    }
+    
+    private func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter.string(from: date)
+    }
+    
+    private func formatTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
     }
     
     // MARK: - Computed Properties

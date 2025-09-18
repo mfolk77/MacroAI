@@ -27,9 +27,6 @@ struct PaywallView: View {
                     purchaseButton
                     aiCreditSection
                     
-                    if subscriptionManager.isTestFlightUser {
-                        testFlightBanner
-                    }
                 }
                 .padding()
             }
@@ -40,6 +37,7 @@ struct PaywallView: View {
                     Button("Close") { dismiss() }
                 }
             }
+            .onAppear { Analytics.screenView("paywall") }
         }
         .alert("Purchase Error", isPresented: $showingError) {
             Button("OK") { }
@@ -221,23 +219,32 @@ struct PaywallView: View {
     }
     
     private var purchaseButton: some View {
-        Button(action: purchase) {
-            HStack {
-                if isPurchasing {
-                    ProgressView()
-                        .scaleEffect(0.8)
-                } else {
-                    Text("Start 7-Day Free Trial")
-                        .fontWeight(.semibold)
+        VStack(spacing: 12) {
+            Button(action: purchase) {
+                HStack {
+                    if isPurchasing {
+                        ProgressView()
+                            .scaleEffect(0.8)
+                    } else {
+                        Text("Start 7-Day Free Trial")
+                            .fontWeight(.semibold)
+                    }
                 }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(.blue.gradient)
+                .foregroundColor(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
             }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(.blue.gradient)
-            .foregroundColor(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .disabled(isPurchasing)
+            
+            // Restore Purchases Button
+            Button(action: restorePurchases) {
+                Text("Restore Purchases")
+                    .font(.subheadline)
+                    .foregroundColor(.blue)
+            }
         }
-        .disabled(isPurchasing)
     }
     
     private var aiCreditSection: some View {
@@ -271,18 +278,7 @@ struct PaywallView: View {
         }
     }
     
-    private var testFlightBanner: some View {
-        VStack {
-            Text("🧪 TestFlight User")
-                .font(.headline)
-            Text("You have unlimited access to all features during testing")
-                .font(.caption)
-                .multilineTextAlignment(.center)
-        }
-        .padding()
-        .background(.orange.opacity(0.1))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-    }
+
     
     // MARK: - Purchase Actions
     
@@ -295,11 +291,16 @@ struct PaywallView: View {
                 guard let product = subscriptionManager.products.first(where: { $0.id == productID }) else {
                     throw StoreError.failedVerification
                 }
+                Analytics.purchaseAttempt(productId: product.id)
                 
                 try await subscriptionManager.purchase(product)
+                Analytics.purchaseResult(productId: product.id, status: "success")
                 dismiss()
                 
             } catch {
+                if let product = try? await Product.products(for: [isYearly ? selectedTier.productID : selectedTier.monthlyProductID]).first {
+                    Analytics.purchaseResult(productId: product.id, status: (error as? StoreError) == .userCancelled ? "cancel" : "failed")
+                }
                 errorMessage = error.localizedDescription
                 showingError = true
             }
@@ -318,6 +319,18 @@ struct PaywallView: View {
                 try await subscriptionManager.purchase(product)
                 dismiss()
                 
+            } catch {
+                errorMessage = error.localizedDescription
+                showingError = true
+            }
+        }
+    }
+    
+    private func restorePurchases() {
+        Task {
+            do {
+                try await subscriptionManager.restorePurchases()
+                dismiss()
             } catch {
                 errorMessage = error.localizedDescription
                 showingError = true

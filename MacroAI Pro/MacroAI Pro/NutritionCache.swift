@@ -8,6 +8,7 @@ import UIKit
 // MARK: - Nutrition Macros Structure
 // Note: NutritionMacros is defined in MacroAIManager.swift
 
+@available(iOS 17, *)
 @Model
 class NutritionCacheEntry {
     @Attribute(.unique) var id: UUID

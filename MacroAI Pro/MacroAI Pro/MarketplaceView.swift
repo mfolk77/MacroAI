@@ -41,6 +41,7 @@ struct MarketplaceView: View {
                     }
                 }
             }
+            .onAppear { Analytics.screenView("theme_picker") }
             .sheet(item: $selectedDietPack) { dietPack in
                 DietPackDetailView(
                     dietPack: dietPack,
@@ -91,9 +92,19 @@ struct MarketplaceView: View {
                     .foregroundColor(.green)
                     .font(.system(size: 16, weight: .semibold))
                 
-                Text("TestFlight: All content unlocked")
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(.green)
+                if subscriptionManager.currentTier == .elite {
+                    Text("Elite: All content unlocked")
+                        .font(.caption)
+                        .foregroundColor(.green)
+                } else if subscriptionManager.currentTier == .pro {
+                    Text("Pro: Most content unlocked")
+                        .font(.caption)
+                        .foregroundColor(.blue)
+                } else {
+                    Text("Basic: Limited content")
+                        .font(.caption)
+                        .foregroundColor(.orange)
+                }
                 
                 Spacer()
             }

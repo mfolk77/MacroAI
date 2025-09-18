@@ -129,16 +129,15 @@ struct MacroFillIconView: View {
                             .opacity(0.6 + overfillIntensity * 0.4)
                             .scaleEffect(1.0 + overfillIntensity * 0.05)
                         
-                        // Pulsing glow for severe overfill
+                        // Pulsing glow for severe overfill (blur removed for clarity)
                         if overfillIntensity > 0.5 {
                             Image(imageName)
                         .renderingMode(.original)
                                 .resizable()
                                 .scaledToFit()
                                 .foregroundStyle(.red)
-                                .opacity(0.3)
-                                .scaleEffect(1.1)
-                                .blur(radius: 3)
+                                .opacity(0.2)
+                                .scaleEffect(1.05)
                                 .animation(
                                     .easeInOut(duration: 0.8)
                                     .repeatForever(autoreverses: true),

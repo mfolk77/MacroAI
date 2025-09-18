@@ -97,7 +97,7 @@ struct CreateRecipeView: View {
             }
         }
         .photosPicker(isPresented: $showingPhotoPicker, selection: $selectedImage, matching: .images)
-        .onChange(of: selectedImage) { _, newValue in
+        .onChange(of: selectedImage) { _ in
             loadSelectedImage()
         }
     }
@@ -568,10 +568,10 @@ struct CreateRecipeView: View {
         servings = recipe.servings
         prepTime = recipe.prepTimeMinutes
         cookTime = recipe.cookTimeMinutes
-        ingredients = recipe.ingredients.isEmpty ? [""] : recipe.ingredients
-        instructions = recipe.instructions.isEmpty ? [""] : recipe.instructions
+                    ingredients = (recipe.ingredients ?? []).isEmpty ? [""] : (recipe.ingredients ?? [])
+        instructions = (recipe.instructions ?? []).isEmpty ? [""] : (recipe.instructions ?? [])
         notes = recipe.notes ?? ""
-        tags = recipe.tags
+        tags = recipe.tags ?? []
         
         calories = recipe.caloriesPerServing
         protein = recipe.proteinPerServing
@@ -705,9 +705,19 @@ struct NutritionField: View {
 }
 
 #Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Recipe.self, configurations: config)
-    let recipeManager = RecipeManager(modelContext: container.mainContext)
-    
-    CreateRecipeView(recipeManager: recipeManager)
+    if #available(iOS 17, *) {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: Recipe.self, configurations: config)
+        let recipeManager = RecipeManager(modelContext: container.mainContext)
+        return CreateRecipeView(recipeManager: recipeManager)
+    } else {
+        // Fallback for older iOS versions
+        Text("Preview only available for iOS 17+")
+            .foregroundColor(.secondary)
+            .padding()
+            .onAppear {
+                // Preview placeholder
+            }
+    }
 }
+

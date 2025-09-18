@@ -373,5 +373,5 @@ struct RecipeRowView: View {
     let entryStore = MacroEntryStore(modelContext: container.mainContext)
     let storeKit = StoreKitManager.shared
     
-    return RecipeListView(modelContext: container.mainContext, entryStore: entryStore, storeKit: storeKit)
+    RecipeListView(modelContext: container.mainContext, entryStore: entryStore, storeKit: storeKit)
 } 

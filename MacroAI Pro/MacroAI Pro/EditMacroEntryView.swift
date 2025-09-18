@@ -37,9 +37,9 @@ struct EditMacroEntryView: View {
         
         // Initialize serving size state
         _servingSize = State(initialValue: entry.servingSize)
-        _servingSizeType = State(initialValue: entry.servingSizeType)
+        _servingSizeType = State(initialValue: entry.servingSizeType ?? .whole)
         _baseServingSize = State(initialValue: entry.baseServingSize)
-        _baseServingSizeType = State(initialValue: entry.baseServingSizeType)
+        _baseServingSizeType = State(initialValue: entry.baseServingSizeType ?? .whole)
     }
     
     var body: some View {
@@ -498,16 +498,19 @@ struct QuickFixButton: View {
 // MARK: - Preview
 
 #Preview {
-    let sampleEntry = MacroEntry(
-        name: "Chicken Sandwich",
-        calories: 1, // Wrong value to demonstrate editing
-        protein: 1,  // Wrong value
-        carbs: 30,
-        fats: 0      // Wrong value
-    )
-    
-    let container = try! ModelContainer(for: MacroEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-    let store = MacroEntryStore(modelContext: container.mainContext)
-    
-    EditMacroEntryView(entry: sampleEntry, macroEntryStore: store)
-} 
+    if #available(iOS 17, *) {
+        let sampleEntry = MacroEntry(
+            name: "Chicken Sandwich",
+            calories: 1, // Wrong value to demonstrate editing
+            protein: 1,  // Wrong value
+            carbs: 30,
+            fats: 0      // Wrong value
+        )
+        let container = try! ModelContainer(for: MacroEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+        let store = MacroEntryStore(modelContext: container.mainContext)
+        EditMacroEntryView(entry: sampleEntry, macroEntryStore: store)
+    } else {
+        Text("Preview requires iOS 17 or newer.")
+            .padding()
+    }
+}

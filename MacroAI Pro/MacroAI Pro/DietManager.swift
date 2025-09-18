@@ -2,7 +2,7 @@
 // Manages diet configurations and premium diet packs
 import Foundation
 import SwiftUI
-internal import Combine
+import Combine
 
 struct Diet: Codable, Identifiable {
     let id: String
@@ -247,6 +247,7 @@ class DietManager: ObservableObject {
         updateMacroTargets()
         
         print("✅ [DietManager] Selected diet: \(diet.name)")
+        Analytics.featureUse("diet", action: "change", context: ["new": diet.name])
     }
     
     private func saveDiet() {
@@ -310,6 +311,23 @@ class DietManager: ObservableObject {
         } else {
             return availableDiets.filter { !$0.isPremium }
         }
+    }
+    
+    // MARK: - Reset to Defaults
+    
+    func resetToDefaults() {
+        // Reset to standard diet
+        currentDiet = availableDiets.first { $0.id == "standard" } ?? availableDiets[0]
+        saveDiet()
+        
+        // Clear UserDefaults for diet-related data
+        userDefaults.removeObject(forKey: currentDietKey)
+        
+        // Reset macro targets to default
+        let defaultTargets = MacroTargets(protein: 150, fats: 65, carbs: 200)
+        defaultTargets.save()
+        
+        print("✅ [DietManager] Reset to defaults")
     }
 }
 

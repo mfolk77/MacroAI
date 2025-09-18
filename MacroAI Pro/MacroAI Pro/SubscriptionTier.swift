@@ -5,7 +5,7 @@
 
 import Foundation
 import StoreKit
-internal import Combine
+import Combine
 
 enum SubscriptionTier: String, CaseIterable {
     case basic = "basic"
@@ -68,16 +68,16 @@ enum SubscriptionTier: String, CaseIterable {
     var productID: String {
         switch self {
         case .basic: return ""
-        case .pro: return "com.FolkTechAI.MacroAI.pro.yearly"
-        case .elite: return "com.FolkTechAI.MacroAI.elite.yearly"
+        case .pro: return "pro_yearly"
+        case .elite: return "elite_yearly"
         }
     }
     
     var monthlyProductID: String {
         switch self {
         case .basic: return ""
-        case .pro: return "com.FolkTechAI.MacroAI.pro.monthly"
-        case .elite: return "com.FolkTechAI.MacroAI.elite.monthly"
+        case .pro: return "pro_monthly"
+        case .elite: return "elite_monthly"
         }
     }
     
@@ -143,7 +143,7 @@ enum SubscriptionTier: String, CaseIterable {
 
 struct AICreditPack {
     static let standardPack = AICreditPack(
-        productID: "com.FolkTechAI.MacroAI.credits.10",
+        productID: "ai_credits_10",
         credits: 10,
         price: "$4.99",
         displayName: "10 AI Credits"
@@ -169,21 +169,18 @@ class SubscriptionManager: ObservableObject {
     @Published var products: [Product] = []
     @Published var purchasedSubscriptions: Set<String> = []
     
-    // TestFlight bypass
-    var isTestFlightUser: Bool {
-        #if DEBUG
-        return UserDefaults.standard.bool(forKey: "isTestFlightUser")
-        #else
-        return Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
-        #endif
-    }
+    // Trial management
+    @Published var isTrialActive: Bool = false
+    @Published var trialDaysRemaining: Int = 0
+    
+
     
     private let productIDs: Set<String> = [
-        "com.FolkTechAI.MacroAI.pro.yearly",
-        "com.FolkTechAI.MacroAI.pro.monthly", 
-        "com.FolkTechAI.MacroAI.elite.yearly",
-        "com.FolkTechAI.MacroAI.elite.monthly",
-        "com.FolkTechAI.MacroAI.credits.10"
+        "pro_yearly",
+        "pro_monthly", 
+        "elite_yearly",
+        "elite_monthly",
+        "ai_credits_10"
     ]
     
     private init() {
@@ -211,13 +208,9 @@ class SubscriptionManager: ObservableObject {
     // MARK: - Subscription Status
     
     func checkSubscriptionStatus() async {
-        // TestFlight users get Elite access
-        if isTestFlightUser {
-            await MainActor.run {
-                self.currentTier = .elite
-            }
-            return
-        }
+        // Check for sandbox vs production environment
+        let isSandbox = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
+        print("🔍 [SubscriptionManager] Environment: \(isSandbox ? "Sandbox" : "Production")")
         
         for await result in Transaction.currentEntitlements {
             do {
@@ -232,8 +225,15 @@ class SubscriptionManager: ObservableObject {
                         self.purchasedSubscriptions.insert(transaction.productID)
                     }
                 }
+                
+                print("✅ [SubscriptionManager] Verified transaction: \(transaction.productID)")
             } catch {
-                print("Failed to verify transaction: \(error)")
+                print("❌ [SubscriptionManager] Failed to verify transaction: \(error)")
+                
+                // Handle sandbox receipt in production scenario
+                if !isSandbox {
+                    print("⚠️ [SubscriptionManager] Production app with sandbox receipt - this is expected during testing")
+                }
             }
         }
     }
@@ -265,10 +265,17 @@ class SubscriptionManager: ObservableObject {
             await transaction.finish()
             await checkSubscriptionStatus()
             
-        case .userCancelled, .pending:
-            break
+        case .userCancelled:
+            print("❌ [SubscriptionManager] Purchase cancelled by user")
+            throw StoreError.userCancelled
+            
+        case .pending:
+            print("⏳ [SubscriptionManager] Purchase pending approval")
+            throw StoreError.pending
+            
         @unknown default:
-            break
+            print("❌ [SubscriptionManager] Unknown purchase result")
+            throw StoreError.failedVerification
         }
     }
     
@@ -294,19 +301,12 @@ class SubscriptionManager: ObservableObject {
     // MARK: - Camera Scanning Usage
     
     func canMakeCameraScan() -> Bool {
-        // TestFlight users have unlimited access
-        if isTestFlightUser {
-            return true
-        }
-        
         // Check daily and hourly limits
         return dailyCameraUsage < currentTier.dailyCameraScanLimit && 
                hourlyCameraUsage < currentTier.hourlyCameraScanLimit
     }
     
     func recordCameraScan() {
-        guard !isTestFlightUser else { return }
-        
         dailyCameraUsage += 1
         hourlyCameraUsage += 1
         
@@ -314,10 +314,6 @@ class SubscriptionManager: ObservableObject {
     }
     
     func getRemainingCameraScans() -> String {
-        if isTestFlightUser {
-            return "Unlimited (TestFlight)"
-        }
-        
         switch currentTier {
         case .basic:
             let dailyRemaining = max(0, currentTier.dailyCameraScanLimit - dailyCameraUsage)
@@ -331,11 +327,6 @@ class SubscriptionManager: ObservableObject {
     // MARK: - Chat AI Usage
     
     func canMakeChatRequest() -> Bool {
-        // TestFlight users have unlimited access
-        if isTestFlightUser {
-            return true
-        }
-        
         // Check if tier has chat access
         guard currentTier.hasChatAccess else {
             return false
@@ -346,17 +337,11 @@ class SubscriptionManager: ObservableObject {
     }
     
     func recordChatRequest() {
-        guard !isTestFlightUser else { return }
-        
         monthlyChatUsage += 1
         saveUsageData()
     }
     
     func getRemainingChatRequests() -> String {
-        if isTestFlightUser {
-            return "Unlimited (TestFlight)"
-        }
-        
         guard currentTier.hasChatAccess else {
             return "Chat locked - upgrade to unlock"
         }
@@ -409,8 +394,58 @@ class SubscriptionManager: ObservableObject {
         userDefaults.set(monthlyChatUsage, forKey: "monthlyChatUsage")
         userDefaults.set(aiCredits, forKey: "aiCredits")
     }
+    
+    // MARK: - Restore Purchases
+    
+    func restorePurchases() async throws {
+        // Use StoreKit directly to restore purchases
+        try await AppStore.sync()
+        
+        // Refresh subscription status after restore
+        await checkSubscriptionStatus()
+        
+        print("✅ [SubscriptionManager] Purchases restored successfully")
+    }
+    
+    // MARK: - Reset to Defaults
+    
+    func resetToDefaults() {
+        // Reset to basic tier
+        currentTier = .basic
+        
+        // Clear usage data
+        dailyCameraUsage = 0
+        hourlyCameraUsage = 0
+        monthlyChatUsage = 0
+        aiCredits = 0
+        
+        // Clear UserDefaults for subscription-related data
+        let userDefaults = UserDefaults.standard
+        userDefaults.removeObject(forKey: "dailyCameraUsage")
+        userDefaults.removeObject(forKey: "hourlyCameraUsage")
+        userDefaults.removeObject(forKey: "monthlyChatUsage")
+        userDefaults.removeObject(forKey: "aiCredits")
+        userDefaults.removeObject(forKey: "lastDailyReset")
+        userDefaults.removeObject(forKey: "lastHourlyReset")
+        userDefaults.removeObject(forKey: "lastMonthlyChatReset")
+        
+        print("✅ [SubscriptionManager] Reset to defaults")
+    }
 }
 
-enum StoreError: Error {
+enum StoreError: Error, LocalizedError {
     case failedVerification
+    case userCancelled
+    case pending
+    
+    var errorDescription: String? {
+        switch self {
+        case .failedVerification:
+            return "Purchase verification failed. Please try again."
+        case .userCancelled:
+            return "Purchase was cancelled."
+        case .pending:
+            return "Purchase is pending approval."
+        }
+    }
 } 

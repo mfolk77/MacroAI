@@ -22,6 +22,7 @@ struct SettingsView: View {
     @State private var showingOpenAIKeyInput = false
     @State private var showingSpoonacularKeyInput = false
     @State private var showingPhotoGallery = false
+    @State private var showingDeleteAccountAlert = false
     @ObservedObject var macroEntryStore: MacroEntryStore
     @StateObject private var subscriptionManager = SubscriptionManager.shared
     @StateObject private var themeManager = ThemeManager.shared
@@ -53,6 +54,69 @@ struct SettingsView: View {
             selectedTheme = "System"
         default:
             selectedTheme = "System"
+        }
+    }
+    
+    // MARK: - Account Deletion
+    
+    private func deleteAccount() {
+        Task {
+            await MainActor.run {
+                // Clear all UserDefaults
+                let userDefaults = UserDefaults.standard
+                userDefaults.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+                
+                // Clear Keychain data
+                try? SecureConfig.deleteOpenAIAPIKey()
+                try? SecureConfig.deleteSpoonacularAPIKey()
+                
+                // Clear SwiftData
+            }
+            
+            // Delete all macro entries
+            do {
+                let context = macroEntryStore.modelContext
+                let fetchDescriptor = FetchDescriptor<MacroEntry>()
+                let entries = try context.fetch(fetchDescriptor)
+                
+                for entry in entries {
+                    context.delete(entry)
+                }
+                
+                // Delete all recipes
+                let recipeFetchDescriptor = FetchDescriptor<Recipe>()
+                let recipes = try context.fetch(recipeFetchDescriptor)
+                
+                for recipe in recipes {
+                    context.delete(recipe)
+                }
+                
+                // Delete all nutrition cache entries
+                let cacheFetchDescriptor = FetchDescriptor<NutritionCacheEntry>()
+                let cacheEntries = try context.fetch(cacheFetchDescriptor)
+                
+                for cacheEntry in cacheEntries {
+                    context.delete(cacheEntry)
+                }
+                
+                try context.save()
+                
+                await MainActor.run {
+                    // Reset app state
+                    dietManager.resetToDefaults()
+                    themeManager.resetToDefaults()
+                    subscriptionManager.resetToDefaults()
+                    
+                    // Dismiss settings and return to onboarding
+                    dismiss()
+                    
+                    // Post notification to reset app state
+                    NotificationCenter.default.post(name: NSNotification.Name("ResetAppState"), object: nil)
+                }
+                
+            } catch {
+                print("❌ [SettingsView] Failed to delete account data: \(error)")
+            }
         }
     }
     
@@ -319,118 +383,7 @@ struct SettingsView: View {
                             .foregroundColor(.secondary)
                             .padding(.horizontal)
                         
-                        VStack(spacing: 0) {
-                            Button(action: {
-                                // Simulate Elite tier for testing
-                                UserDefaults.standard.set(true, forKey: "isTestFlightUser")
-                                // Force refresh subscription status
-                                Task {
-                                    await subscriptionManager.checkSubscriptionStatus()
-                                }
-                            }) {
-                                HStack {
-                                    Image(systemName: "crown.fill")
-                                        .foregroundColor(.yellow)
-                                    Text("Activate Elite Tier (Testing)")
-                                        .foregroundColor(.primary)
-                                    Spacer()
-                                }
-                                .padding()
-                                .background(Color(.systemGray6))
-                                .cornerRadius(10)
-                            }
-                            
-                            Button(action: {
-                                // Reset to basic tier
-                                UserDefaults.standard.removeObject(forKey: "isTestFlightUser")
-                                // Force refresh subscription status
-                                Task {
-                                    await subscriptionManager.checkSubscriptionStatus()
-                                }
-                            }) {
-                                HStack {
-                                    Image(systemName: "arrow.counterclockwise")
-                                        .foregroundColor(.red)
-                                    Text("Reset to Basic Tier")
-                                        .foregroundColor(.primary)
-                                    Spacer()
-                                }
-                                .padding()
-                                .background(Color(.systemGray6))
-                                .cornerRadius(10)
-                            }
-                            
-                            Button(action: {
-                                // Reset onboarding for testing
-                                UserDefaults.standard.removeObject(forKey: "OnboardingSeen")
-                                print("🔄 [SettingsView] Onboarding reset - will show on next app launch")
-                            }) {
-                                HStack {
-                                    Image(systemName: "arrow.clockwise")
-                                        .foregroundColor(.blue)
-                                    Text("Reset Onboarding")
-                                        .foregroundColor(.primary)
-                                    Spacer()
-                                }
-                                .padding()
-                                .background(Color(.systemGray6))
-                                .cornerRadius(10)
-                            }
-                            
-                            Button(action: {
-                                // Test image storage
-                                Task {
-                                    await macroEntryStore.testImageStorage()
-                                }
-                            }) {
-                                HStack {
-                                    Image(systemName: "photo.badge.plus")
-                                        .foregroundColor(.green)
-                                    Text("Test Image Storage")
-                                        .foregroundColor(.primary)
-                                    Spacer()
-                                }
-                                .padding()
-                                .background(Color(.systemGray6))
-                                .cornerRadius(10)
-                            }
-                            
-                            Button(action: {
-                                // Test barcode scanner functionality
-                                print("🔍 [SettingsView] Testing barcode scanner...")
-                                // This will help verify if the barcode scanner is working
-                            }) {
-                                HStack {
-                                    Image(systemName: "barcode.viewfinder")
-                                        .foregroundColor(.blue)
-                                    Text("Test Barcode Scanner")
-                                        .foregroundColor(.primary)
-                                    Spacer()
-                                }
-                                .padding()
-                                .background(Color(.systemGray6))
-                                .cornerRadius(10)
-                            }
-                            
-                            Button(action: {
-                                // Reset streak counter for testing
-                                let defaults = UserDefaults.standard
-                                defaults.set(0, forKey: "currentStreak")
-                                defaults.removeObject(forKey: "lastEntryDate")
-                                print("🔄 [SettingsView] Streak counter reset to 0")
-                            }) {
-                                HStack {
-                                    Image(systemName: "flame")
-                                        .foregroundColor(.orange)
-                                    Text("Reset Streak Counter")
-                                        .foregroundColor(.primary)
-                                    Spacer()
-                                }
-                                .padding()
-                                .background(Color(.systemGray6))
-                                .cornerRadius(10)
-                            }
-                        }
+
                     }
                     #endif
                     
@@ -470,7 +423,7 @@ struct SettingsView: View {
                                             .foregroundColor(.green)
                                             .frame(width: 20)
                                         Text("Food Photos")
-                                            .font(.subheadline)
+                                        .font(.subheadline)
                                         Spacer()
                                         Image(systemName: "chevron.right")
                                             .foregroundColor(.secondary)
@@ -695,6 +648,46 @@ struct SettingsView: View {
                         .cornerRadius(12)
                     }
                     
+                    // DELETE ACCOUNT Section
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("DELETE ACCOUNT")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal)
+                        
+                        VStack(spacing: 12) {
+                            Button(action: {
+                                showingDeleteAccountAlert = true
+                            }) {
+                                HStack {
+                                    Image(systemName: "trash.fill")
+                                        .foregroundColor(.red)
+                                        .frame(width: 20)
+                                    Text("Delete Account & Data")
+                                        .font(.subheadline)
+                                        .foregroundColor(.red)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.secondary)
+                                        .font(.caption)
+                                }
+                                .padding()
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            
+                            Text("This will permanently delete all your data including macro entries, photos, and preferences. This action cannot be undone.")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .padding(.horizontal)
+                        }
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(12)
+                    }
+                    
                     Spacer(minLength: 50)
                 }
                 .padding()
@@ -709,6 +702,7 @@ struct SettingsView: View {
                     }
                 }
             }
+            .onAppear { Analytics.screenView("settings") }
         }
         .sheet(isPresented: $showingPremiumUpgrade) {
             PaywallView()
@@ -752,6 +746,14 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $showingPhotoGallery) {
             PhotoGalleryView(macroEntryStore: macroEntryStore)
+        }
+        .alert("Delete Account", isPresented: $showingDeleteAccountAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete", role: .destructive) {
+                deleteAccount()
+            }
+        } message: {
+            Text("Are you sure you want to delete your account? This will permanently delete all your data including macro entries, photos, and preferences. This action cannot be undone.")
         }
     }
 }
@@ -997,6 +999,11 @@ struct PrivacyPolicyView: View {
                     
                     Text("We implement industry-standard security measures to protect your personal information and never share it with third parties without your consent.")
                         .font(.body)
+                    
+                    Link("Privacy Policy", destination: URL(string: "https://www.folktechai.com/privacy-policy")!)
+                        .font(.caption)
+                        .foregroundColor(.blue)
+                        .accessibilityLabel("Privacy Policy – opens in browser")
                 }
                 .padding()
             }
@@ -1051,6 +1058,13 @@ struct TermsOfServiceView: View {
                     
                     Text("FolkTech AI is not liable for any decisions made based on the app's recommendations or data analysis.")
                         .font(.body)
+                    
+                    
+                    Link("Apple Standard EULA", destination: URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!)
+                        .font(.caption)
+                        .foregroundColor(.blue)
+                        .accessibilityLabel("Apple Standard End User License Agreement – opens in browser")
+                    
                 }
                 .padding()
             }
@@ -1111,12 +1125,12 @@ struct SupportRow: View {
     if let container = try? ModelContainer(for: MacroEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true)) {
         let context = container.mainContext
         let store = MacroEntryStore(modelContext: context)
-        return SettingsView(macroEntryStore: store)
+        SettingsView(macroEntryStore: store)
             .task {
                 await store.addSampleData()
             }
     } else {
-        return Text("Failed to create preview")
+        Text("Failed to create preview")
     }
 }
 

@@ -245,7 +245,7 @@ struct PhotoDetailView: View {
                                     Image(systemName: "scalemass")
                                         .font(.caption)
                                         .foregroundColor(.secondary)
-                                    Text("\(entry.servingSize, specifier: "%.1f") \(entry.servingSizeType.rawValue)")
+                                    Text("\(entry.servingSize, specifier: "%.1f") \((entry.servingSizeType ?? .whole).rawValue)")
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                 }
@@ -349,11 +349,11 @@ struct MacroRow: View {
         let context = container.mainContext
         let store = MacroEntryStore(modelContext: context)
         
-        return PhotoGalleryView(macroEntryStore: store)
+        PhotoGalleryView(macroEntryStore: store)
             .task {
                 await store.addSampleData()
             }
     } else {
-        return Text("Failed to create preview")
+        Text("Failed to create preview")
     }
 } 

@@ -44,12 +44,12 @@ struct RecipeDetailView: View {
                     recipeInfoSection
                     
                     // Ingredients Section
-                    if !recipe.ingredients.isEmpty {
+                    if !(recipe.ingredients ?? []).isEmpty {
                         ingredientsSection
                     }
                     
                     // Instructions Section
-                    if !recipe.instructions.isEmpty {
+                    if !(recipe.instructions ?? []).isEmpty {
                         instructionsSection
                     }
                     
@@ -228,13 +228,13 @@ struct RecipeDetailView: View {
                     InfoRow(title: "Last Used", value: lastUsed.formatted(date: .abbreviated, time: .omitted))
                 }
                 
-                if !recipe.tags.isEmpty {
+                if !(recipe.tags ?? []).isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Tags")
                             .font(.subheadline)
                             .fontWeight(.medium)
                         
-                        FlowLayout(items: recipe.tags) { tag in
+                        FlowLayout(items: recipe.tags ?? []) { tag in
                             Text(tag)
                                 .font(.caption)
                                 .padding(.horizontal, 8)
@@ -256,11 +256,11 @@ struct RecipeDetailView: View {
     
     private var ingredientsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Ingredients (\(recipe.ingredients.count))")
+            Text("Ingredients \((recipe.ingredients ?? []).count)")
                 .font(.headline)
             
             VStack(alignment: .leading, spacing: 8) {
-                ForEach(Array(recipe.ingredients.enumerated()), id: \.offset) { index, ingredient in
+                ForEach(Array((recipe.ingredients ?? []).enumerated()), id: \.offset) { index, ingredient in
                     HStack {
                         Circle()
                             .fill(Color.accentColor)
@@ -281,11 +281,11 @@ struct RecipeDetailView: View {
     
     private var instructionsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Instructions (\(recipe.instructions.count) steps)")
+            Text("Instructions \((recipe.instructions ?? []).count) steps)")
                 .font(.headline)
             
             VStack(alignment: .leading, spacing: 12) {
-                ForEach(Array(recipe.instructions.enumerated()), id: \.offset) { index, instruction in
+                ForEach(Array((recipe.instructions ?? []).enumerated()), id: \.offset) { index, instruction in
                     HStack(alignment: .top, spacing: 12) {
                         Text("\(index + 1)")
                             .font(.headline)
@@ -351,7 +351,7 @@ struct RecipeDetailView: View {
             // TODO: Fix recipe analyze feature in next update
             /*
             // Analyze Recipe Button (if has ingredients)
-            if !recipe.ingredients.isEmpty {
+            if !(recipe.ingredients ?? []).isEmpty {
                 Button(action: analyzeRecipe) {
                     HStack(spacing: 8) {
                         if isAnalyzing {
@@ -444,18 +444,18 @@ struct RecipeDetailView: View {
     }
     
     private func analyzeRecipe() {
-        guard !recipe.ingredients.isEmpty else { return }
+        guard !(recipe.ingredients ?? []).isEmpty else { return }
         
         isAnalyzing = true
         
         Task {
             do {
                 print("🔬 [RecipeDetailView] Starting analysis for existing recipe: \(recipe.name)")
-                print("🔬 [RecipeDetailView] Ingredients: \(recipe.ingredients)")
+                print("🔬 [RecipeDetailView] Ingredients: \(recipe.ingredients ?? [])")
                 
                 let result = try await SpoonacularRecipeAPI.analyzeRecipe(
-                    ingredients: recipe.ingredients,
-                    instructions: recipe.instructions
+                    ingredients: recipe.ingredients ?? [],
+                    instructions: recipe.instructions ?? []
                 )
                 
                 await MainActor.run {
@@ -510,17 +510,17 @@ struct RecipeDetailView: View {
         shareText += "• \(recipe.carbsPerServing)g carbs\n"
         shareText += "• \(recipe.fatsPerServing)g fats\n\n"
         
-        if !recipe.ingredients.isEmpty {
+        if !(recipe.ingredients ?? []).isEmpty {
             shareText += "🛒 Ingredients:\n"
-            for ingredient in recipe.ingredients {
+            for ingredient in (recipe.ingredients ?? []) {
                 shareText += "• \(ingredient)\n"
             }
             shareText += "\n"
         }
         
-        if !recipe.instructions.isEmpty {
+        if !(recipe.instructions ?? []).isEmpty {
             shareText += "👨‍🍳 Instructions:\n"
-            for (index, instruction) in recipe.instructions.enumerated() {
+            for (index, instruction) in (recipe.instructions ?? []).enumerated() {
                 shareText += "\(index + 1). \(instruction)\n"
             }
             shareText += "\n"

@@ -1,5 +1,5 @@
 import SwiftUI
-internal import Combine
+import Combine
 
 /// Enum for color scheme options
 public enum AppColorScheme: String, CaseIterable, Identifiable {

@@ -29,6 +29,7 @@ struct PlateAnimationView: View {
                 // Fats (Top)
                 VStack(spacing: 4) {
                     Image("butter")
+                        .renderingMode(.original)
                         .resizable()
                         .scaledToFit()
                         .frame(width: size * 0.23, height: size * 0.23)
@@ -47,6 +48,7 @@ struct PlateAnimationView: View {
                 // Protein (Bottom Left)
                 VStack(spacing: 2) {
                     Image("turkey")
+                        .renderingMode(.original)
                         .resizable()
                         .scaledToFit()
                         .frame(width: size * 0.5, height: size * 0.5)
@@ -68,6 +70,7 @@ struct PlateAnimationView: View {
                 // Carbs (Bottom Right)
                 VStack(spacing: 4) {
                     Image("potato")
+                        .renderingMode(.original)
                         .resizable()
                         .scaledToFit()
                         .frame(width: size * 0.23, height: size * 0.23)

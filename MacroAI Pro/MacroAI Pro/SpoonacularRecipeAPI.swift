@@ -185,7 +185,7 @@ class SpoonacularRecipeAPI {
         var recipes: [Recipe] = []
         
         for result in results {
-            guard let id = result["id"] as? Int,
+            guard let _ = result["id"] as? Int,
                   let title = result["title"] as? String,
                   let servings = result["servings"] as? Int,
                   let nutrition = result["nutrition"] as? [String: Any],

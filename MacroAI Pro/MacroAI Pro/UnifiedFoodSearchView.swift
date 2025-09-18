@@ -327,6 +327,7 @@ struct UnifiedFoodSearchView: View {
     private func addFoodItem(_ result: SearchResult) async {
         // Create a new macro entry
         let newEntry = MacroEntry(
+            id: UUID(),
             timestamp: Date(),
             name: result.name,
             calories: result.calories,
@@ -345,6 +346,7 @@ struct UnifiedFoodSearchView: View {
     private func addFastFoodItem(_ item: FastFoodItem) async {
         // Create a new macro entry
         let newEntry = MacroEntry(
+            id: UUID(),
             timestamp: Date(),
             name: "\(item.brand) \(item.name)", // Cleaner format without dash
             calories: item.calories,

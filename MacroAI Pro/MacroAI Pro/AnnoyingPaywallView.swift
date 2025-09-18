@@ -6,7 +6,7 @@
 
 import SwiftUI
 import StoreKit
-internal import Combine
+import Combine
 
 struct AnnoyingPaywallView: View {
     @State private var timeRemaining = 30
@@ -161,6 +161,7 @@ struct AnnoyingPaywallView: View {
             }
             .padding(.vertical, 20)
         }
+        .onAppear { Analytics.screenView("paywall_annoying") }
         .onReceive(timer) { _ in
             if timeRemaining > 0 {
                 timeRemaining -= 1
@@ -179,6 +180,7 @@ struct AnnoyingPaywallView: View {
     
     private func activateTrial() {
         isPurchasing = true
+        Analytics.purchaseAttempt(productId: "trial_activation")
         
         // Simulate purchase process
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -188,10 +190,12 @@ struct AnnoyingPaywallView: View {
             
             isPurchasing = false
             showTrialActivated = true
+            Analytics.purchaseResult(productId: "trial_activation", status: "success")
         }
     }
     
     private func dismissPaywall() {
+        Analytics.paywallResponse("dismiss", source: "annoying_paywall")
         isPresented = false
     }
 }

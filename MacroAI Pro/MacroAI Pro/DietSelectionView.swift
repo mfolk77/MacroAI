@@ -141,6 +141,17 @@ struct DietSelectionView: View {
                     .fontWeight(.semibold)
                 }
             }
+            .onAppear { Analytics.screenView("diet_selection") }
+        }
+        .sheet(isPresented: $showingPremiumSheet) {
+            PaywallView()
+                .environmentObject(storeKit)
+        }
+        .sheet(isPresented: $isShowingMarketplace) {
+            MarketplaceView()
+        }
+        .sheet(isPresented: $isShowingThemeMarketplace) {
+            MarketplaceView()
         }
     }
     
@@ -156,7 +167,7 @@ struct DietSelectionView: View {
                         DietCard(
                             diet: diet,
                             isSelected: diet.id == dietManager.currentDiet.id,
-                            isPremium: storeKit.isPremium || subscriptionManager.isTestFlightUser,
+                            isPremium: storeKit.isPremium,
                             onTap: {
                                 selectDiet(diet)
                             }
@@ -179,11 +190,11 @@ struct DietSelectionView: View {
                         DietCard(
                             diet: diet,
                             isSelected: diet.id == dietManager.currentDiet.id,
-                            isPremium: storeKit.isPremium || subscriptionManager.isTestFlightUser,
-                            isFromMarketplace: true,
+                            isPremium: storeKit.isPremium,
                             onTap: {
                                 selectDiet(diet)
-                            }
+                            },
+                            isFromMarketplace: true
                         )
                         .frame(width: 280)
                     }
@@ -303,23 +314,10 @@ struct DietSelectionView: View {
             .shadow(color: color.opacity(0.2), radius: 4, x: 0, y: 2)
         }
     }
-                    
-        }
-        .sheet(isPresented: $showingPremiumSheet) {
-            PaywallView()
-                .environmentObject(storeKit)
-        }
-        .sheet(isPresented: $isShowingMarketplace) {
-            MarketplaceView()
-        }
-        .sheet(isPresented: $isShowingThemeMarketplace) {
-            MarketplaceView()
-        }
-    }
     
     private func selectDiet(_ diet: Diet) {
-        // Check if user has access (either through subscription or TestFlight)
-        let hasAccess = storeKit.isPremium || subscriptionManager.isTestFlightUser
+        // Check if user has access (either through subscription)
+        let hasAccess = storeKit.isPremium
         
         if diet.isPremium && !hasAccess {
             showingPremiumSheet = true

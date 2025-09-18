@@ -538,7 +538,7 @@ struct ThemePurchaseCard: View {
             name: "Christmas Magic",
             description: "Transform your app with festive Christmas colors and animations",
             season: .christmas,
-            pricing: .seasonal(price: 2.99, productID: "com.FolkTechAI.MacroAI.christmastheme2024", season: .christmas),
+            pricing: .seasonal(price: 2.99, productID: "christmas_theme_2024", season: .christmas),
             theme: MarketplaceTheme(
                 primaryColor: ColorData(red: 0.8, green: 0.1, blue: 0.1),
                 secondaryColor: ColorData(red: 0.1, green: 0.6, blue: 0.1),

@@ -66,9 +66,10 @@ enum ServingSizeType: String, Codable, CaseIterable {
     }
 }
 
+@available(iOS 17, *)
 @Model
 class MacroEntry {
-    @Attribute(.unique) var id: UUID
+    var id: UUID
     var timestamp: Date
     var foodName: String
     var calories: Int
@@ -76,13 +77,16 @@ class MacroEntry {
     var carbs: Int
     var fats: Int
     var imageData: Data?
-    var source: MacroEntrySource
+    // Persist enum as raw String to avoid transformable issues
+    var sourceRaw: String?
     
     // MARK: - Serving Size Properties
     var servingSize: Double
-    var servingSizeType: ServingSizeType
+    // Persist enum as raw String to avoid transformable issues
+    var servingSizeTypeRaw: String?
     var baseServingSize: Double // The serving size that the nutrition data is based on
-    var baseServingSizeType: ServingSizeType
+    // Persist enum as raw String to avoid transformable issues
+    var baseServingSizeTypeRaw: String?
     
     // Computed properties for convenience
     var totalMacros: Int {
@@ -106,25 +110,33 @@ class MacroEntry {
     var name: String {
         return foodName
     }
+
+    // Computed accessor for enum source backed by raw string
+    var source: MacroEntrySource? {
+        get { sourceRaw.flatMap { MacroEntrySource(rawValue: $0) } }
+        set { sourceRaw = newValue?.rawValue }
+    }
     
     // MARK: - Serving Size Display
     var servingSizeDisplay: String {
-        if servingSize == 1.0 && servingSizeType == .whole {
+        let sizeType = servingSizeType ?? .whole
+        if servingSize == 1.0 && sizeType == .whole {
             return "1 whole"
         } else if servingSize == 1.0 {
-            return "1 \(servingSizeType.displayName)"
+            return "1 \(sizeType.displayName)"
         } else {
-            return "\(String(format: "%.1f", servingSize)) \(servingSizeType.displayName)"
+            return "\(String(format: "%.1f", servingSize)) \(sizeType.displayName)"
         }
     }
     
     var baseServingSizeDisplay: String {
-        if baseServingSize == 1.0 && baseServingSizeType == .whole {
+        let sizeType = baseServingSizeType ?? .whole
+        if baseServingSize == 1.0 && sizeType == .whole {
             return "1 whole"
         } else if baseServingSize == 1.0 {
-            return "1 \(baseServingSizeType.displayName)"
+            return "1 \(sizeType.displayName)"
         } else {
-            return "\(String(format: "%.1f", baseServingSize)) \(baseServingSizeType.displayName)"
+            return "\(String(format: "%.1f", baseServingSize)) \(sizeType.displayName)"
         }
     }
     
@@ -143,11 +155,11 @@ class MacroEntry {
         carbs: Int = 0,
         fats: Int = 0,
         imageData: Data? = nil,
-        source: MacroEntrySource = .manual,
+        source: MacroEntrySource? = .manual,
         servingSize: Double = 1.0,
-        servingSizeType: ServingSizeType = .whole,
+        servingSizeType: ServingSizeType? = .whole,
         baseServingSize: Double = 1.0,
-        baseServingSizeType: ServingSizeType = .whole
+        baseServingSizeType: ServingSizeType? = .whole
     ) {
         self.id = id
         self.timestamp = timestamp
@@ -157,11 +169,25 @@ class MacroEntry {
         self.carbs = carbs
         self.fats = fats
         self.imageData = imageData
-        self.source = source
+        self.sourceRaw = source?.rawValue
         self.servingSize = servingSize
-        self.servingSizeType = servingSizeType
+        self.servingSizeTypeRaw = servingSizeType?.rawValue
         self.baseServingSize = baseServingSize
-        self.baseServingSizeType = baseServingSizeType
+        self.baseServingSizeTypeRaw = baseServingSizeType?.rawValue
+    }
+}
+
+// MARK: - Computed accessors for serving size enums backed by raw strings
+
+extension MacroEntry {
+    var servingSizeType: ServingSizeType? {
+        get { servingSizeTypeRaw.flatMap { ServingSizeType(rawValue: $0) } }
+        set { servingSizeTypeRaw = newValue?.rawValue }
+    }
+    
+    var baseServingSizeType: ServingSizeType? {
+        get { baseServingSizeTypeRaw.flatMap { ServingSizeType(rawValue: $0) } }
+        set { baseServingSizeTypeRaw = newValue?.rawValue }
     }
 }
 

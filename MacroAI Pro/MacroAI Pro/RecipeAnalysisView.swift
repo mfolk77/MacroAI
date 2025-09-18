@@ -413,7 +413,7 @@ struct RecipeResultView: View {
                                 Text("Ingredients:")
                                     .fontWeight(.medium)
                                 Spacer()
-                                Text("\(recipe.ingredients.count)")
+                                Text("\((recipe.ingredients ?? []).count)")
                                     .foregroundColor(.secondary)
                             }
                         }

@@ -3,7 +3,7 @@
 
 import Foundation
 import StoreKit
-internal import Combine
+import Combine
 
 @MainActor
 class StoreKitManager: ObservableObject {
@@ -13,71 +13,73 @@ class StoreKitManager: ObservableObject {
     @Published var isTrialActive = false
     @Published var daysRemainingInTrial = 0
     
+    private let subscriptionManager = SubscriptionManager.shared
+    
     init() {
-        // For now, set mock premium status
-        // TODO: Implement actual StoreKit integration
-        isPremium = false
-        isTrialActive = true
-        daysRemainingInTrial = 7
+        // Initialize with real StoreKit integration
+        print("💰 [StoreKitManager] Initializing with real StoreKit integration")
         
-        // Initialize without StoreKit to prevent NSMapTable errors
-        print("💰 [StoreKitManager] Initialized with mock data (StoreKit integration pending)")
+        // Check initial subscription status
+        Task {
+            await checkPremiumStatus()
+        }
     }
     
     // MARK: - Premium Management
     
-    func checkPremiumStatus() {
-        // TODO: Implement actual StoreKit verification
-        print("💰 [StoreKitManager] Checking premium status...")
+    func checkPremiumStatus() async {
+        await subscriptionManager.checkSubscriptionStatus()
+        
+        // Update local state based on subscription manager
+        isPremium = subscriptionManager.currentTier != .basic
+        isTrialActive = subscriptionManager.isTrialActive
+        daysRemainingInTrial = subscriptionManager.trialDaysRemaining
+        
+        print("💰 [StoreKitManager] Premium status updated: \(isPremium)")
     }
     
     func purchasePremium() async throws {
-        // TODO: Implement actual purchase flow
-        print("💰 [StoreKitManager] Purchasing premium...")
+        // Find the Pro subscription product
+        guard let proProduct = subscriptionManager.products.first(where: { $0.id.contains("pro") }) else {
+            throw StoreError.failedVerification
+        }
         
-        // Simulate purchase delay
-        try await Task.sleep(nanoseconds: 2_000_000_000) // 2 seconds
-        
-        // For now, just set premium to true
-        isPremium = true
-        isTrialActive = false
-        daysRemainingInTrial = 0
-        
-        print("✅ [StoreKitManager] Premium purchase completed")
+        try await subscriptionManager.purchase(proProduct)
+        await checkPremiumStatus()
     }
     
     func restorePurchases() async throws {
-        // TODO: Implement actual restore flow
-        print("💰 [StoreKitManager] Restoring purchases...")
-        
-        // Simulate restore delay
-        try await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
-        
-        print("✅ [StoreKitManager] Purchases restored")
+        try await subscriptionManager.restorePurchases()
+        await checkPremiumStatus()
     }
     
     // MARK: - Trial Management
     
     func startTrial() {
-        isTrialActive = true
-        daysRemainingInTrial = 7
-        print("🎁 [StoreKitManager] Trial started")
+        // Trial is handled by SubscriptionManager
+        print("🎁 [StoreKitManager] Trial management delegated to SubscriptionManager")
     }
     
     func endTrial() {
-        isTrialActive = false
-        daysRemainingInTrial = 0
-        print("⏰ [StoreKitManager] Trial ended")
+        // Trial is handled by SubscriptionManager
+        print("⏰ [StoreKitManager] Trial management delegated to SubscriptionManager")
     }
     
-    // MARK: - Development/Testing
+    // MARK: - Environment Detection
     
-    func setMockPremium(_ isPremium: Bool) {
-        self.isPremium = isPremium
-        if isPremium {
-            isTrialActive = false
-            daysRemainingInTrial = 0
-        }
-        print("🧪 [StoreKitManager] Mock premium set to: \(isPremium)")
+    private func checkEnvironment() {
+        // Log environment for debugging
+        #if DEBUG
+        print("🔍 [StoreKitManager] Running in DEBUG mode")
+        #else
+        print("🚀 [StoreKitManager] Running in RELEASE mode")
+        #endif
+        
+        // Check if running in simulator
+        #if targetEnvironment(simulator)
+        print("📱 [StoreKitManager] Running in iOS Simulator")
+        #else
+        print("📱 [StoreKitManager] Running on physical device")
+        #endif
     }
 } 
