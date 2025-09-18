@@ -320,7 +320,7 @@ struct HomeView: View {
     // MARK: - Compact Progress Section
     
     private var compactProgressSection: some View {
-        VStack(spacing: 12) { // Reduced spacing from 20 to 12
+        VStack(spacing: 10) { // tighten spacing slightly
             // Today's Calories with Fun Animation
             HStack {
                 Text("Today's Calories:")
@@ -422,7 +422,7 @@ struct HomeView: View {
     // MARK: - Compact Action Buttons
     
     private var compactActionButtons: some View {
-        VStack(spacing: 10) { // Reduced spacing from 16 to 10
+        VStack(spacing: 8) { // tighten spacing slightly
             HStack(spacing: 12) { // Reduced spacing from 16 to 12
                 // Snap Food Button with Camera Flash Effect
                 PlayfulButton(
@@ -573,14 +573,14 @@ struct HomeView: View {
             }
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 12) // Reduced from 20 to 12
+        .padding(.vertical, 8)
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color(.systemBackground))
                 .shadow(color: .black.opacity(0.1), radius: 6, x: 0, y: 2)
         )
         .padding(.horizontal, 20)
-        .padding(.bottom, 20) // Reduced from 40 to 20
+        .padding(.bottom, 10)
     }
     
     // MARK: - Supporting Functions
