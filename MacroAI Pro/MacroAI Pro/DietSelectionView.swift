@@ -320,6 +320,7 @@ struct DietSelectionView: View {
         let hasAccess = storeKit.isPremium
         
         if diet.isPremium && !hasAccess {
+            Analytics.paywallTriggered(source: "diet_selection", feature: diet.id)
             showingPremiumSheet = true
             return
         }

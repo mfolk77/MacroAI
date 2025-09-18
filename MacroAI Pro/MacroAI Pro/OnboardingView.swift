@@ -168,6 +168,7 @@ struct OnboardingView: View {
         }
         .onAppear {
             showingOnboarding = true
+            Analytics.featureUse("onboarding", action: "start")
         }
     }
     
@@ -178,6 +179,7 @@ struct OnboardingView: View {
         isOnboardingComplete = true
         print("✅ [OnboardingView] isOnboardingComplete set to true")
         print("✅ [OnboardingView] Onboarding completed - user can now access main app")
+        Analytics.featureUse("onboarding", action: "complete")
     }
 }
 

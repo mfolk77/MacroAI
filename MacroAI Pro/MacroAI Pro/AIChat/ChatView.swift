@@ -72,6 +72,7 @@ struct ChatView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Upgrade") {
+                        Analytics.paywallTriggered(source: "chat_toolbar", feature: "upgrade_button")
                         showingPaywall = true
                     }
                     .opacity(subscriptionManager.currentTier == .basic ? 1 : 0)
@@ -87,6 +88,11 @@ struct ChatView: View {
         .sheet(isPresented: $showingPaywall) {
             PaywallView()
         }
+        .onChange(of: showingPaywall) { _, newValue in
+            if newValue {
+                Analytics.paywallTriggered(source: "chat", feature: "paywall_sheet")
+            }
+        }
     }
     
     private var upgradePromptBanner: some View {
@@ -98,6 +104,7 @@ struct ChatView: View {
                     .font(.headline)
                 Spacer()
                 Button("Upgrade") {
+                    Analytics.paywallTriggered(source: "chat_banner", feature: "upgrade_prompt")
                     showingPaywall = true
                 }
                 .buttonStyle(.borderedProminent)

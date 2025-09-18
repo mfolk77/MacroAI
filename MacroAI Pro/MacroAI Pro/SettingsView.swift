@@ -148,6 +148,7 @@ struct SettingsView: View {
                             Spacer()
                             
                             Button("Upgrade") {
+                                Analytics.paywallTriggered(source: "settings", feature: "premium_upgrade")
                                 showingPremiumUpgrade = true
                             }
                             .font(.subheadline)

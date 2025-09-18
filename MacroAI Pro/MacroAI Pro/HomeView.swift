@@ -122,6 +122,11 @@ struct HomeView: View {
         .sheet(isPresented: $showPaywall) {
             AnnoyingPaywallView(isPresented: $showPaywall)
         }
+        .onChange(of: showPaywall) { _, newValue in
+            if newValue {
+                Analytics.paywallTriggered(source: "home", feature: "overlay")
+            }
+        }
         
     }
     
@@ -181,7 +186,7 @@ struct HomeView: View {
                 .cornerRadius(8)
                 
                 // Settings button
-                Button(action: { showingSettings = true }) {
+                Button(action: { showingSettings = true; Analytics.featureUse("settings", action: "open") }) {
                     Image(systemName: "gear")
                         .font(.title3)
                         .foregroundColor(themeManager.primaryColor)
@@ -417,6 +422,7 @@ struct HomeView: View {
                         showingCamera = true
                         trackTierUsage()
                         updateStreak()
+                        Analytics.featureUse("camera", action: "open")
                     },
                     effect: .cameraFlash
                 )
@@ -430,6 +436,7 @@ struct HomeView: View {
                         showingManualEntry = true
                         trackTierUsage()
                         updateStreak()
+                        Analytics.featureUse("manual_entry", action: "open")
                     },
                     effect: .typewriter
                 )
