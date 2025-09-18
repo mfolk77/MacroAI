@@ -232,6 +232,16 @@ struct CameraView: View {
                                     // Start progress animation
                                     animateAnalysisProgress()
                                     
+                                    // Enforce AI scan daily limit (free: 3/day)
+                                    let sub = UserSubscriptionManager.shared
+                                    guard sub.isPremium || sub.canScanToday() else {
+                                        Analytics.dailyScanLimitHit(count: sub.aiScansToday)
+                                        Analytics.limitPaywallShown()
+                                        NotificationCenter.default.post(name: NSNotification.Name("ShowPaywallDueToScanLimit"), object: nil)
+                                        withAnimation(.easeInOut(duration: 0.3)) { isAnalyzing = false }
+                                        return
+                                    }
+
                                     // Add a small delay to ensure stable image
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                         // Capture photo
@@ -281,6 +291,8 @@ struct CameraView: View {
                                                                 
                                                                 // Save to the store
                                                                 let _ = await macroEntryStore.addEntry(macroEntry)
+                                                                // Increment scan counter
+                                                                if !sub.isPremium { sub.incrementScanCount() }
                                                                 print("✅ [CameraView] Macro entry added from photo: \(macroEntry.name)")
                                                                 
                                                                 // Premium success feedback

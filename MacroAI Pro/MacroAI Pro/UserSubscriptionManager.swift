@@ -9,6 +9,8 @@ final class UserSubscriptionManager: ObservableObject {
     @Published var trialEndDate: Date?
     @Published var mealsLoggedToday: Int
     @Published var lastMealLogDate: Date?
+    @Published var aiScansToday: Int
+    @Published var lastScanDate: Date?
 
     private let defaults = UserDefaults.standard
 
@@ -18,6 +20,8 @@ final class UserSubscriptionManager: ObservableObject {
         self.trialEndDate = defaults.object(forKey: "USM_trialEndDate") as? Date
         self.mealsLoggedToday = defaults.integer(forKey: "USM_mealsLoggedToday")
         self.lastMealLogDate = defaults.object(forKey: "USM_lastMealLogDate") as? Date
+        self.aiScansToday = defaults.integer(forKey: "USM_aiScansToday")
+        self.lastScanDate = defaults.object(forKey: "USM_lastScanDate") as? Date
 
         resetDailyCountIfNeeded(now: Date())
     }
@@ -45,6 +49,32 @@ final class UserSubscriptionManager: ObservableObject {
         mealsLoggedToday = 0
         lastMealLogDate = Date()
         persist()
+    }
+
+    // MARK: - AI Scan Limits (Free: 3/day)
+    func canScanToday() -> Bool {
+        if isPremium { return true }
+        resetDailyScanIfNeeded(now: Date())
+        return aiScansToday < 3
+    }
+
+    func incrementScanCount() {
+        resetDailyScanIfNeeded(now: Date())
+        aiScansToday += 1
+        persist()
+    }
+
+    private func resetDailyScanIfNeeded(now: Date) {
+        guard let last = lastScanDate else {
+            lastScanDate = now
+            persist()
+            return
+        }
+        if !Calendar.current.isDate(last, inSameDayAs: now) {
+            aiScansToday = 0
+            lastScanDate = now
+            persist()
+        }
     }
 
     private func resetDailyCountIfNeeded(now: Date) {
@@ -88,6 +118,8 @@ final class UserSubscriptionManager: ObservableObject {
         defaults.set(trialEndDate, forKey: "USM_trialEndDate")
         defaults.set(mealsLoggedToday, forKey: "USM_mealsLoggedToday")
         defaults.set(lastMealLogDate, forKey: "USM_lastMealLogDate")
+        defaults.set(aiScansToday, forKey: "USM_aiScansToday")
+        defaults.set(lastScanDate, forKey: "USM_lastScanDate")
     }
 }
 

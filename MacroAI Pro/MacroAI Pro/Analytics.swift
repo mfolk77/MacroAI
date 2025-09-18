@@ -79,6 +79,26 @@ enum Analytics {
     static func trialConverted(day: Int) {
         freemiumLog.log("trial_converted day=\(day, privacy: .public)")
     }
+
+    // Onboarding & Paywalls
+    static func onboardingCompleted() {
+        freemiumLog.info("onboarding_completed")
+    }
+    static func onboardingPaywallShown() {
+        freemiumLog.info("onboarding_paywall_shown")
+    }
+    static func dailyScanLimitHit(count: Int) {
+        freemiumLog.info("daily_scan_limit_hit: count=\(count, privacy: .public)")
+    }
+    static func limitPaywallShown() {
+        freemiumLog.info("limit_paywall_shown: trigger=daily_scans")
+    }
+    static func premiumFeatureTapped(_ feature: String) {
+        freemiumLog.info("premium_feature_tapped: feature=\(feature, privacy: .public)")
+    }
+    static func featurePaywallShown(_ feature: String) {
+        freemiumLog.info("feature_paywall_shown: feature=\(feature, privacy: .public)")
+    }
 }
 
 

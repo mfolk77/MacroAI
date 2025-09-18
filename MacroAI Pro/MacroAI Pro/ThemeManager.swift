@@ -399,7 +399,6 @@ class ThemeManager: ObservableObject {
     
     private func checkSeasonalThemes() {
         let currentDate = Date()
-        let calendar = Calendar.current
         let formatter = DateFormatter()
         formatter.dateFormat = "MM-dd"
         let currentDateString = formatter.string(from: currentDate)

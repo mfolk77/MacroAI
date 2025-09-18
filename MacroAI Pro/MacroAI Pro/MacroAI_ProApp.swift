@@ -112,6 +112,18 @@ struct MacroAIApp: App {
                         .preferredColorScheme(colorScheme) // Apply the selected color scheme
                 }
             }
+            // Show paywall overlay when flagged
+            .sheet(isPresented: $showPaywall) {
+                PaywallView()
+                    .modelContainer(modelContainer)
+                    .environmentObject(premiumManager)
+                    .environmentObject(storeKitManager)
+                    .environmentObject(themeManager)
+                    .environmentObject(marketplaceManager)
+                    .environmentObject(dietManager)
+                    .environmentObject(subscriptionManager)
+                    .preferredColorScheme(colorScheme)
+            }
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ShowPaywallDueToDailyLimit"))) { _ in
                 showPaywall = true
             }
@@ -134,6 +146,9 @@ struct MacroAIApp: App {
                 // Update onboarding state when app starts
                 isOnboardingComplete = hasSeenOnboarding
                 print("🔄 [MacroAIApp] Onboarding state: UserDefaults=\(hasSeenOnboarding), isOnboardingComplete=\(isOnboardingComplete)")
+            }
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ShowPaywallDueToScanLimit"))) { _ in
+                showPaywall = true
             }
             .onChange(of: isOnboardingComplete) { _, newValue in
                 print("🔄 [MacroAIApp] isOnboardingComplete changed to: \(newValue)")

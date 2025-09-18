@@ -39,7 +39,7 @@ struct ChatView: View {
                         }
                         .padding()
                     }
-                    .onChange(of: messages.count) { _ in
+                    .onChange(of: messages.count) {
                         withAnimation(.easeInOut(duration: 0.3)) {
                             proxy.scrollTo(messages.last?.id, anchor: .bottom)
                         }
@@ -412,3 +412,4 @@ struct TypingIndicator: View {
 #Preview {
     ChatView()
 } 
+

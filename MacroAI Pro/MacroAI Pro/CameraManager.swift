@@ -91,9 +91,10 @@ class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleB
             return 
         }
         
-        barcodeQueue.async {
+        let imageCopy = image
+        barcodeQueue.async { [imageCopy, request, sequence] in
             do {
-                try sequence.perform([request], on: image)
+                try sequence.perform([request], on: imageCopy)
             } catch {
                 print("❌ CameraManager: Barcode detection error: \(error)")
             }

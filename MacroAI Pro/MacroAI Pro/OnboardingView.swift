@@ -146,10 +146,15 @@ struct OnboardingView: View {
                     } else {
                         Button("Get Started") {
                             print("🔄 [OnboardingView] Get Started button tapped")
-                            // Add haptic feedback
                             let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
                             impactFeedback.impactOccurred()
                             completeOnboarding()
+                            Analytics.onboardingCompleted()
+                            if !PaywallState.shared.hasShownOnboardingPaywallThisSession {
+                                Analytics.onboardingPaywallShown()
+                                NotificationCenter.default.post(name: NSNotification.Name("ShowPaywallOnboarding"), object: nil)
+                                PaywallState.shared.hasShownOnboardingPaywallThisSession = true
+                            }
                         }
                         .foregroundColor(.blue)
                         .fontWeight(.bold)
