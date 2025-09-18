@@ -466,6 +466,24 @@ struct HomeView: View {
                 },
                 effect: .magnify
             )
+
+            // Recipes (Premium) Button
+            PlayfulButton(
+                title: "Recipes",
+                icon: "book.fill",
+                color: .purple,
+                action: {
+                    if isPremiumUser() {
+                        showingRecipes = true
+                        Analytics.featureUse("recipes", action: "open")
+                    } else {
+                        Analytics.premiumFeatureTapped("recipes")
+                        Analytics.featurePaywallShown("recipes")
+                        showPaywall = true
+                    }
+                },
+                effect: .typewriter
+            )
             
             
         }

@@ -715,9 +715,6 @@ struct NutritionField: View {
         Text("Preview only available for iOS 17+")
             .foregroundColor(.secondary)
             .padding()
-            .onAppear {
-                // Preview placeholder
-            }
     }
 }
 
