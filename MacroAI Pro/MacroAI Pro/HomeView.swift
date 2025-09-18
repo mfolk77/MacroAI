@@ -453,37 +453,38 @@ struct HomeView: View {
                 )
             }
             
-            // Food Search Button with Magnifying Glass Effect
-            PlayfulButton(
-                title: "Food Search",
-                icon: "magnifyingglass",
-                color: .blue,
-                action: { 
-                    showingAddFood = true
-                    trackTierUsage()
-                    updateStreak()
-                    Analytics.featureUse("food_search", action: "open")
-                },
-                effect: .magnify
-            )
+            // Food Search + Recipes side-by-side to reduce vertical height
+            HStack(spacing: 12) {
+                PlayfulButton(
+                    title: "Food Search",
+                    icon: "magnifyingglass",
+                    color: .blue,
+                    action: { 
+                        showingAddFood = true
+                        trackTierUsage()
+                        updateStreak()
+                        Analytics.featureUse("food_search", action: "open")
+                    },
+                    effect: .magnify
+                )
 
-            // Recipes (Premium) Button
-            PlayfulButton(
-                title: "Recipes",
-                icon: "book.fill",
-                color: .purple,
-                action: {
-                    if isPremiumUser() {
-                        showingRecipes = true
-                        Analytics.featureUse("recipes", action: "open")
-                    } else {
-                        Analytics.premiumFeatureTapped("recipes")
-                        Analytics.featurePaywallShown("recipes")
-                        showPaywall = true
-                    }
-                },
-                effect: .typewriter
-            )
+                PlayfulButton(
+                    title: "Recipes",
+                    icon: "book.fill",
+                    color: .purple,
+                    action: {
+                        if isPremiumUser() {
+                            showingRecipes = true
+                            Analytics.featureUse("recipes", action: "open")
+                        } else {
+                            Analytics.premiumFeatureTapped("recipes")
+                            Analytics.featurePaywallShown("recipes")
+                            showPaywall = true
+                        }
+                    },
+                    effect: .typewriter
+                )
+            }
             
             
         }
