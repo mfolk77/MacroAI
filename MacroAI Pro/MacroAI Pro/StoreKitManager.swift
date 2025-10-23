@@ -18,6 +18,7 @@ class StoreKitManager: ObservableObject {
     init() {
         // Initialize with real StoreKit integration
         print("💰 [StoreKitManager] Initializing with real StoreKit integration")
+        checkEnvironment()
         
         // Check initial subscription status
         Task {

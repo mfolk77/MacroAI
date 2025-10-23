@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "identifier": "com.folktechai.macroai.storekit.config",
+  "subscriptionGroups": [
+    {
+      "id": "MacroAI Subscription Group",
+      "displayName": "MacroAI Subscriptions"
+    }
+  ],
+  "products": [
+    {
+      "id": "pro_monthly",
+      "type": "Auto-Renewable Subscription",
+      "displayName": "Macro AI Pro (Monthly)",
+      "description": "Monthly subscription to Macro AI Pro",
+      "price": 4.99,
+      "subscription": {
+        "group": "MacroAI Subscription Group",
+        "duration": "P1M",
+        "familyShareable": false,
+        "introductoryOffer": {
+          "mode": "Free",
+          "duration": "P7D"
+        }
+      }
+    },
+    {
+      "id": "pro_yearly",
+      "type": "Auto-Renewable Subscription",
+      "displayName": "Macro AI Pro (Yearly)",
+      "description": "Yearly subscription to Macro AI Pro",
+      "price": 39.99,
+      "subscription": {
+        "group": "MacroAI Subscription Group",
+        "duration": "P1Y",
+        "familyShareable": false,
+        "introductoryOffer": {
+          "mode": "Free",
+          "duration": "P7D"
+        }
+      }
+    },
+    {
+      "id": "elite_monthly",
+      "type": "Auto-Renewable Subscription",
+      "displayName": "Macro AI Elite (Monthly)",
+      "description": "Monthly subscription to Macro AI Elite",
+      "price": 5.99,
+      "subscription": {
+        "group": "MacroAI Subscription Group",
+        "duration": "P1M",
+        "familyShareable": false,
+        "introductoryOffer": {
+          "mode": "Free",
+          "duration": "P7D"
+        }
+      }
+    },
+    {
+      "id": "elite_yearly",
+      "type": "Auto-Renewable Subscription",
+      "displayName": "Macro AI Elite (Yearly)",
+      "description": "Yearly subscription to Macro AI Elite",
+      "price": 59.99,
+      "subscription": {
+        "group": "MacroAI Subscription Group",
+        "duration": "P1Y",
+        "familyShareable": false,
+        "introductoryOffer": {
+          "mode": "Free",
+          "duration": "P7D"
+        }
+      }
+    },
+    {
+      "id": "ai_credits_10",
+      "type": "Consumable",
+      "displayName": "10 AI Credits",
+      "description": "Pack of 10 AI credits for occasional use",
+      "price": 4.99
+    }
+  ]
+}

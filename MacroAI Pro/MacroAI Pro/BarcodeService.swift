@@ -53,24 +53,17 @@ class BarcodeService: ObservableObject {
     private func performBarcodeLookup(_ barcode: String) async throws -> NutritionData? {
         print("🔍 [BarcodeService] Starting barcode lookup for: \(barcode)")
         
-        // Strategy 1: Try Open Food Facts API (free, comprehensive)
-        print("🔍 [BarcodeService] Trying Open Food Facts API...")
+        // Strategy 1: Open Food Facts → USDA (new primary flow)
+        print("🔍 [BarcodeService] Trying Open Food Facts → USDA flow...")
+        if let nutritionData = try await lookupOpenFoodFactsToUSDA(barcode) {
+            print("✅ [BarcodeService] Found data via Open Food Facts → USDA")
+            return nutritionData
+        }
+        
+        // Strategy 2: Direct Open Food Facts (fallback)
+        print("🔍 [BarcodeService] Open Food Facts → USDA failed; trying direct Open Food Facts...")
         if let nutritionData = try await lookupOpenFoodFacts(barcode) {
             print("✅ [BarcodeService] Found data via Open Food Facts API")
-            return nutritionData
-        }
-        
-        // Strategy 2: Try USDA Food Database
-        print("🔍 [BarcodeService] Trying USDA Food Database...")
-        if let nutritionData = try await lookupUSDA(barcode) {
-            print("✅ [BarcodeService] Found data via USDA API")
-            return nutritionData
-        }
-        
-        // Strategy 3: Try Spoonacular API (if available)
-        print("🔍 [BarcodeService] Trying Spoonacular API...")
-        if let nutritionData = try await lookupSpoonacular(barcode) {
-            print("✅ [BarcodeService] Found data via Spoonacular API")
             return nutritionData
         }
         
@@ -118,7 +111,72 @@ class BarcodeService: ObservableObject {
         return convertToNutritionData(product)
     }
     
-    // MARK: - USDA Food Database
+    // MARK: - Open Food Facts → USDA Flow
+    
+    private func lookupOpenFoodFactsToUSDA(_ barcode: String) async throws -> NutritionData? {
+        // Step 1: Get product name from Open Food Facts
+        guard let productName = try await getProductNameFromOpenFoodFacts(barcode) else {
+            return nil
+        }
+        
+        // Step 2: Get nutrition data from USDA using product name
+        let usdaClient = USDAFoodDatabase()
+        do {
+            let macros = try await usdaClient.getNutritionData(for: productName)
+            
+            #if DEBUG
+            print("✅ [BarcodeService] Open Food Facts → USDA: \(productName)")
+            #endif
+            
+            return NutritionData(
+                foodName: productName,
+                calories: macros.calories,
+                protein: macros.protein,
+                carbs: macros.carbs,
+                fats: macros.fat,
+                servingSize: 100,
+                servingSizeType: "g",
+                brand: nil,
+                barcode: barcode
+            )
+        } catch {
+            #if DEBUG
+            print("❌ [BarcodeService] USDA lookup failed for \(productName): \(error)")
+            #endif
+            return nil
+        }
+    }
+    
+    private func getProductNameFromOpenFoodFacts(_ barcode: String) async throws -> String? {
+        let urlString = "https://world.openfoodfacts.org/api/v0/product/\(barcode).json"
+        
+        guard let url = URL(string: urlString) else {
+            throw BarcodeServiceError.invalidURL
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw BarcodeServiceError.networkError
+        }
+        
+        guard httpResponse.statusCode == 200 else {
+            return nil
+        }
+        
+        let decoder = JSONDecoder()
+        let openFoodFactsResponse = try decoder.decode(OpenFoodFactsResponse.self, from: data)
+        
+        guard openFoodFactsResponse.status == 1,
+              let product = openFoodFactsResponse.product,
+              let productName = product.productName else {
+            return nil
+        }
+        
+        return productName
+    }
+    
+    // MARK: - USDA Food Database (Direct)
     
     private func lookupUSDA(_ barcode: String) async throws -> NutritionData? {
         // USDA doesn't have direct barcode lookup, but we can try searching by name
@@ -126,11 +184,10 @@ class BarcodeService: ObservableObject {
         return nil
     }
     
-    // MARK: - Spoonacular API
+    // MARK: - Spoonacular API (DEPRECATED - will be removed)
     
     private func lookupSpoonacular(_ barcode: String) async throws -> NutritionData? {
-        // Try to use existing SpoonacularAPI if available
-        // This would require extending the existing SpoonacularAPI
+        // Spoonacular deprecated - return nil to force fallback to Open Food Facts
         return nil
     }
     

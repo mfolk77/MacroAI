@@ -1,7 +1,9 @@
 import SwiftUI
+import SwiftData
 
 struct ChatView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
     @StateObject private var subscriptionManager = SubscriptionManager.shared
     @State private var messageText = ""
     @State private var messages: [ChatMessage] = []
@@ -9,10 +11,26 @@ struct ChatView: View {
     @State private var showingPaywall = false
     @State private var lastMessageTime = Date()
     @StateObject private var chatService = AIChatService.shared
+    var initialPrompt: String? = nil
+    @State private var showFeed: Bool = true
+    @State private var showCustomizeFeed: Bool = false
+    @State private var showNudgeConfig: Bool = false
+    @State private var showChatTips: Bool = false
+    @State private var showChatSpotlight: Bool = false
+    // Coach Feed options (persisted)
+    @State private var feedProteinByLunch: Bool = true
+    @State private var feedPrelogDinner: Bool = true
+    @State private var feedHydration: Bool = false
+    @State private var feedSteps: Bool = false
+    @State private var feedBreakfast: Bool = false
+    @State private var feedLunch: Bool = false
+    @State private var feedDinner: Bool = false
+    @State private var feedProteinSnacks: Bool = false
     
     var body: some View {
         NavigationView {
             VStack {
+                coachFeed
                 // Fallback notice when Apple model is unavailable
                 if chatService.isUsingAppleModel == false {
                     Text("Using OpenAI due to device/OS compatibility")
@@ -20,8 +38,8 @@ struct ChatView: View {
                         .foregroundColor(.secondary)
                         .padding(.top, 4)
                 }
-                // Show upgrade prompt for Basic tier (chat locked)
-                if !subscriptionManager.currentTier.hasChatAccess {
+                // Show upgrade prompt for Basic after trial expiry
+                if subscriptionManager.currentTier == .basic && !CoachTrialManager.shared.isWithinTrialWindow() {
                     upgradePromptBanner
                 }
                 
@@ -70,7 +88,7 @@ struct ChatView: View {
                 // AI usage indicator
                 aiUsageIndicator
             }
-            .navigationTitle("AI Assistant")
+            .navigationTitle("Coach")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -78,7 +96,31 @@ struct ChatView: View {
                         dismiss()
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button {
+                        showCustomizeFeed = true
+                    } label: {
+                        Image(systemName: "slider.horizontal.3")
+                            .imageScale(.small)
+                    }
+                    Button {
+                        showNudgeConfig = true
+                    } label: {
+                        Image(systemName: "bell.badge")
+                            .imageScale(.small)
+                            .accessibilityLabel("Configure Coach Nudges")
+                    }
+                    Button {
+                        let enable = chatService.adapterMode != .nutrition
+                        chatService.adapterMode = enable ? .nutrition : .none
+                        Analytics.featureUse("chat_adapter", action: enable ? "enable_nutrition" : "disable_nutrition")
+                    } label: {
+                        Image(systemName: chatService.adapterMode == .nutrition ? "leaf.circle.fill" : "leaf.circle")
+                            .foregroundColor(chatService.adapterMode == .nutrition ? .green : .primary)
+                            .imageScale(.small)
+                            .accessibilityLabel(chatService.adapterMode == .nutrition ? "Disable Nutrition" : "Enable Nutrition")
+                    }
+                    
                     Button("Upgrade") {
                         showingPaywall = true
                     }
@@ -91,12 +133,162 @@ struct ChatView: View {
                 addWelcomeMessage()
             }
             setupAutoCleanup()
+            if let prompt = initialPrompt, !prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty, messageText.isEmpty {
+                messageText = prompt
+            }
+            // If Coach Mode is enabled, default adapter to nutrition
+            if UserDefaults.standard.bool(forKey: "coachModeEnabled") {
+                chatService.adapterMode = .nutrition
+            }
+            loadFeedPrefs()
+            // Start 7‑day trial on first open if Basic
+            if subscriptionManager.currentTier == .basic {
+                let started = CoachTrialManager.shared.startIfNeeded(days: 7)
+                if started { Analytics.featureUse("coach", action: "trial_started") }
+            }
         }
         .sheet(isPresented: $showingPaywall) {
             PaywallView()
         }
+        .sheet(isPresented: $showCustomizeFeed) {
+            NavigationView {
+                Form {
+                    Section("Quick wins") {
+                        Toggle("Protein by Lunch", isOn: $feedProteinByLunch)
+                        Toggle("Pre‑log Dinner", isOn: $feedPrelogDinner)
+                        Toggle("Hydration reminder", isOn: $feedHydration)
+                        Toggle("Steps boost walk", isOn: $feedSteps)
+                    }
+                    Section("Meal planning") {
+                        Toggle("Breakfast plan", isOn: $feedBreakfast)
+                        Toggle("Lunch plan", isOn: $feedLunch)
+                        Toggle("Dinner plan", isOn: $feedDinner)
+                        Toggle("High‑protein snack ideas", isOn: $feedProteinSnacks)
+                    }
+                }
+                .navigationTitle("Coach Feed")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) { Button("Cancel") { showCustomizeFeed = false } }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Done") { saveFeedPrefs(); showCustomizeFeed = false }
+                    }
+                }
+            }
+        }
+        .sheet(isPresented: $showNudgeConfig) {
+            CoachNudgeConfigView(onScheduled: { _ in })
+        }
+        .sheet(isPresented: $showChatTips) {
+            ChatTipsOverlay { showChatTips = false }
+        }
+        .overlay(
+            ChatSpotlightOverlay(isVisible: $showChatSpotlight)
+        )
+        .onAppear {
+            // Clear coach badge when opening chat
+            UserDefaults.standard.set(true, forKey: "coach_badge_override_zero")
+            NotificationCenter.default.post(name: .coachBadgeUpdated, object: nil)
+            if !UserDefaults.standard.bool(forKey: "ChatTipsSeen") {
+                showChatTips = true
+                UserDefaults.standard.set(true, forKey: "ChatTipsSeen")
+            }
+            if !UserDefaults.standard.bool(forKey: "ChatSpotlightSeen") {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                    withAnimation { showChatSpotlight = true }
+                }
+            }
+        }
+        .onDisappear {
+            // Post notification when coach is dismissed to resume demo
+            NotificationCenter.default.post(name: Notification.Name("ResumeInteractiveDemo"), object: nil)
+        }
     }
     
+    // Minimal Coach Feed at top
+    private var coachFeed: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            DisclosureGroup(isExpanded: $showFeed) {
+                VStack(alignment: .leading, spacing: 8) {
+                    if SubscriptionManager.shared.currentTier == .basic && !CoachTrialManager.shared.isWithinTrialWindow() {
+                        HStack(spacing: 8) {
+                            Image(systemName: "lock.fill").foregroundColor(.orange)
+                            Text("Unlock Coach to see personalized quick wins and plans.")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Button("Upgrade") { showingPaywall = true }
+                                .font(.caption)
+                                .buttonStyle(.borderedProminent)
+                                .controlSize(.mini)
+                        }
+                        .padding(.horizontal)
+                    } else {
+                        if feedProteinByLunch { feedRow(title: "Protein by Lunch") { messageText = "Give me 5 quick high‑protein snack ideas under 250 calories." } }
+                        if feedPrelogDinner { feedRow(title: "Pre‑log Dinner") { messageText = "Help me plan a balanced dinner ~550 calories with ~35–40g protein. 3 options." } }
+                        if feedHydration { feedRow(title: "Hydration reminder") { messageText = "Suggest simple ways to hit 2–3L water today. 5 quick tips." } }
+                        if feedSteps { feedRow(title: "Steps boost walk") { messageText = "Give me three 10–15 minute walk ideas I can do today, with timing suggestions." } }
+                        if feedBreakfast { feedRow(title: "Breakfast plan") { messageText = "Plan a balanced breakfast ~400 kcal with ~25g protein. 3 options." } }
+                        if feedLunch { feedRow(title: "Lunch plan") { messageText = "Plan a balanced lunch ~500 kcal with ~30–35g protein. 3 options." } }
+                        if feedDinner { feedRow(title: "Dinner plan") { messageText = "Plan a balanced dinner ~550 kcal with ~35–40g protein. 3 options." } }
+                        if feedProteinSnacks { feedRow(title: "High‑protein snacks") { messageText = "List 6 high‑protein snacks under 250 calories." } }
+                    }
+                }
+                .padding(.top, 4)
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "flame.fill").foregroundColor(.orange)
+                    Text("Coach Feed")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Spacer()
+                }
+                .padding(.top, 6)
+                .padding(.horizontal)
+            }
+        }
+    }
+
+    // Compact row with trailing pill button
+    private func feedRow(title: String, action: @escaping () -> Void) -> some View {
+        HStack(spacing: 8) {
+            Text(title)
+                .font(.caption)
+                .lineLimit(1)
+                .truncationMode(.tail)
+            Spacer()
+            Button("Plan", action: action)
+                .font(.caption)
+                .buttonStyle(.bordered)
+                .controlSize(.mini)
+        }
+        .padding(.horizontal)
+    }
+
+    // Persist Coach Feed preferences
+    private func loadFeedPrefs() {
+        let d = UserDefaults.standard
+        feedProteinByLunch = d.object(forKey: "feedProteinByLunch") as? Bool ?? true
+        feedPrelogDinner = d.object(forKey: "feedPrelogDinner") as? Bool ?? true
+        feedHydration = d.object(forKey: "feedHydration") as? Bool ?? false
+        feedSteps = d.object(forKey: "feedSteps") as? Bool ?? false
+        feedBreakfast = d.object(forKey: "feedBreakfast") as? Bool ?? false
+        feedLunch = d.object(forKey: "feedLunch") as? Bool ?? false
+        feedDinner = d.object(forKey: "feedDinner") as? Bool ?? false
+        feedProteinSnacks = d.object(forKey: "feedProteinSnacks") as? Bool ?? false
+    }
+
+    private func saveFeedPrefs() {
+        let d = UserDefaults.standard
+        d.set(feedProteinByLunch, forKey: "feedProteinByLunch")
+        d.set(feedPrelogDinner, forKey: "feedPrelogDinner")
+        d.set(feedHydration, forKey: "feedHydration")
+        d.set(feedSteps, forKey: "feedSteps")
+        d.set(feedBreakfast, forKey: "feedBreakfast")
+        d.set(feedLunch, forKey: "feedLunch")
+        d.set(feedDinner, forKey: "feedDinner")
+        d.set(feedProteinSnacks, forKey: "feedProteinSnacks")
+    }
+
     private var upgradePromptBanner: some View {
         VStack(spacing: 8) {
             HStack {
@@ -130,9 +322,6 @@ struct ChatView: View {
                 .font(.caption)
                 .foregroundColor(.secondary)
             Spacer()
-            Text(chatService.isUsingAppleModel ? "Apple Model" : "OpenAI")
-                .font(.caption.bold())
-                .foregroundColor(.secondary)
             Text(subscriptionManager.currentTier.displayName)
                 .font(.caption.bold())
                 .foregroundColor(.blue)
@@ -146,15 +335,16 @@ struct ChatView: View {
         
         switch subscriptionManager.currentTier {
         case .basic:
-            welcomeText = "Hi! I'm your MacroAI assistant. Chat is locked for free users - upgrade to Pro or Elite to unlock AI conversations. You can still use camera scanning (5/hour, 10/day limit)!"
+            welcomeText = "Hi! I’m your Coach. I help with simple, safe nutrition guidance: quick wins, meal ideas, and gentle reminders. Free users get a 7‑day trial of Coach. Upgrade to unlock full access. Tap the bell to set nudges, or ask me anything about food and macros."
         case .pro:
-            welcomeText = "Hi! I'm your MacroAI Pro assistant. You have \(subscriptionManager.getRemainingChatRequests()) this month. I can help with nutrition questions, meal suggestions, and macro tracking tips. What would you like to know?"
+            welcomeText = "Welcome to Coach. I give practical nutrition help: quick wins, meal planning, and habit nudges (daily/evening/weekly). Tap the bell to set times, or ask me anything about meals and macros."
         case .elite:
-            welcomeText = "Hi! I'm your MacroAI Elite assistant with unlimited AI access. I can help with advanced nutrition analysis, meal optimization, and personalized macro guidance. What would you like to know?"
+            welcomeText = "Welcome to Coach (Elite). I can tailor guidance to your goals and macros. Set your nudges with the bell, enable the leaf for Nutrition mode, and ask for meal plans or macro tweaks."
         }
         
+        let intro = [welcomeText, "\n\nAbout Coach:\n- Educational only; not medical advice\n- Nudges: Daily, Evening, Weekly, Protein by Lunch, Pre‑log Dinner\n- Configure via the bell icon in the top‑right\n- Ask ‘What can Coach do?’ to learn more"].joined()
         let welcomeMessage = ChatMessage(
-            text: welcomeText,
+            text: intro,
             isUser: false,
             timestamp: Date()
         )
@@ -232,8 +422,11 @@ struct ChatView: View {
         // Show typing indicator
         isTyping = true
         
-        // Prefer Apple model, fallback to OpenAI automatically
-        AIChatService.shared.chat(userMessage: currentMessage) { result in
+        // Build adapter context if Nutrition mode is enabled
+        var contextSummary: String? = nil
+        // Prefer Apple model with adapter/context
+        let historyStrings: [String] = messages.suffix(8).map { $0.isUser ? "user: \($0.text)" : "assistant: \($0.text)" }
+        AIChatService.shared.chat(userMessage: currentMessage, context: contextSummary, history: historyStrings, temperature: 0.6) { result in
             DispatchQueue.main.async {
                 isTyping = false
                 
@@ -241,10 +434,16 @@ struct ChatView: View {
                 switch result {
                 case .success(let aiResponse):
                     responseText = aiResponse
+                    // Record successful chat usage or credit consumption
+                    subscriptionManager.recordChatRequest()
                 case .failure(let error):
-                    print("⚠️ [ChatView] AI API failed, using mock: \(error)")
-                    // Fall back to enhanced mock responses
-                    responseText = generateMockResponse(for: currentMessage)
+                    if (error as? ModerationError) != nil {
+                        responseText = "I can’t help with that request. Please rephrase to avoid disallowed content (violence, hate, sexual content with minors, self‑harm, illegal activity, or medical diagnosis/treatment)."
+                    } else {
+                        print("⚠️ [ChatView] AI API failed, using mock: \(error)")
+                        // Fall back to enhanced mock responses
+                        responseText = generateMockResponse(for: currentMessage)
+                    }
                 }
                 
                 let aiMessage = ChatMessage(

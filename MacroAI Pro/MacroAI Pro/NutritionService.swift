@@ -16,41 +16,38 @@ class NutritionService: NutritionServiceProtocol {
     private let apiKey: String
     private let baseURL: URL
     
+    private enum NutritionServiceError: Error {
+        case noAPIKey
+        case notFound
+    }
+    
     init(apiKey: String, baseURL: URL) {
         self.apiKey = apiKey
         self.baseURL = baseURL
     }
     
     func getNutritionData(for foodName: String) async throws -> NutritionMacros {
-        // For now, return mock data
-        // TODO: Implement actual Spoonacular API call
-        print("🍎 [NutritionService] Getting nutrition data for: \(foodName)")
+        #if DEBUG
+        print("🍎 [NutritionService] Fetching nutrition via USDA for: \(foodName)")
+        #endif
         
-        // Simulate API delay
-        try await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
+        let usdaClient = USDAFoodDatabase()
+        let macros = try await usdaClient.getNutritionData(for: foodName)
         
-        // Return mock nutrition data
-        return NutritionMacros(
-            calories: Double.random(in: 100...600),
-            protein: Double.random(in: 5...35),
-            carbs: Double.random(in: 15...70),
-            fat: Double.random(in: 3...25)
-        )
+        #if DEBUG
+        print("🍎 [NutritionService] \(foodName) → kcal: \(macros.calories), P: \(macros.protein), C: \(macros.carbs), F: \(macros.fat)")
+        #endif
+        
+        return macros
     }
     
     func searchFood(_ query: String) async throws -> [String] {
-        print("🔍 [NutritionService] Searching for: \(query)")
+        #if DEBUG
+        print("🔍 [NutritionService] Searching USDA for: \(query)")
+        #endif
         
-        // Simulate API delay
-        try await Task.sleep(nanoseconds: 300_000_000) // 0.3 seconds
-        
-        // Return mock search results
-        return [
-            "\(query) - Regular",
-            "\(query) - Organic",
-            "\(query) - Low Fat",
-            "\(query) - High Protein"
-        ]
+        let usdaClient = USDAFoodDatabase()
+        return try await usdaClient.searchFoodNames(query)
     }
 }
 

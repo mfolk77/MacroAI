@@ -157,4 +157,47 @@ class SpoonacularAPI {
         case decodingError
         case networkError
     }
+
+    // MARK: - UPC Lookup
+    
+    struct UPCProductResponse: Codable {
+        let title: String?
+        let brand: String?
+        let nutrition: SpoonacularNutrition?
+    }
+    
+    /// Look up a product by UPC and return basic nutrition
+    func getProductNutritionByUPC(_ upc: String) async throws -> (title: String, brand: String?, calories: Double, protein: Double, carbs: Double, fat: Double) {
+        var components = URLComponents(url: baseURL.appendingPathComponent("food/products/upc/\(upc)"), resolvingAgainstBaseURL: false)!
+        components.queryItems = [
+            URLQueryItem(name: "apiKey", value: apiKey)
+        ]
+        guard let url = components.url else { throw APIError.invalidURL }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw APIError.invalidResponse
+        }
+        
+        let decoder = JSONDecoder()
+        let product = try decoder.decode(UPCProductResponse.self, from: data)
+        
+        var calories: Double = 0
+        var protein: Double = 0
+        var carbs: Double = 0
+        var fat: Double = 0
+        if let nutrients = product.nutrition?.nutrients {
+            for n in nutrients {
+                switch n.name.lowercased() {
+                case "calories": calories = n.amount
+                case "protein": protein = n.amount
+                case "carbohydrates": carbs = n.amount
+                case "fat": fat = n.amount
+                default: break
+                }
+            }
+        }
+        
+        return (title: product.title ?? "Product", brand: product.brand, calories: calories, protein: protein, carbs: carbs, fat: fat)
+    }
 } 

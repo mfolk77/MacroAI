@@ -491,7 +491,8 @@ struct RecipeResultView: View {
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Recipe.self, configurations: config)
+    let container = (try? ModelContainer(for: Recipe.self, configurations: config))
+        ?? (try! ModelContainer(for: Recipe.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true)))
     let recipeManager = RecipeManager(modelContext: container.mainContext)
     
     RecipeAnalysisView(recipeManager: recipeManager)

@@ -254,13 +254,45 @@ struct CameraView: View {
                                                 if let image = image {
                                                     capturedImage = image
                                                     
-                                                    // Analyze the captured image for food recognition
-                                                    Task {
-                                                        do {
-                                                            let macroAIManager = try ServiceFactory.createMacroAIManager()
-                                                            print("🔍 [CameraView] Analyzing captured photo for food recognition...")
+                                                    // Check if we're in demo mode
+                                                    let isDemoMode = UserDefaults.standard.bool(forKey: "DemoMode")
+                                                    
+                                                    if isDemoMode {
+                                                        // In demo mode, just show demo results and exit
+                                                        showSuccessMessage = true
+                                                        successMessage = "Demo photo captured! This won't affect your real macros."
+                                                        
+                                                        // Show demo results immediately
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                                            let demoEntry = [
+                                                                "foodName": "Demo Apple",
+                                                                "calories": 95,
+                                                                "protein": 0.5,
+                                                                "carbs": 25.0,
+                                                                "fat": 0.3,
+                                                                "servingSize": "1 medium",
+                                                                "timestamp": Date()
+                                                            ] as [String: Any]
                                                             
-                                                            await macroAIManager.analyzeFoodImage(image)
+                                                            UserDefaults.standard.set(demoEntry, forKey: "DemoMacroEntry")
+                                                            UserDefaults.standard.set(true, forKey: "ShowDemoResults")
+                                                            NotificationCenter.default.post(name: Notification.Name("ShowDemoResults"), object: demoEntry)
+                                                            
+                                                            // Resume demo automatically
+                                                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                                                dismiss()
+                                                                // Post notification to resume demo
+                                                                NotificationCenter.default.post(name: Notification.Name("ResumeInteractiveDemo"), object: nil)
+                                                            }
+                                                        }
+                                                    } else {
+                                                        // Normal mode - analyze the captured image for food recognition
+                                                        Task {
+                                                            do {
+                                                                let macroAIManager = try ServiceFactory.createMacroAIManager()
+                                                                print("🔍 [CameraView] Analyzing captured photo for food recognition...")
+                                                                
+                                                                await macroAIManager.analyzeFoodImage(image)
                                                             
                                                             if let nutritionMacros = macroAIManager.nutritionMacros {
                                                                 print("✅ [CameraView] Food analyzed with macros")
@@ -343,8 +375,9 @@ struct CameraView: View {
                                                             }
                                                         }
                                                     }
-                                                    
-                                                    dismiss()
+                                                }
+                                                
+                                                dismiss()
                                                 }
                                             }
                                         }

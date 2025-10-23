@@ -84,6 +84,23 @@ struct MarketplaceView: View {
                 }
                 
                 Spacer()
+
+                // Upgrade CTA for Basic users
+                if subscriptionManager.currentTier == .basic {
+                    Button(action: {
+                        Analytics.paywallTriggered(source: "marketplace", feature: "header_button")
+                        NotificationCenter.default.post(name: NSNotification.Name("ShowPaywallDueToScanLimit"), object: nil)
+                    }) {
+                        HStack(spacing: 6) {
+                            Image(systemName: "crown.fill").foregroundColor(.yellow).font(.caption)
+                            Text("Upgrade").font(.system(size: 12, weight: .bold, design: .rounded)).foregroundColor(.yellow)
+                        }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(Color.yellow.opacity(0.2))
+                        .cornerRadius(8)
+                    }
+                }
             }
             
             // Premium status indicator

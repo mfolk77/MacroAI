@@ -15,46 +15,28 @@ struct OnboardingFeature: Identifiable {
 }
 
 struct OnboardingView: View {
-    @State private var currentPage = 0
+    @State private var currentStep = 0
     @State private var showingOnboarding = false
     @Binding var isOnboardingComplete: Bool
     
     let features = [
         OnboardingFeature(
-            title: "Snap Food",
-            description: "Take a photo of your food and let AI identify and calculate nutrition instantly",
-            icon: "camera.fill",
-            color: .blue
-        ),
-        OnboardingFeature(
-            title: "Manual Entry",
-            description: "Add foods manually with our comprehensive nutrition database",
-            icon: "pencil",
-            color: .green
-        ),
-        OnboardingFeature(
-            title: "Food Search",
-            description: "Search thousands of foods and get detailed nutrition information",
-            icon: "magnifyingglass",
-            color: .orange
-        ),
-        OnboardingFeature(
-            title: "Daily Streak Tracking",
-            description: "Track your daily nutrition goals and build healthy habits with streak counting",
-            icon: "flame.fill",
-            color: .red
-        ),
-        OnboardingFeature(
-            title: "AI Nutrition Assistant",
-            description: "Get personalized nutrition advice and macro guidance from your AI assistant",
-            icon: "brain.head.profile",
+            title: "100% Private Food Recognition",
+            description: "The ONLY macro app that processes your food photos on your device. Your photos never leave your phone.",
+            icon: "lock.shield.fill",
             color: .purple
         ),
         OnboardingFeature(
-            title: "Premium Features",
-            description: "Unlock advanced features and premium themes with 7-day free trial",
-            icon: "crown.fill",
-            color: .yellow
+            title: "Official Nutrition Database",
+            description: "Powered by the same nutrition data used by nutritionists and dietitians. Accurate, reliable, and unlimited with subscription.",
+            icon: "leaf.fill",
+            color: .green
+        ),
+        OnboardingFeature(
+            title: "AI-Powered Coaching",
+            description: "Get personalized nutrition advice, meal planning, and macro coaching from our on-device AI assistant.",
+            icon: "brain.head.profile",
+            color: .blue
         )
     ]
     
@@ -68,186 +50,189 @@ struct OnboardingView: View {
             )
             .ignoresSafeArea()
             
-            VStack(spacing: 0) {
-                // Page indicator
-                HStack {
-                    ForEach(0..<features.count, id: \.self) { index in
-                        Circle()
-                            .fill(index == currentPage ? Color.white : Color.white.opacity(0.3))
-                            .frame(width: 8, height: 8)
-                            .animation(.easeInOut(duration: 0.3), value: currentPage)
-                    }
-                }
-                .padding(.top, 50)
-                .padding(.bottom, 30)
-                
-                // Feature content
-                TabView(selection: $currentPage) {
-                    ForEach(Array(features.enumerated()), id: \.element.id) { index, feature in
-                        VStack(spacing: 30) {
-                            Spacer()
+            if currentStep < features.count {
+                // Thought bubble style onboarding
+                VStack {
+                    Spacer()
+                    
+                    // Main content area
+                    VStack(spacing: 30) {
+                        // Icon with enhanced visibility
+                        ZStack {
+                            Circle()
+                                .fill(Color.white.opacity(0.2))
+                                .frame(width: 120, height: 120)
+                                .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
                             
-                            // Icon
-                            ZStack {
-                                Circle()
-                                    .fill(feature.color.opacity(0.2))
-                                    .frame(width: 120, height: 120)
-                                
-                                Image(systemName: feature.icon)
-                                    .font(.system(size: 50))
-                                    .foregroundColor(feature.color)
-                            }
-                            
-                            // Screen 1: Snap Food – usage badge
-                            if feature.title == "Snap Food" {
-                                Text("3 free scans daily")
-                                    .font(.caption)
-                                    .foregroundColor(.white.opacity(0.85))
-                                    .padding(.horizontal, 10)
-                                    .padding(.vertical, 4)
-                                    .background(Color.white.opacity(0.15))
-                                    .cornerRadius(10)
-                            }
-                            
-                            // Title and description
-                            VStack(spacing: 16) {
-                                if feature.title == "AI Nutrition Assistant" {
-                                    Text("⭐ PREMIUM · AI Nutrition Assistant")
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.white)
-                                        .multilineTextAlignment(.center)
-                                } else {
-                                    Text(feature.title)
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.white)
-                                        .multilineTextAlignment(.center)
-                                }
-                                
-                                Text(feature.description)
-                                    .font(.body)
-                                    .foregroundColor(.white.opacity(0.9))
-                                    .multilineTextAlignment(.center)
-                                    .padding(.horizontal, 40)
-                                
-                                if feature.title == "Snap Food" {
-                                    Text("Upgrade for unlimited scanning")
-                                        .font(.caption)
-                                        .foregroundColor(.white.opacity(0.85))
-                                }
-                                if feature.title == "AI Nutrition Assistant" {
-                                    Text("Included with premium subscription")
-                                        .font(.caption)
-                                        .foregroundColor(.white.opacity(0.85))
-                                }
-                                if feature.title == "Food Search" {
-                                    Text("Advanced search filters available with premium")
-                                        .font(.caption)
-                                        .foregroundColor(.white.opacity(0.85))
-                                }
-                            }
-                            
-                            Spacer()
-                            
-                            if feature.title == "Premium Features" {
-                                VStack(spacing: 10) {
-                                    Text("Unlock the full MacroAI experience")
-                                        .font(.headline)
-                                        .foregroundColor(.white)
-                                        .multilineTextAlignment(.center)
-                                        .padding(.horizontal, 24)
-                                    
-                                    VStack(alignment: .leading, spacing: 8) {
-                                        Text("✨ Unlimited AI food scanning")
-                                        Text("🥑 Advanced diet plans (Keto, Mediterranean, High-Protein)")
-                                        Text("🎨 Premium themes & customization")
-                                        Text("📊 Detailed progress analytics")
-                                        Text("📈 Macro trend analysis")
-                                        Text("🍽️ AI meal planning suggestions")
-                                        Text("📱 Data export capabilities")
-                                    }
-                                    .font(.subheadline)
-                                    .foregroundColor(.white.opacity(0.9))
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.horizontal, 24)
-                                    
-                                    Text("7-Day Free Trial • Cancel Anytime")
-                                        .font(.caption)
-                                        .foregroundColor(.white.opacity(0.85))
-                                    
-                                    HStack(spacing: 12) {
-                                        Button("Start Free Trial") {
-                                            Analytics.onboardingPaywallShown()
-                                            NotificationCenter.default.post(name: NSNotification.Name("ShowPaywallOnboarding"), object: nil)
-                                            PaywallState.shared.hasShownOnboardingPaywallThisSession = true
-                                        }
-                                        .buttonStyle(.borderedProminent)
-                                        
-                                        Button("Continue with Free Version") {
-                                            // Continue without triggering paywall
-                                        }
-                                        .buttonStyle(.bordered)
-                                    }
-                                }
-                            }
-                            
-                            Spacer()
+                            Image(systemName: features[currentStep].icon)
+                                .font(.system(size: 50))
+                                .foregroundColor(.white)
+                                .shadow(color: .black.opacity(0.3), radius: 5, x: 0, y: 2)
                         }
-                        .tag(index)
-                    }
-                }
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                .animation(.easeInOut(duration: 0.3), value: currentPage)
-                
-                // Navigation buttons
-                HStack {
-                    if currentPage > 0 {
-                        Button("Back") {
-                            withAnimation {
-                                currentPage -= 1
-                            }
+                        
+                        // Thought bubble content
+                        VStack(spacing: 16) {
+                            Text(features[currentStep].title)
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .multilineTextAlignment(.center)
+                                .shadow(color: .black.opacity(0.3), radius: 3, x: 0, y: 1)
+                            
+                            Text(features[currentStep].description)
+                                .font(.body)
+                                .foregroundColor(.white.opacity(0.95))
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 40)
+                                .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 1)
                         }
-                        .foregroundColor(.white.opacity(0.8))
-                        .padding()
+                        .padding(24)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(.ultraThinMaterial)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                                )
+                                .shadow(color: .black.opacity(0.2), radius: 15, x: 0, y: 8)
+                        )
+                        .padding(.horizontal, 20)
                     }
                     
                     Spacer()
                     
-                    if currentPage < features.count - 1 {
-                        Button("Next") {
-                            withAnimation {
-                                currentPage += 1
+                    // Navigation with thought bubble style
+                    HStack(spacing: 20) {
+                        if currentStep > 0 {
+                            Button("Back") {
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    currentStep -= 1
+                                }
+                            }
+                            .foregroundColor(.white.opacity(0.8))
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 12)
+                            .background(Color.white.opacity(0.2))
+                            .cornerRadius(20)
+                        }
+                        
+                        Spacer()
+                        
+                        if currentStep < features.count - 1 {
+                            Button("Next") {
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    currentStep += 1
+                                }
+                            }
+                            .foregroundColor(.white)
+                            .fontWeight(.semibold)
+                            .padding(.horizontal, 30)
+                            .padding(.vertical, 12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(.ultraThinMaterial)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                                    )
+                            )
+                            .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                        } else {
+                            Button("Get Started") {
+                                print("🔄 [OnboardingView] Get Started button tapped")
+                                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+                                impactFeedback.impactOccurred()
+                                completeOnboarding()
+                                Analytics.onboardingCompleted()
+                                if !PaywallState.shared.hasShownOnboardingPaywallThisSession {
+                                    Analytics.onboardingPaywallShown()
+                                    NotificationCenter.default.post(name: NSNotification.Name("ShowPaywallOnboarding"), object: nil)
+                                    PaywallState.shared.hasShownOnboardingPaywallThisSession = true
+                                }
+                            }
+                            .foregroundColor(.blue)
+                            .fontWeight(.bold)
+                            .padding(.horizontal, 30)
+                            .padding(.vertical, 12)
+                            .background(Color.white)
+                            .cornerRadius(25)
+                            .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
+                        }
+                    }
+                    .padding(.horizontal, 30)
+                    .padding(.bottom, 50)
+                }
+            } else {
+                // Final step - Premium benefits
+                VStack(spacing: 30) {
+                    Spacer()
+                    
+                    VStack(spacing: 20) {
+                        Text("Unlock the full MacroAI experience")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                            .shadow(color: .black.opacity(0.3), radius: 3, x: 0, y: 1)
+                        
+                        VStack(alignment: .leading, spacing: 12) {
+                            HStack(spacing: 12) {
+                                Image(systemName: "flame.fill")
+                                    .foregroundColor(.orange)
+                                Text("Coach Mode nudges & streaks")
+                            }
+                            HStack(spacing: 12) {
+                                Image(systemName: "brain.head.profile")
+                                    .foregroundColor(.blue)
+                                Text("Unlimited AI chat (on‑device)")
+                            }
+                            HStack(spacing: 12) {
+                                Image(systemName: "leaf.fill")
+                                    .foregroundColor(.green)
+                                Text("Diet packs (Keto, Mediterranean, High‑Protein)")
+                            }
+                            HStack(spacing: 12) {
+                                Image(systemName: "paintbrush.fill")
+                                    .foregroundColor(.purple)
+                                Text("Seasonal themes & customization")
                             }
                         }
-                        .foregroundColor(.white)
-                        .padding()
-                    } else {
-                        Button("Get Started") {
-                            print("🔄 [OnboardingView] Get Started button tapped")
-                            let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-                            impactFeedback.impactOccurred()
-                            completeOnboarding()
-                            Analytics.onboardingCompleted()
-                            if !PaywallState.shared.hasShownOnboardingPaywallThisSession {
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.95))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(20)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(.ultraThinMaterial)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                                )
+                        )
+                        
+                        Text("7-Day Free Trial • Cancel Anytime")
+                            .font(.caption)
+                            .foregroundColor(.white.opacity(0.85))
+                        
+                        HStack(spacing: 12) {
+                            Button("Start Free Trial") {
                                 Analytics.onboardingPaywallShown()
                                 NotificationCenter.default.post(name: NSNotification.Name("ShowPaywallOnboarding"), object: nil)
                                 PaywallState.shared.hasShownOnboardingPaywallThisSession = true
                             }
+                            .buttonStyle(.borderedProminent)
+                            
+                            Button("Continue with Free Version") {
+                                completeOnboarding()
+                                Analytics.onboardingCompleted()
+                            }
+                            .buttonStyle(.bordered)
                         }
-                        .foregroundColor(.blue)
-                        .fontWeight(.bold)
-                        .padding(.horizontal, 30)
-                        .padding(.vertical, 12)
-                        .background(Color.white)
-                        .cornerRadius(25)
-                        .padding()
-                        .buttonStyle(PlainButtonStyle())
-                        .scaleEffect(1.0)
-                        .animation(.easeInOut(duration: 0.1), value: true)
                     }
+                    .padding(.horizontal, 30)
+                    
+                    Spacer()
                 }
-                .padding(.bottom, 50)
             }
         }
         .onAppear {
@@ -264,6 +249,11 @@ struct OnboardingView: View {
         print("✅ [OnboardingView] isOnboardingComplete set to true")
         print("✅ [OnboardingView] Onboarding completed - user can now access main app")
         Analytics.featureUse("onboarding", action: "complete")
+        
+        // Trigger interactive demo after a brief delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            NotificationCenter.default.post(name: NSNotification.Name("ShowInteractiveDemo"), object: nil)
+        }
     }
 }
 

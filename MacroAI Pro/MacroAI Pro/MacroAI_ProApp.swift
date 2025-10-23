@@ -7,10 +7,12 @@
 import SwiftUI
 import SwiftData
 import Foundation
+import UserNotifications
 
 @main
 struct MacroAIApp: App {
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.openURL) private var openURL
     // Centralized ModelContainer to prevent data corruption
     let modelContainer: ModelContainer
     
@@ -20,6 +22,7 @@ struct MacroAIApp: App {
     @StateObject private var marketplaceManager = MarketplaceManager.shared
     @StateObject private var dietManager = DietManager.shared
     @StateObject private var subscriptionManager = SubscriptionManager.shared
+    @StateObject private var updateManager = AppUpdateManager()
     @State private var isOnboardingComplete = false
     
     private var hasSeenOnboarding: Bool {
@@ -35,7 +38,7 @@ struct MacroAIApp: App {
             let schema = Schema([
                 MacroEntry.self as any PersistentModel.Type,
                 Recipe.self as any PersistentModel.Type,
-                NutritionCacheEntry.self as any PersistentModel.Type
+                NutritionCacheEntry.self as any PersistentModel.Type,
             ])
             let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
             modelContainer = try ModelContainer(for: schema, configurations: [modelConfiguration])
@@ -45,8 +48,25 @@ struct MacroAIApp: App {
             
             print("✅ [MacroAIApp] Centralized ModelContainer initialized successfully")
         } catch {
-            fatalError("❌ [MacroAIApp] Failed to initialize ModelContainer: \(error)")
+            // Fall back to in-memory ModelContainer to avoid crash
+            print("⚠️ [MacroAIApp] Failed to initialize persistent ModelContainer: \(error). Falling back to in-memory store.")
+            let fallbackSchema = Schema([
+                MacroEntry.self as any PersistentModel.Type,
+                Recipe.self as any PersistentModel.Type,
+                NutritionCacheEntry.self as any PersistentModel.Type,
+            ])
+            let inMemoryConfig = ModelConfiguration(schema: fallbackSchema, isStoredInMemoryOnly: true)
+            if let inMemoryContainer = try? ModelContainer(for: fallbackSchema, configurations: [inMemoryConfig]) {
+                modelContainer = inMemoryContainer
+            } else if let minimalContainer = try? ModelContainer(for: MacroEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true)) {
+                modelContainer = minimalContainer
+            } else {
+                // Last resort: force-create a minimal in-memory container
+                modelContainer = try! ModelContainer(for: MacroEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+            }
         }
+        // Ensure local notifications show while app is in foreground
+        UNUserNotificationCenter.current().delegate = AppNotificationDelegate.shared
     }
     @State private var showPaywall = false
     @AppStorage("selectedTheme") private var selectedTheme: String = "System"
@@ -99,18 +119,7 @@ struct MacroAIApp: App {
                         }
                 }
                 
-                // Paywall overlay (only shown when explicitly triggered)
-                if showPaywall {
-                    AnnoyingPaywallView(isPresented: $showPaywall)
-                        .modelContainer(modelContainer) // Use centralized ModelContainer
-                        .environmentObject(premiumManager)
-                        .environmentObject(storeKitManager)
-                        .environmentObject(themeManager)
-                        .environmentObject(marketplaceManager)
-                        .environmentObject(dietManager)
-                        .environmentObject(subscriptionManager)
-                        .preferredColorScheme(colorScheme) // Apply the selected color scheme
-                }
+                // Paywall overlay removed to prevent double-presentation; using sheet below
             }
             // Show paywall overlay when flagged
             .sheet(isPresented: $showPaywall) {
@@ -134,6 +143,7 @@ struct MacroAIApp: App {
                 switch phase {
                 case .active:
                     Analytics.lifecycle("foreground")
+                    updateManager.checkForUpdate()
                 case .inactive:
                     Analytics.lifecycle("inactive")
                 case .background:
@@ -141,6 +151,10 @@ struct MacroAIApp: App {
                 @unknown default:
                     break
                 }
+            }
+            .onAppear {
+                // Check for updates on app launch
+                updateManager.checkForUpdate()
             }
             .onAppear {
                 // Update onboarding state when app starts
@@ -152,6 +166,25 @@ struct MacroAIApp: App {
             }
             .onChange(of: isOnboardingComplete) { _, newValue in
                 print("🔄 [MacroAIApp] isOnboardingComplete changed to: \(newValue)")
+            }
+            .alert(
+                "Update Available",
+                isPresented: Binding(
+                    get: { updateManager.updateAvailable },
+                    set: { updateManager.updateAvailable = $0 }
+                )
+            ) {
+                Button("Later", role: .cancel) {
+                    updateManager.updateAvailable = false
+                }
+                Button("Update") {
+                    if let url = updateManager.appStoreURL {
+                        openURL(url)
+                    }
+                    updateManager.updateAvailable = false
+                }
+            } message: {
+                Text("A newer version (\(updateManager.latestVersion ?? "")) is available. Please update for the latest fixes.")
             }
         }
     }
@@ -202,4 +235,23 @@ struct MacroAIApp: App {
 
 // HomeView is now in a separate file: HomeView.swift
 
+}
+
+// MARK: - Notification Delegate to present alerts in foreground
+final class AppNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
+    static let shared = AppNotificationDelegate()
+    private override init() { super.init() }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        // Show banner/sound even when app is in foreground
+        if #available(iOS 14.0, *) {
+            completionHandler([.banner, .sound, .badge])
+        } else {
+            completionHandler([.alert, .sound, .badge])
+        }
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        completionHandler()
+    }
 }

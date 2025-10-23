@@ -154,8 +154,10 @@ struct FastFoodSelectionView: View {
 
 #Preview {
     if #available(iOS 17, *) {
-        FastFoodSelectionView(
-            macroEntryStore: MacroEntryStore(modelContext: try! ModelContainer(for: MacroEntry.self).mainContext),
+        let container = (try? ModelContainer(for: MacroEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true)))
+            ?? (try! ModelContainer(for: MacroEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true)))
+        return FastFoodSelectionView(
+            macroEntryStore: MacroEntryStore(modelContext: container.mainContext),
             macroAIManager: MacroAIManager(
                 foodVision: MockFoodVisionService(),
                 nutrition: MockNutritionService(),
@@ -163,6 +165,6 @@ struct FastFoodSelectionView: View {
             )
         )
     } else {
-        Text("Preview requires iOS 17 or newer")
+        return Text("Preview requires iOS 17 or newer")
     }
 }

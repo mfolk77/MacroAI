@@ -34,7 +34,7 @@ enum SubscriptionTier: String, CaseIterable {
             return [
                 "Everything in Basic",
                 "Unlimited AI food scanning",
-                "AI chat assistant (15/month)",
+                "Unlimited AI chat assistant",
                 "Diet suggestion wizard",
                 "Visual entry tracking"
             ]
@@ -100,7 +100,7 @@ enum SubscriptionTier: String, CaseIterable {
     var monthlyChatLimit: Int {
         switch self {
         case .basic: return 0   // Chat locked for free users
-        case .pro: return 15    // 15 chat requests per month
+        case .pro: return Int.max // Unlimited chat for paid tiers
         case .elite: return Int.max // Unlimited chat
         }
     }
@@ -168,6 +168,8 @@ class SubscriptionManager: ObservableObject {
     @Published var monthlyChatUsage: Int = 0
     @Published var products: [Product] = []
     @Published var purchasedSubscriptions: Set<String> = []
+    @Published var isLoadingProducts: Bool = false
+    @Published var productLoadError: String? = nil
     
     // Trial management
     @Published var isTrialActive: Bool = false
@@ -189,28 +191,79 @@ class SubscriptionManager: ObservableObject {
             await loadProducts()
             await checkSubscriptionStatus()
             loadUsageData()
+            // Listen for transaction updates to handle delayed deliveries (e.g., consumables)
+            Task.detached { [weak self] in
+                guard let self = self else { return }
+                for await update in Transaction.updates {
+                    do {
+                        let transaction = try self.checkVerified(update)
+                        await MainActor.run {
+                            if transaction.productID == AICreditPack.standardPack.productID {
+                                self.aiCredits += AICreditPack.standardPack.credits
+                                self.saveUsageData()
+                                print("🔢 [SubscriptionManager] Credited \(AICreditPack.standardPack.credits) AI credits from updates. New balance: \(self.aiCredits)")
+                            }
+                        }
+                        await transaction.finish()
+                    } catch {
+                        print("❌ [SubscriptionManager] Failed to verify transaction update: \(error)")
+                    }
+                }
+            }
         }
     }
+
+    #if DEBUG
+    // DEBUG-only override to force premium access for testing
+    func forcePremiumOverride(_ enabled: Bool) {
+        if enabled {
+            currentTier = .elite
+        } else {
+            // revert to basic for safety; testers can restore purchases to return
+            currentTier = .basic
+        }
+    }
+    #endif
     
     // MARK: - Product Loading
     
     func loadProducts() async {
+        await MainActor.run {
+            self.isLoadingProducts = true
+            self.productLoadError = nil
+        }
         do {
             let products = try await Product.products(for: productIDs)
             await MainActor.run {
                 self.products = products
+                self.isLoadingProducts = false
+                print("🛒 [SubscriptionManager] Loaded products: \(products.map { $0.id }.joined(separator: ", "))")
             }
         } catch {
             print("Failed to load products: \(error)")
+            await MainActor.run {
+                self.isLoadingProducts = false
+                self.productLoadError = error.localizedDescription
+            }
         }
     }
     
     // MARK: - Subscription Status
     
+    // Marked nonisolated so it can be called from background tasks (e.g., Task.detached)
+    nonisolated func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
+        switch result {
+        case .unverified:
+            throw StoreError.failedVerification
+        case .verified(let safe):
+            return safe
+        }
+    }
+    
     func checkSubscriptionStatus() async {
         // Check for sandbox vs production environment
-        let isSandbox = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
-        print("🔍 [SubscriptionManager] Environment: \(isSandbox ? "Sandbox" : "Production")")
+        let isSandbox = AppEnvironment.isSandbox
+        print("🔍 [SubscriptionManager] Environment: \(isSandbox ? "Sandbox" : "Production") (build=\(AppEnvironment.isSandboxBuild), receiptSandbox=\(AppEnvironment.isSandboxReceipt))")
         
         for await result in Transaction.currentEntitlements {
             do {
@@ -238,15 +291,6 @@ class SubscriptionManager: ObservableObject {
         }
     }
     
-    func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
-        switch result {
-        case .unverified:
-            throw StoreError.failedVerification
-        case .verified(let safe):
-            return safe
-        }
-    }
-    
     // MARK: - Purchase Methods
     
     func purchase(_ product: Product) async throws {
@@ -260,10 +304,17 @@ class SubscriptionManager: ObservableObject {
             print("🎁 [SubscriptionManager] Purchase successful for product: \(product.id)")
             await MainActor.run {
                 activateTrial(for: product)
+                // Top-up AI credits for credit pack purchases
+                if product.id == AICreditPack.standardPack.productID {
+                    aiCredits += AICreditPack.standardPack.credits
+                    saveUsageData()
+                    print("🔢 [SubscriptionManager] Credited \(AICreditPack.standardPack.credits) AI credits. New balance: \(aiCredits)")
+                }
             }
             
             await transaction.finish()
             await checkSubscriptionStatus()
+            print("🧾 [SubscriptionManager] Finished transaction and refreshed status")
             
         case .userCancelled:
             print("❌ [SubscriptionManager] Purchase cancelled by user")
@@ -327,34 +378,31 @@ class SubscriptionManager: ObservableObject {
     // MARK: - Chat AI Usage
     
     func canMakeChatRequest() -> Bool {
-        // Check if tier has chat access
-        guard currentTier.hasChatAccess else {
-            return false
-        }
-        
-        // Check monthly limits
-        return monthlyChatUsage < currentTier.monthlyChatLimit
+        // Chat is available only for paid tiers; unlimited when available
+        return currentTier.hasChatAccess
     }
     
     func recordChatRequest() {
-        monthlyChatUsage += 1
-        saveUsageData()
+        // No token charge for chat; unlimited for paid tiers.
+        // Keep usage data unchanged to avoid gating.
     }
     
     func getRemainingChatRequests() -> String {
-        guard currentTier.hasChatAccess else {
-            return "Chat locked - upgrade to unlock"
-        }
-        
-        switch currentTier {
-        case .basic:
-            return "Chat locked - upgrade to unlock"
-        case .pro:
-            let remaining = max(0, currentTier.monthlyChatLimit - monthlyChatUsage)
-            return "\(remaining) this month"
-        case .elite:
+        if currentTier.hasChatAccess {
             return "Unlimited"
+        } else {
+            return "Chat locked - upgrade to unlock"
         }
+    }
+
+    // MARK: - Scan Credits (for free tier over daily limit)
+    func consumeScanCreditIfAvailable() -> Bool {
+        if aiCredits > 0 {
+            aiCredits -= 1
+            saveUsageData()
+            return true
+        }
+        return false
     }
     
     private func loadUsageData() {

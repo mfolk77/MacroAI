@@ -296,14 +296,20 @@ struct ThemePackDetailView: View {
                     SubscriptionRequiredCard(
                         tier: "Pro",
                         message: "Upgrade to Pro to unlock this theme and more premium features.",
-                        action: { /* Navigate to paywall */ }
+                        action: {
+                            Analytics.paywallTriggered(source: "theme_detail", feature: themePack.id)
+                            NotificationCenter.default.post(name: NSNotification.Name("ShowPaywallDueToScanLimit"), object: nil)
+                        }
                     )
                     
                 case .eliteRequired:
                     SubscriptionRequiredCard(
                         tier: "Elite",
                         message: "Upgrade to Elite to unlock this theme and advanced features.",
-                        action: { /* Navigate to paywall */ }
+                        action: {
+                            Analytics.paywallTriggered(source: "theme_detail", feature: themePack.id)
+                            NotificationCenter.default.post(name: NSNotification.Name("ShowPaywallDueToScanLimit"), object: nil)
+                        }
                     )
                     
                 case .oneTimePurchase(let price, _), .seasonal(let price, _, _):

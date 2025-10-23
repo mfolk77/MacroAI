@@ -620,8 +620,8 @@ class MarketplaceManager: ObservableObject {
                 seasonalAvailability: SeasonalAvailability(
                     season: .halloween,
                     availableMonths: [9, 10], // September and October
-                    startDate: Calendar.current.date(from: DateComponents(year: 2024, month: 9, day: 15)), // Mid-September
-                    endDate: Calendar.current.date(from: DateComponents(year: 2024, month: 10, day: 31)) // End of October
+                    startDate: nil,
+                    endDate: nil
                 )
             ),
             

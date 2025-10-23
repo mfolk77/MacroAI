@@ -47,23 +47,14 @@ final class ServiceFactory {
     }
     
     static func createFoodVisionService() throws -> FoodVisionServiceProtocol {
-        // Try to get API key from Keychain using SecureConfig
-        if let apiKey = SecureConfig.getOpenAIAPIKey() {
-            let baseURL = URL(string: "https://api.openai.com/v1/chat/completions")!
-            return FoodVisionService(apiKey: apiKey, baseURL: baseURL)
-        } else {
-            throw ServiceError.missingOpenAIKey
-        }
+        // Use Apple Vision Framework (free, on-device, no API keys)
+        return AppleVisionFoodService()
     }
     
     static func createNutritionService() throws -> NutritionServiceProtocol {
-        // Try to get API key from Keychain using SecureConfig
-        if let apiKey = SecureConfig.getSpoonacularAPIKey() {
-            let baseURL = URL(string: "https://api.spoonacular.com")!
-            return NutritionService(apiKey: apiKey, baseURL: baseURL)
-        } else {
-            return MockNutritionService()
-        }
+        // Use USDA Food Database (no API key required)
+        let baseURL = URL(string: "https://api.nal.usda.gov/fdc/v1")!
+        return NutritionService(apiKey: "", baseURL: baseURL)
     }
     
     static func createBarcodeService() throws -> BarcodeService {

@@ -19,6 +19,10 @@ struct HomeView: View {
     @StateObject private var storeKit = StoreKitManager.shared
     @ObservedObject var themeManager = ThemeManager.shared
     @EnvironmentObject var premiumManager: PremiumManager
+    @StateObject private var subscriptionManager = SubscriptionManager.shared
+    @AppStorage("showDock") private var showDock: Bool = true
+    @AppStorage("dockAutoHide") private var dockAutoHide: Bool = true
+    @State private var dockVisible: Bool = true
     
     @State private var showingAIChat = false
     @State private var showCelebration = false
@@ -28,6 +32,11 @@ struct HomeView: View {
     @State private var showingRecipes = false
     @State private var showingMarketplace = false
     @State private var showingSettings = false
+    @State private var showOnboardingFree = false
+    @State private var showOnboardingPro = false
+    @State private var showInteractiveDemo = false
+    @State private var showDemoResults = false
+    @State private var demoMacroEntry: [String: Any] = [:]
     
     
     // Fun interactive states
@@ -42,6 +51,9 @@ struct HomeView: View {
     @State private var celebrationActive = false
     @State private var showPaywall = false
     @State private var usageCount = 0 // Track user usage for paywall triggers
+    @State private var showingCoachPanel = false
+    @State private var showingAutoTuneHistory = false
+    @State private var notifDeniedAlert: Bool = false
     
     init() {
         // Initialize with a temporary context, will be set properly in onAppear
@@ -49,9 +61,14 @@ struct HomeView: View {
             let tempContainer = try ModelContainer(for: MacroEntry.self, Recipe.self, NutritionCacheEntry.self)
             self._entryStore = StateObject(wrappedValue: MacroEntryStore(modelContext: tempContainer.mainContext))
         } catch {
-            // Fallback to a basic container if the main one fails
-            let fallbackContainer = try! ModelContainer(for: MacroEntry.self)
-            self._entryStore = StateObject(wrappedValue: MacroEntryStore(modelContext: fallbackContainer.mainContext))
+            // Fallback to an in-memory container if the main one fails (no crash)
+            if let fallbackContainer = try? ModelContainer(for: MacroEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true)) {
+                self._entryStore = StateObject(wrappedValue: MacroEntryStore(modelContext: fallbackContainer.mainContext))
+            } else {
+                // Last resort: create minimal in-memory container
+                let minimal = try! ModelContainer(for: MacroEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+                self._entryStore = StateObject(wrappedValue: MacroEntryStore(modelContext: minimal.mainContext))
+            }
         }
     }
     
@@ -69,6 +86,13 @@ struct HomeView: View {
                     // Compact Header
                     compactHeader
                     
+                    // Auto‑Tune banner (top, week of change only)
+                    if let rec = AutoTuneEngine.shared.lastRecord(), shouldShowAutoTuneBanner(rec) {
+                        autoTuneBanner(delta: Int(rec.adjustmentApplied * 100))
+                            .padding(.horizontal, 20)
+                            .padding(.top, 8)
+                    }
+                    
                     // Smaller Macro Plate
                     compactMacroPlate
                     
@@ -81,19 +105,215 @@ struct HomeView: View {
                     // Compact AI Assistant
                     compactAIAssistant
                 }
+                .padding(.bottom, 80)
+                
+                // Glass Dock pinned at bottom
+                if showDock {
+                    VStack {
+                        Spacer()
+                        GlassDockView(
+                            showUpgrade: subscriptionManager.currentTier == .basic,
+                            autoHide: dockAutoHide,
+                            onAction: handleDockAction,
+                            isVisible: $dockVisible,
+                            listBadgeCount: 0
+                        )
+                        .padding(.bottom, 8)
+                    }
+                    .zIndex(3000)
+                    .ignoresSafeArea(edges: .bottom)
+                    
+                    // Demo Results Overlay
+                    if showDemoResults {
+                        VStack {
+                            Spacer()
+                            demoResultsCard
+                                .padding(.horizontal, 20)
+                                .padding(.bottom, 100)
+                    }
+                    .zIndex(3001)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .animation(.easeInOut(duration: 0.5), value: showDemoResults)
+                }
+                
+                    
+                    // Reveal hotspot at the bottom edge when auto-hide is enabled
+                    if dockAutoHide && !dockVisible {
+                        Color.clear
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .overlay(
+                                ZStack(alignment: .bottom) {
+                                    // Swipe reveal zone
+                                    Rectangle()
+                                        .fill(Color.clear)
+                                        .frame(height: 64)
+                                        .frame(maxWidth: .infinity)
+                                        .contentShape(Rectangle())
+                                        .gesture(
+                                            DragGesture(minimumDistance: 5, coordinateSpace: .local)
+                                                .onEnded { value in
+                                                    if value.translation.height < -8 {
+                                                        withAnimation(.spring(response: 0.25, dampingFraction: 0.9)) {
+                                                            dockVisible = true
+                                                        }
+                                                    }
+                                                }
+                                        )
+                                        .onTapGesture {
+                                            withAnimation(.spring(response: 0.25, dampingFraction: 0.9)) {
+                                                dockVisible = true
+                                            }
+                                        }
+                                    
+                                    // Chevron handle affordance
+                                    HStack {
+                                        Spacer()
+                                        Button(action: {
+                                            withAnimation(.spring(response: 0.25, dampingFraction: 0.9)) {
+                                                dockVisible = true
+                                            }
+                                        }) {
+                                            HStack(spacing: 6) {
+                                                Image(systemName: "chevron.up")
+                                                    .font(.caption.bold())
+                                                    .foregroundColor(.secondary)
+                                            }
+                                            .padding(.vertical, 8)
+                                            .padding(.horizontal, 12)
+                                            .background(.ultraThinMaterial, in: Capsule())
+                                            .overlay(
+                                                Capsule().stroke(Color.white.opacity(0.08), lineWidth: 0.5)
+                                            )
+                                        }
+                                        .buttonStyle(.plain)
+                                        .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
+                                        Spacer()
+                                    }
+                                    .padding(.bottom, 24)
+                                }
+                                .contentShape(Rectangle())
+                                .allowsHitTesting(true)
+                                , alignment: .bottom
+                            )
+                            .zIndex(4000)
+                            .allowsHitTesting(true)
+                            .ignoresSafeArea(edges: .bottom)
+                    }
+                }
             }
             .navigationBarHidden(true)
             .onAppear {
                 // Set the proper ModelContext from environment
                 entryStore.modelContext = modelContext
+                Task { await entryStore.fetchEntries() }
                 startBreathingAnimation()
                 updateMacroMood()
                 calculateDailyStreak()
                 Analytics.screenView("home")
+                // Defer onboarding until final phase
+                // Coach Mode (no UI change): gated by SubscriptionManager tier + trial
+                let isEligible = subscriptionManager.currentTier != .basic || CoachTrialManager.shared.isWithinTrialWindow()
+                CoachEngine.shared.startIfEligible(isEligible: isEligible)
+                // Weekly Auto‑Tune: run if due (feature-flagged and Pro/Elite only)
+                #if !DEBUG || DEBUG_AUTOTUNE_TEST
+                Task { await AutoTuneEngine.shared.runWeeklyAdjustmentIfDue(modelContext: modelContext) }
+                #endif
+                #if DEBUG
+                // Ensure a recent record exists in DEBUG so the banner can appear for testing
+                Task { await AutoTuneEngine.shared.seedDebugRecordIfMissing(modelContext: modelContext) }
+                #endif
+                // Coach → Chat handoff listener
+                NotificationCenter.default.addObserver(forName: CoachEngine.openChatWithPrompt, object: nil, queue: .main) { note in
+                    guard let prompt = note.object as? String else { return }
+                    showingAIChat = true
+                    // Delay one runloop to allow sheet to present before assigning
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        // Not directly accessible here; pass via defaults as transient inbox
+                        UserDefaults.standard.set(prompt, forKey: "ChatInitialPromptInbox")
+                        UserDefaults.standard.synchronize()
+                    }
+                }
+                // Notifications denied alert once per session
+                NotificationCenter.default.addObserver(forName: Notification.Name("CoachNotificationsDenied"), object: nil, queue: .main) { _ in
+                    notifDeniedAlert = true
+                }
+                // Interactive demo notification listener
+                NotificationCenter.default.addObserver(forName: Notification.Name("ShowInteractiveDemo"), object: nil, queue: .main) { _ in
+                    showInteractiveDemo = true
+                }
+                
+                // Resume interactive demo notification listener
+                NotificationCenter.default.addObserver(forName: Notification.Name("ResumeInteractiveDemo"), object: nil, queue: .main) { _ in
+                    showInteractiveDemo = true
+                }
+                
+                // Demo callback notification listeners (remove old ones first)
+                NotificationCenter.default.removeObserver(self, name: Notification.Name("OpenCameraFromDemo"), object: nil)
+                NotificationCenter.default.removeObserver(self, name: Notification.Name("OpenCoachFromDemo"), object: nil)
+                NotificationCenter.default.removeObserver(self, name: Notification.Name("OpenFoodSearchFromDemo"), object: nil)
+                NotificationCenter.default.removeObserver(self, name: Notification.Name("OpenSettingsFromDemo"), object: nil)
+                
+                NotificationCenter.default.addObserver(forName: Notification.Name("OpenCameraFromDemo"), object: nil, queue: .main) { _ in
+                    showingCamera = true
+                }
+                NotificationCenter.default.addObserver(forName: Notification.Name("OpenCoachFromDemo"), object: nil, queue: .main) { _ in
+                    showingAIChat = true
+                }
+                NotificationCenter.default.addObserver(forName: Notification.Name("OpenFoodSearchFromDemo"), object: nil, queue: .main) { _ in
+                    showingAddFood = true
+                }
+                NotificationCenter.default.addObserver(forName: Notification.Name("OpenSettingsFromDemo"), object: nil, queue: .main) { _ in
+                    showingSettings = true
+                }
+                
+                // Check for demo results
+                if UserDefaults.standard.bool(forKey: "ShowDemoResults") {
+                    if let demoEntry = UserDefaults.standard.object(forKey: "DemoMacroEntry") as? [String: Any] {
+                        demoMacroEntry = demoEntry
+                        showDemoResults = true
+                    }
+                }
+                
+                // Listen for demo results notification
+                NotificationCenter.default.addObserver(forName: Notification.Name("ShowDemoResults"), object: nil, queue: .main) { notification in
+                    if let demoEntry = notification.object as? [String: Any] {
+                        demoMacroEntry = demoEntry
+                        showDemoResults = true
+                    }
+                }
+                
+                
+                // Periodic one-time review prompt after app has been used
+                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                    AppReviewManager.shared.requestReviewIfAppropriate(in: scene)
+                } else {
+                    AppReviewManager.shared.requestReviewIfAppropriate(in: nil)
+                }
             }
         }
         .sheet(isPresented: $showingAIChat) {
-            ChatView()
+            let inbox = UserDefaults.standard.string(forKey: "ChatInitialPromptInbox")
+            ChatView(initialPrompt: inbox)
+                .onDisappear {
+                    UserDefaults.standard.removeObject(forKey: "ChatInitialPromptInbox")
+                }
+        }
+        .sheet(isPresented: $showOnboardingFree) { OnboardingFreeView(onDone: { showOnboardingFree = false }) }
+        .sheet(isPresented: $showOnboardingPro) { OnboardingProView(onDone: { showOnboardingPro = false }) }
+        .sheet(isPresented: $showInteractiveDemo) { 
+            InteractiveDemoView(
+                isPresented: $showInteractiveDemo,
+                onOpenCamera: { showingCamera = true },
+                onOpenCoach: { showingAIChat = true },
+                onOpenFoodSearch: { showingAddFood = true },
+                onOpenSettings: { showingSettings = true }
+            )
+        }
+        .sheet(isPresented: $showingCoachPanel) {
+            CoachPanelView()
+        }
+        .sheet(isPresented: $showingAutoTuneHistory) {
+            AutoTuneHistoryView(records: AutoTuneEngine.shared.loadRecords())
         }
         .sheet(isPresented: $showingCamera) {
             CameraView(capturedImage: .constant(nil), macroEntryStore: entryStore)
@@ -164,8 +384,6 @@ struct HomeView: View {
                     Text("AI")
                         .font(.system(size: 24, weight: .black, design: .rounded))
                         .foregroundColor(themeManager.secondaryColor)
-                        .scaleEffect(pulseAnimation ? 1.1 : 1.0)
-                        .animation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true), value: pulseAnimation)
                 }
                 
                 Spacer()
@@ -178,20 +396,46 @@ struct HomeView: View {
                     
                     Text("\(dailyStreak)")
                         .font(.system(size: 12, weight: .bold, design: .rounded))
-                        .foregroundColor(.orange)
+                        .foregroundColor(.blue)
                 }
                 .padding(.horizontal, 8)
                 .padding(.vertical, 4)
-                .background(Color.orange.opacity(0.2))
+                .background(Color.yellow
+                    .opacity(0.2))
                 .cornerRadius(8)
                 
+                // Quick Auto‑Tune access
+                Button(action: { showingAutoTuneHistory = true }) {
+                    Image(systemName: "bolt.circle")
+                        .font(.title3)
+                        .foregroundColor(.blue)
+                        .padding(6)
+                        .background(
+                            Circle()
+                                .fill(Color.yellow.opacity(0.2))
+                                                        )
+                        .accessibilityLabel(Text("Auto‑Tune"))
+                }
+
+                // Upgrade button for Basic users
+                if subscriptionManager.currentTier == .basic {
+                    Button(action: { showPaywall = true; Analytics.paywallTriggered(source: "home", feature: "header_button") }) {
+                        HStack(spacing: 6) {
+                            Image(systemName: "crown.fill").foregroundColor(.red).font(.caption)
+                            Text("Upgrade").font(.system(size: 12, weight: .bold, design: .rounded)).foregroundColor(.blue)
+                        }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(Color.yellow.opacity(0.2))
+                        .cornerRadius(8)
+                    }
+                }
+
                 // Settings button
                 Button(action: { showingSettings = true; Analytics.featureUse("settings", action: "open") }) {
                     Image(systemName: "gear")
                         .font(.title3)
                         .foregroundColor(themeManager.primaryColor)
-                        .rotationEffect(.degrees(pulseAnimation ? 5 : 0))
-                        .animation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true), value: pulseAnimation)
                         .padding(6)
                         .background(
                             Circle()
@@ -332,8 +576,6 @@ struct HomeView: View {
                 Text("\(entryStore.todaysTotals.calories)")
                     .font(.system(size: 20, weight: .bold, design: .rounded))
                     .foregroundColor(themeManager.primaryColor)
-                    .scaleEffect(pulseAnimation ? 1.05 : 1.0)
-                    .animation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true), value: pulseAnimation)
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 12) // Reduced from 16 to 12
@@ -362,10 +604,10 @@ struct HomeView: View {
                 }
             }
             
-            // Free tier meal counter
+            // Free tier usage meters
             if !UserSubscriptionManager.shared.isPremium {
                 HStack {
-                    Text("Meals today: \(UserSubscriptionManager.shared.mealsLoggedToday)/2")
+                    Text("Meals today: \(UserSubscriptionManager.shared.mealsLoggedToday)/2  •  Scans today: \(UserSubscriptionManager.shared.aiScansToday)/3")
                         .font(.system(size: 12, weight: .semibold, design: .rounded))
                         .foregroundColor(.secondary)
                     Spacer()
@@ -433,6 +675,7 @@ struct HomeView: View {
                         showingCamera = true
                         trackTierUsage()
                         updateStreak()
+                            CoachEngine.shared.recordUserActionAndUpdateStreak()
                         Analytics.featureUse("camera", action: "open")
                     },
                     effect: .cameraFlash
@@ -447,6 +690,7 @@ struct HomeView: View {
                         showingManualEntry = true
                         trackTierUsage()
                         updateStreak()
+                            CoachEngine.shared.recordUserActionAndUpdateStreak()
                         Analytics.featureUse("manual_entry", action: "open")
                     },
                     effect: .typewriter
@@ -463,6 +707,7 @@ struct HomeView: View {
                         showingAddFood = true
                         trackTierUsage()
                         updateStreak()
+                        CoachEngine.shared.recordUserActionAndUpdateStreak()
                         Analytics.featureUse("food_search", action: "open")
                     },
                     effect: .magnify
@@ -484,6 +729,7 @@ struct HomeView: View {
                     },
                     effect: .typewriter
                 )
+                
             }
             
             
@@ -495,67 +741,47 @@ struct HomeView: View {
     // MARK: - Compact AI Assistant
     
     private var compactAIAssistant: some View {
-        VStack(spacing: 12) { // Reduced spacing from 20 to 12
-            // AI Header with Personality
-            HStack {
-                HStack(spacing: 6) {
-                    Image(systemName: "brain.head.profile")
-                        .foregroundColor(themeManager.primaryColor)
-                        .font(.title3)
-                        .rotationEffect(.degrees(pulseAnimation ? 5 : 0))
-                        .animation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true), value: pulseAnimation)
-                    
-                    Text("Macro AI")
-                        .font(.system(size: 16, weight: .bold, design: .rounded))
-                        .foregroundColor(themeManager.primaryColor)
+        VStack(spacing: 12) {
+            if notifDeniedAlert {
+                HStack(spacing: 8) {
+                    Image(systemName: "bell.slash.fill").foregroundColor(.orange)
+                    Text("Enable notifications in Settings to get Coach nudges.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Spacer()
+                    Button("Open Settings") {
+                        if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) }
+                        notifDeniedAlert = false
+                    }
+                    .font(.caption)
                 }
-                
-                Spacer()
-                
-                // AI Status Badge
-                HStack(spacing: 3) {
-                    Circle()
-                        .fill(Color.green)
-                        .frame(width: 6, height: 6)
-                        .scaleEffect(pulseAnimation ? 1.2 : 1.0)
-                        .animation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true), value: pulseAnimation)
-                    
-                    Text("Elite")
-                        .font(.system(size: 10, weight: .bold, design: .rounded))
-                        .foregroundColor(.green)
-                }
-                .padding(.horizontal, 6)
-                .padding(.vertical, 3)
-                .background(Color.green.opacity(0.2))
-                .cornerRadius(6)
+                .padding(8)
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
             }
-            
-            // Fun AI Message
-            Text(aiMessage)
-                .font(.system(size: 12, weight: .medium, design: .rounded))
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.leading)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 10) // Reduced from 16 to 10
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color(.systemGray6))
-                )
-            
-            // Interactive AI Button
-            Button(action: { 
+            // Ask Coach button only (chat box removed)
+            Button(action: {
+                // Gate Coach for Basic unless within 7‑day trial (use SubscriptionManager)
+                if subscriptionManager.currentTier == .basic && !CoachTrialManager.shared.isWithinTrialWindow() {
+                    showPaywall = true
+                    Analytics.featurePaywallShown("coach_locked")
+                    return
+                }
+                if subscriptionManager.currentTier == .basic {
+                    let started = CoachTrialManager.shared.startIfNeeded(days: 7)
+                    if started { Analytics.featureUse("coach", action: "trial_started") }
+                }
                 showingAIChat = true
                 updateStreak()
+                CoachEngine.shared.recordUserActionAndUpdateStreak()
                 Analytics.featureUse("chat", action: "open")
             }) {
                 HStack {
                     Image(systemName: "message.fill")
                         .foregroundColor(.white)
                         .font(.title3)
-                        .rotationEffect(.degrees(pulseAnimation ? 5 : 0))
-                        .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: pulseAnimation)
-                    
-                    Text("Ask MacroAI")
+
+                    Text("Ask Coach")
                         .font(.system(size: 14, weight: .semibold, design: .rounded))
                         .foregroundColor(.white)
                 }
@@ -570,21 +796,172 @@ struct HomeView: View {
                 )
                 .cornerRadius(10)
                 .shadow(color: .blue.opacity(0.3), radius: 3, x: 0, y: 1)
+                .overlay(alignment: .topTrailing) {
+                    // Coach badge (uses nudge count signal)
+                    if badgeCount > 0 {
+                        Text(badgeCount > 99 ? "99+" : "\(badgeCount)")
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 5).padding(.vertical, 2)
+                            .background(Color.red, in: Capsule())
+                            .offset(x: 8, y: -8)
+                    }
+                }
             }
         }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 8)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color(.systemBackground))
-                .shadow(color: .black.opacity(0.1), radius: 6, x: 0, y: 2)
-        )
         .padding(.horizontal, 20)
         .padding(.bottom, 10)
     }
     
+    // MARK: - Auto‑Tune Banner
+    private func shouldShowAutoTuneBanner(_ rec: AutoTuneRecord) -> Bool {
+        if let until = AutoTuneEngine.shared.getBannerDismissUntil(), until > Date() { return false }
+        let days = Calendar.current.dateComponents([.day], from: rec.createdAt, to: Date()).day ?? 99
+        return days < 7
+    }
+    
+    @ViewBuilder
+    private func autoTuneBanner(delta: Int) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: "bolt.circle.fill").foregroundColor(.yellow)
+            Text("Auto‑Tune: calorie target \(delta >= 0 ? "+" : "")\(delta)% this week — View")
+                .font(.caption)
+                .foregroundColor(.primary)
+                .onTapGesture { showingAutoTuneHistory = true }
+            Spacer()
+            Button("Dismiss") {
+                AutoTuneEngine.shared.dismissBannerFor(days: 7)
+            }
+            .font(.caption)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+    }
+    
+    // MARK: - Dock Actions
+    private func handleDockAction(_ action: GlassDockView.DockAction) {
+        print("[HomeView] Dock action: \(action)")
+        switch action {
+        case .coach: showingCoachPanel = true
+        case .upgrade: showPaywall = true
+        case .marketplace: showingMarketplace = true
+        }
+    }
+    
+    // MARK: - Demo Results Card
+    
+    private var demoResultsCard: some View {
+        VStack(spacing: 16) {
+            HStack {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(.green)
+                    .font(.title2)
+                
+                Text("Demo Results")
+                    .font(.headline)
+                    .fontWeight(.bold)
+                
+                Spacer()
+                
+                Button(action: {
+                    showDemoResults = false
+                    UserDefaults.standard.removeObject(forKey: "ShowDemoResults")
+                    UserDefaults.standard.removeObject(forKey: "DemoMacroEntry")
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.gray)
+                        .font(.title2)
+                }
+            }
+            
+            if let foodName = demoMacroEntry["foodName"] as? String,
+               let calories = demoMacroEntry["calories"] as? Int,
+               let protein = demoMacroEntry["protein"] as? Double,
+               let carbs = demoMacroEntry["carbs"] as? Double,
+               let fat = demoMacroEntry["fat"] as? Double {
+                
+                VStack(spacing: 12) {
+                    Text(foodName)
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                    
+                    HStack(spacing: 20) {
+                        VStack {
+                            Text("\(calories)")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundColor(.orange)
+                            Text("Calories")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        VStack {
+                            Text("\(protein, specifier: "%.1f")g")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundColor(.red)
+                            Text("Protein")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        VStack {
+                            Text("\(carbs, specifier: "%.1f")g")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundColor(.blue)
+                            Text("Carbs")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        VStack {
+                            Text("\(fat, specifier: "%.1f")g")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundColor(.purple)
+                            Text("Fat")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+            }
+            
+            Text("This is how your food gets automatically added to your macros!")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .padding(20)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
+    }
+    
     // MARK: - Supporting Functions
     
+    private var badgeCount: Int {
+        if UserDefaults.standard.bool(forKey: "coach_badge_override_zero") { return 0 }
+        // Basic heuristic: show 1 if any coach-related notifications are scheduled
+        // This is lightweight and avoids querying notification center each frame
+        let keys = [
+            "coach_last_sched_coach_daily_nudge",
+            "coach_last_sched_coach_evening_nudge",
+            "coach_last_sched_coach_weekly_summary",
+            "coach_last_sched_coach_protein_by_lunch",
+            "coach_last_sched_coach_prelog_dinner"
+        ]
+        let defaults = UserDefaults.standard
+        let anyRecent = keys.contains { key in
+            if let date = defaults.object(forKey: key) as? Date { return Date().timeIntervalSince(date) < 7*24*3600 }
+            return false
+        }
+        return anyRecent ? 1 : 0
+    }
+
+
     private func calculateProteinPercentage() -> Double {
         let targetProtein = Double(MacroTargets.current.protein)
         let currentProtein = Double(entryStore.todaysTotals.protein)
@@ -923,7 +1300,7 @@ struct PlayfulButton: View {
                         effectOverlay
                     )
             )
-            .scaleEffect(isPressed ? 0.95 : 1.0)
+            .scaleEffect(isPressed ? 0.98 : 1.0)
             .animation(.easeInOut(duration: 0.1), value: isPressed)
             .shadow(color: color.opacity(0.3), radius: 5, x: 0, y: 2)
         }
@@ -959,4 +1336,5 @@ struct PlayfulButton: View {
 #Preview {
     HomeView() 
 } 
+
 

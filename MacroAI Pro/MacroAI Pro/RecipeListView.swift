@@ -369,9 +369,10 @@ struct RecipeRowView: View {
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Recipe.self, MacroEntry.self, NutritionCacheEntry.self, configurations: config)
+    let container = (try? ModelContainer(for: Recipe.self, MacroEntry.self, NutritionCacheEntry.self, configurations: config))
+        ?? (try! ModelContainer(for: Recipe.self, MacroEntry.self, NutritionCacheEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true)))
     let entryStore = MacroEntryStore(modelContext: container.mainContext)
     let storeKit = StoreKitManager.shared
     
-    RecipeListView(modelContext: container.mainContext, entryStore: entryStore, storeKit: storeKit)
+    return RecipeListView(modelContext: container.mainContext, entryStore: entryStore, storeKit: storeKit)
 } 

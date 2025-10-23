@@ -169,6 +169,7 @@ struct ManualEntryView: View {
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: MacroEntry.self, Recipe.self, NutritionCacheEntry.self, configurations: config)
-    ManualEntryView(entryStore: MacroEntryStore(modelContext: container.mainContext))
+    let container = (try? ModelContainer(for: MacroEntry.self, Recipe.self, NutritionCacheEntry.self, configurations: config))
+        ?? (try! ModelContainer(for: MacroEntry.self, Recipe.self, NutritionCacheEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true)))
+    return ManualEntryView(entryStore: MacroEntryStore(modelContext: container.mainContext))
 } 

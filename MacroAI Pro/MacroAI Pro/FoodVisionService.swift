@@ -22,20 +22,31 @@ class FoodVisionService: FoodVisionServiceProtocol {
     }
     
     func analyzeFoodImage(_ image: UIImage) async throws -> NutritionMacros {
-        // For now, return mock data
-        // TODO: Implement actual OpenAI Vision API call
         print("🔍 [FoodVisionService] Analyzing food image...")
         
-        // Simulate API delay
+        // Step 1: Use OpenAI Vision to identify the food
+        let foodName = try await identifyFoodWithOpenAI(image)
+        
+        // Step 2: Get nutrition data from USDA using identified food name
+        let usdaClient = USDAFoodDatabase()
+        let macros = try await usdaClient.getNutritionData(for: foodName)
+        
+        #if DEBUG
+        print("✅ [FoodVisionService] Identified: \(foodName) → \(macros.calories) kcal")
+        #endif
+        
+        return macros
+    }
+    
+    private func identifyFoodWithOpenAI(_ image: UIImage) async throws -> String {
+        // TODO: Implement actual OpenAI Vision API call
+        // For now, return a mock food name
+        print("🔍 [FoodVisionService] Mock OpenAI Vision analysis...")
         try await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
         
-        // Return mock nutrition data
-        return NutritionMacros(
-            calories: Double.random(in: 200...800),
-            protein: Double.random(in: 10...40),
-            carbs: Double.random(in: 20...80),
-            fat: Double.random(in: 5...30)
-        )
+        // Mock food identification
+        let mockFoods = ["chicken breast", "rice", "broccoli", "apple", "banana", "eggs"]
+        return mockFoods.randomElement() ?? "chicken breast"
     }
 }
 

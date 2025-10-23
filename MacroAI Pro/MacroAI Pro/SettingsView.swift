@@ -2,6 +2,7 @@ import SwiftData
 import SwiftUI
 import AuthenticationServices
 import UIKit
+import UserNotifications
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
@@ -26,7 +27,29 @@ struct SettingsView: View {
     @ObservedObject var macroEntryStore: MacroEntryStore
     @StateObject private var subscriptionManager = SubscriptionManager.shared
     @StateObject private var themeManager = ThemeManager.shared
+    @EnvironmentObject private var premiumManager: PremiumManager
     @EnvironmentObject private var storeKitManager: StoreKitManager
+    @AppStorage("showDock") private var showDock: Bool = true
+    @AppStorage("dockAutoHide") private var dockAutoHide: Bool = true
+    @AppStorage("coachModeEnabled") private var coachModeEnabled: Bool = true
+    @State private var showDisclaimers: Bool = false
+    @State private var showScheduleConfirm: Bool = false
+    @State private var scheduleSummary: String = ""
+    @State private var showingNudgeConfig: Bool = false
+    @State private var showTipsResetConfirm: Bool = false
+    @State private var showSpoonTestAlert: Bool = false
+    @State private var spoonTestMessage: String = ""
+    @State private var showingInteractiveDemo: Bool = false
+    
+    private var appVersionString: String {
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—"
+        let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+        if let build = build, !build.isEmpty, build != version {
+            return "\(version) (\(build))"
+        } else {
+            return version
+        }
+    }
     
     // MARK: - Color Scheme Management
     
@@ -293,6 +316,179 @@ struct SettingsView: View {
                         .background(Color(.systemGray6))
                         .cornerRadius(12)
                     }
+
+                    // DOCK SETTINGS
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("DOCK")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal)
+
+                        VStack(spacing: 12) {
+                            Toggle(isOn: $showDock) {
+                                HStack {
+                                    Image(systemName: "square.bottomthird.inset.filled")
+                                        .foregroundColor(.blue)
+                                        .frame(width: 20)
+                                    Text("Show Glass Dock")
+                                        .font(.subheadline)
+                                }
+                            }
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+
+                            Toggle(isOn: $dockAutoHide) {
+                                HStack {
+                                    Image(systemName: "arrow.down.right.and.arrow.up.left")
+                                        .foregroundColor(.blue)
+                                        .frame(width: 20)
+                                    Text("Auto‑hide Dock")
+                                        .font(.subheadline)
+                                }
+                            }
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                        }
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(12)
+                    }
+
+                    // COACH MODE Section
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("COACH MODE")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal)
+
+                        VStack(spacing: 12) {
+                            Toggle(isOn: $coachModeEnabled) {
+                                HStack {
+                                    Image(systemName: "flame.fill")
+                                        .foregroundColor(.orange)
+                                        .frame(width: 20)
+                                    Text("Enable Coach Mode")
+                                        .font(.subheadline)
+                                }
+                            }
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+
+                            // Brief non-medical advice reminder (reuse disclaimer intent)
+                            HStack(alignment: .top, spacing: 8) {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .foregroundColor(.orange)
+                                    .frame(width: 16)
+                                Text("Coach is educational only and not medical advice. See Medical Disclaimer for details.")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                            .padding(8)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+
+                            Button("Send Test Nudge Now") {
+                                CoachEngine.shared.sendTestNudgeNow()
+                            }
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
+                            .background(Color.orange)
+                            .cornerRadius(12)
+
+                            Button("Schedule Coach Nudges") { showingNudgeConfig = true }
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                            .background(Color.blue)
+                            .cornerRadius(12)
+                        }
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(12)
+                    }
+
+                    #if DEBUG
+                    // TESTING Section (DEBUG only)
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("TESTING (DEBUG)")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal)
+
+                        VStack(spacing: 12) {
+                            HStack {
+                                Image(systemName: "crown")
+                                    .foregroundColor(.purple)
+                                    .frame(width: 20)
+                                Text("Force Premium Access")
+                                    .font(.subheadline)
+                                Spacer()
+                                Toggle("", isOn: Binding(
+                                    get: { SubscriptionManager.shared.currentTier != .basic },
+                                    set: { newVal in
+                                        if newVal {
+                                            SubscriptionManager.shared.forcePremiumOverride(true)
+                                            premiumManager.upgradeToTier(.elite)
+                                        } else {
+                                            premiumManager.upgradeToTier(.basic)
+                                            SubscriptionManager.shared.forcePremiumOverride(false)
+                                        }
+                                    }
+                                ))
+                                .labelsHidden()
+                            }
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+
+                            HStack {
+                                Text("Current Tier:")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                Spacer()
+                                Text(SubscriptionManager.shared.currentTier.displayName)
+                                    .font(.caption)
+                            }
+
+                            Button("Test Spoonacular API") {
+                                if !SpoonacularRecipeAPI.hasValidAPIKey() {
+                                    showingSpoonacularKeyInput = true
+                                } else {
+                                    Task {
+                                        do {
+                                            let results = try await SpoonacularRecipeAPI.searchRecipes(query: "oats")
+                                            spoonTestMessage = "Spoonacular OK. Found \(results.count) results for 'oats'."
+                                        } catch {
+                                            spoonTestMessage = "Spoonacular error: \(error.localizedDescription)"
+                                        }
+                                        showSpoonTestAlert = true
+                                    }
+                                }
+                            }
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                            .background(Color.blue)
+                            .cornerRadius(8)
+                        }
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(12)
+                    }
+                    #endif
                     
                     // ACCOUNT Section
                     VStack(alignment: .leading, spacing: 12) {
@@ -341,7 +537,13 @@ struct SettingsView: View {
                             .cornerRadius(12)
                             
                             Button("Restore Purchases") {
-                                // Restore purchases functionality
+                                Task {
+                                    do {
+                                        try await storeKitManager.restorePurchases()
+                                    } catch {
+                                        print("❌ Restore purchases failed: \(error)")
+                                    }
+                                }
                             }
                             .font(.subheadline)
                             .foregroundColor(.blue)
@@ -527,6 +729,22 @@ struct SettingsView: View {
                             .padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
+
+                            Button("Reset Coach Tips (Chat)") {
+                                let d = UserDefaults.standard
+                                d.set(false, forKey: "ChatTipsSeen")
+                                d.set(false, forKey: "ChatSpotlightSeen")
+                                d.set(false, forKey: "coach_badge_override_zero")
+                                NotificationCenter.default.post(name: .coachBadgeUpdated, object: nil)
+                                showTipsResetConfirm = true
+                            }
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                            .background(Color.gray)
+                            .cornerRadius(8)
                         }
                         .padding()
                         .background(Color(.systemGray6))
@@ -534,9 +752,9 @@ struct SettingsView: View {
                     }
                     #endif
                     
-                    // LEGAL & DATA USE Section
+                    // LEGAL & DATA USE — Disclaimers Section
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("LEGAL & DATA USE")
+                        Text("LEGAL & DATA USE — Disclaimers")
                             .font(.caption)
                             .fontWeight(.semibold)
                             .foregroundColor(.secondary)
@@ -544,60 +762,167 @@ struct SettingsView: View {
                         
                         VStack(spacing: 12) {
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("Attribution & Data Use Disclosure")
+                                Text("Disclaimers")
                                     .font(.subheadline)
                                     .fontWeight(.semibold)
-                                Text("Nutrition data is provided by the Spoonacular API. All recipes, ingredients, and nutritional facts are sourced from Spoonacular's content partners. We credit all original sources where applicable. This app does not permanently store or scrape Spoonacular content. Nutritional data is cached for no more than one hour per Spoonacular's Terms of Use.")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
+
+                                DisclosureGroup(isExpanded: $showDisclaimers) {
+                                    VStack(spacing: 8) {
+                                        NavigationLink {
+                                            AttributionDataUseView()
+                                        } label: {
+                                            HStack {
+                                                Text("Attribution & Data Use Disclosure")
+                                                    .font(.subheadline)
+                                                Spacer()
+                                                Image(systemName: "chevron.right")
+                                                    .foregroundColor(.secondary)
+                                                    .font(.caption)
+                                            }
+                                            .padding()
+                                            .background(Color(.systemGray6))
+                                            .cornerRadius(8)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+
+                                        NavigationLink {
+                                            AIAnalysisDisclosureView()
+                                        } label: {
+                                            HStack {
+                                                Text("AI Analysis Disclosure")
+                                                    .font(.subheadline)
+                                                Spacer()
+                                                Image(systemName: "chevron.right")
+                                                    .foregroundColor(.secondary)
+                                                    .font(.caption)
+                                            }
+                                            .padding()
+                                            .background(Color(.systemGray6))
+                                            .cornerRadius(8)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+
+                                        NavigationLink {
+                                            NutritionAdapterDisclosureView()
+                                        } label: {
+                                            HStack {
+                                                Text("Nutrition Adapter Disclosure")
+                                                    .font(.subheadline)
+                                                Spacer()
+                                                Image(systemName: "chevron.right")
+                                                    .foregroundColor(.secondary)
+                                                    .font(.caption)
+                                            }
+                                            .padding()
+                                            .background(Color(.systemGray6))
+                                            .cornerRadius(8)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+
+                                        NavigationLink {
+                                            ModelProviderDisclosureView()
+                                        } label: {
+                                            HStack {
+                                                Text("Model Provider Disclosure")
+                                                    .font(.subheadline)
+                                                Spacer()
+                                                Image(systemName: "chevron.right")
+                                                    .foregroundColor(.secondary)
+                                                    .font(.caption)
+                                            }
+                                            .padding()
+                                            .background(Color(.systemGray6))
+                                            .cornerRadius(8)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+
+                                        NavigationLink {
+                                            UserDataPolicyView()
+                                        } label: {
+                                            HStack {
+                                                Text("User Data Policy")
+                                                    .font(.subheadline)
+                                                Spacer()
+                                                Image(systemName: "chevron.right")
+                                                    .foregroundColor(.secondary)
+                                                    .font(.caption)
+                                            }
+                                            .padding()
+                                            .background(Color(.systemGray6))
+                                            .cornerRadius(8)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+
+                                        NavigationLink {
+                                            MedicalDisclaimerView()
+                                        } label: {
+                                            HStack {
+                                                Text("Medical Disclaimer")
+                                                    .font(.subheadline)
+                                                Spacer()
+                                                Image(systemName: "chevron.right")
+                                                    .foregroundColor(.secondary)
+                                                    .font(.caption)
+                                            }
+                                            .padding()
+                                            .background(Color(.systemGray6))
+                                            .cornerRadius(8)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+
+                                        NavigationLink {
+                                            PrivacyPolicyView()
+                                        } label: {
+                                            HStack {
+                                                Text("Privacy Policy")
+                                                    .font(.subheadline)
+                                                Spacer()
+                                                Image(systemName: "chevron.right")
+                                                    .foregroundColor(.secondary)
+                                                    .font(.caption)
+                                            }
+                                            .padding()
+                                            .background(Color(.systemGray6))
+                                            .cornerRadius(8)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+
+                                        NavigationLink {
+                                            TermsOfServiceView()
+                                        } label: {
+                                            HStack {
+                                                Text("Terms of Service")
+                                                    .font(.subheadline)
+                                                Spacer()
+                                                Image(systemName: "chevron.right")
+                                                    .foregroundColor(.secondary)
+                                                    .font(.caption)
+                                            }
+                                            .padding()
+                                            .background(Color(.systemGray6))
+                                            .cornerRadius(8)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+                                    }
+                                    .padding(.top, 4)
+                                } label: {
+                                    HStack {
+                                        Image(systemName: "doc.text.magnifyingglass")
+                                            .foregroundColor(.blue)
+                                            .frame(width: 20)
+                                        Text("View and open disclaimers")
+                                            .font(.subheadline)
+                                        Spacer()
+                                        Image(systemName: showDisclaimers ? "chevron.down" : "chevron.right")
+                                            .foregroundColor(.secondary)
+                                            .font(.caption)
+                                    }
+                                }
                             }
                             .padding()
-                            .frame(maxWidth: .infinity, alignment: .leading)
                             .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                            
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("AI Analysis Disclosure")
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                Text("Image analysis is performed by OpenAI's GPT-4o Vision model to identify food items. Food names are then matched to Spoonacular's nutrition database.")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                            .padding()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                            
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("User Data Policy")
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                Text("User-submitted images are retained for up to 7 days to support re-analysis and user review. These images are owned by the user and are not shared with third parties outside of OpenAI or Spoonacular during analysis.")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                            .padding()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                            
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("Medical Disclaimer")
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                Text("Macro AI Pro is for educational and informational use only. It is not intended to provide medical advice, diagnosis, or treatment. Consult a licensed healthcare provider before making dietary or health decisions. This app does not replace professional medical care.")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                            .padding()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
+                            .cornerRadius(12)
                         }
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(12)
                     }
                     
                     // SUPPORT Section
@@ -637,16 +962,12 @@ struct SettingsView: View {
                             .fontWeight(.semibold)
                             .foregroundColor(.secondary)
                             .padding(.horizontal)
-                        
+
                         VStack(spacing: 12) {
-                            SupportRow(icon: "info.circle", title: "Version", value: "1.3.3", action: {})
+                            // Keep compact rows unboxed for tighter layout
+                            SupportRow(icon: "info.circle", title: "Version", value: appVersionString, action: {})
                             SupportRow(icon: "person.circle", title: "Developer", value: "FolkTech AI", action: {})
-                            SupportRow(icon: "hand.raised", title: "Privacy Policy", action: { showingPrivacyPolicy = true })
-                            SupportRow(icon: "doc.text", title: "Terms of Service", action: { showingTermsOfService = true })
                         }
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(12)
                     }
                     
                     // DELETE ACCOUNT Section
@@ -689,6 +1010,38 @@ struct SettingsView: View {
                         .cornerRadius(12)
                     }
                     
+                    // DEBUG Section
+                    #if DEBUG
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("DEBUG")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal)
+                        
+                        Button(action: {
+                            showingInteractiveDemo = true
+                        }) {
+                            HStack {
+                                Image(systemName: "play.circle.fill")
+                                    .foregroundColor(.blue)
+                                    .frame(width: 20)
+                                Text("Trigger Interactive Demo")
+                                    .font(.subheadline)
+                                    .foregroundColor(.primary)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.secondary)
+                                    .font(.caption)
+                            }
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                    #endif
+                    
                     Spacer(minLength: 50)
                 }
                 .padding()
@@ -704,12 +1057,33 @@ struct SettingsView: View {
                 }
             }
             .onAppear { Analytics.screenView("settings") }
+            .onDisappear {
+                // Post notification when settings is dismissed to resume demo
+                NotificationCenter.default.post(name: Notification.Name("ResumeInteractiveDemo"), object: nil)
+            }
         }
         .sheet(isPresented: $showingPremiumUpgrade) {
             PaywallView()
         }
+        .sheet(isPresented: $showingNudgeConfig) {
+            CoachNudgeConfigView { names in
+                let joined = names.isEmpty ? "none" : names.joined(separator: ", ")
+                scheduleSummary = "Scheduled: \(joined)"
+                showScheduleConfirm = true
+            }
+        }
+        .alert("Coach Nudges Scheduled", isPresented: $showScheduleConfirm) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(scheduleSummary)
+        }
         .sheet(isPresented: $showingMarketplace) {
             MarketplaceView()
+        }
+        .alert("Tips Reset", isPresented: $showTipsResetConfirm) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("Chat tips and spotlight will show again on next open.")
         }
         .sheet(isPresented: $showingDietSelection) {
             DietSelectionView()
@@ -747,6 +1121,36 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $showingPhotoGallery) {
             PhotoGalleryView(macroEntryStore: macroEntryStore)
+        }
+        .sheet(isPresented: $showingInteractiveDemo) {
+            InteractiveDemoView(
+                isPresented: $showingInteractiveDemo,
+                onOpenCamera: { 
+                    showingInteractiveDemo = false
+                    // Post notification to open camera from HomeView
+                    NotificationCenter.default.post(name: Notification.Name("OpenCameraFromDemo"), object: nil)
+                },
+                onOpenCoach: { 
+                    showingInteractiveDemo = false
+                    // Post notification to open coach from HomeView
+                    NotificationCenter.default.post(name: Notification.Name("OpenCoachFromDemo"), object: nil)
+                },
+                onOpenFoodSearch: { 
+                    showingInteractiveDemo = false
+                    // Post notification to open food search from HomeView
+                    NotificationCenter.default.post(name: Notification.Name("OpenFoodSearchFromDemo"), object: nil)
+                },
+                onOpenSettings: { 
+                    showingInteractiveDemo = false
+                    // Post notification to open settings from HomeView
+                    NotificationCenter.default.post(name: Notification.Name("OpenSettingsFromDemo"), object: nil)
+                }
+            )
+        }
+        .alert("Spoonacular Test", isPresented: $showSpoonTestAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(spoonTestMessage)
         }
         .alert("Delete Account", isPresented: $showingDeleteAccountAlert) {
             Button("Cancel", role: .cancel) { }
@@ -1077,6 +1481,156 @@ struct TermsOfServiceView: View {
                         dismiss()
                     }
                 }
+            }
+        }
+    }
+}
+
+// MARK: - Disclaimer Detail Views
+
+struct AttributionDataUseView: View {
+    @Environment(\.dismiss) private var dismiss
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("Attribution & Data Use Disclosure")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Text("Nutrition data is provided by the Spoonacular API. All recipes, ingredients, and nutritional facts are sourced from Spoonacular's content partners. We credit all original sources where applicable. This app does not permanently store or scrape Spoonacular content. Nutritional data is cached for no more than one hour per Spoonacular's Terms of Use.")
+                        .font(.body)
+                }
+                .padding()
+            }
+            .navigationTitle("Attribution & Data Use")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) { Button("Done") { dismiss() } }
+            }
+        }
+    }
+}
+
+struct AIAnalysisDisclosureView: View {
+    @Environment(\.dismiss) private var dismiss
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("AI Analysis Disclosure")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Text("This app uses Apple’s Foundation Models for AI chat and analysis when available. Your use of these features must follow Apple’s Acceptable Use Requirements for the Foundation Models framework. We embed safety guardrails and content moderation to prevent disallowed content. We are transparent that Apple’s Foundation Models may be involved in generating AI responses, and our usage is subject to Apple’s acceptable‑use framework.")
+                        .font(.body)
+                }
+                .padding()
+            }
+            .navigationTitle("AI Analysis Disclosure")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) { Button("Done") { dismiss() } }
+            }
+        }
+    }
+}
+
+struct ModelProviderDisclosureView: View {
+    @Environment(\.dismiss) private var dismiss
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("Model Provider Disclosure")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Text("Chat responses are generated using Apple’s Foundation Models on supported devices/OS versions. When unavailable, the chat feature provides local guidance and will not call third‑party models.")
+                        .font(.body)
+                }
+                .padding()
+            }
+            .navigationTitle("Model Provider")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) { Button("Done") { dismiss() } }
+            }
+        }
+    }
+}
+
+struct UserDataPolicyView: View {
+    @Environment(\.dismiss) private var dismiss
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("User Data Policy")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Text("User-submitted images are retained for up to 7 days to support re-analysis and user review. These images are owned by the user and are not shared with third parties outside of OpenAI or Spoonacular during analysis.")
+                        .font(.body)
+                }
+                .padding()
+            }
+            .navigationTitle("User Data Policy")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) { Button("Done") { dismiss() } }
+            }
+        }
+    }
+}
+
+struct MedicalDisclaimerView: View {
+    @Environment(\.dismiss) private var dismiss
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("Medical Disclaimer")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Text("Macro AI Pro is for educational and informational use only. It is not intended to provide medical advice, diagnosis, or treatment. Consult a licensed healthcare provider before making dietary or health decisions. This app does not replace professional medical care.")
+                        .font(.body)
+                }
+                .padding()
+            }
+            .navigationTitle("Medical Disclaimer")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) { Button("Done") { dismiss() } }
+            }
+        }
+    }
+}
+
+struct NutritionAdapterDisclosureView: View {
+    @Environment(\.dismiss) private var dismiss
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("Nutrition Adapter Disclosure")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Text("When you enable Nutrition mode in Chat, MacroAI uses on-device Apple Foundation Models with a nutrition-focused adapter. The adapter biases responses toward meal planning, grocery consolidation, and macro-aware suggestions, and avoids medical advice.")
+                        .font(.body)
+                    Text("Context sources")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    Text("• Your macro targets\n• Recent meal context in future updates")
+                        .font(.body)
+                    Text("Privacy & Safety")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    Text("All processing uses Apple’s models when available. We apply built-in moderation and our Medical Disclaimer still applies—no diagnosis or treatment.")
+                        .font(.body)
+                }
+                .padding()
+            }
+            .navigationTitle("Nutrition Adapter")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) { Button("Done") { dismiss() } }
             }
         }
     }

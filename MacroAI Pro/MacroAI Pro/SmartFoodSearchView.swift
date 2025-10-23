@@ -352,8 +352,9 @@ struct SearchResultRow: View {
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: MacroEntry.self, Recipe.self, NutritionCacheEntry.self, configurations: config)
-    SmartFoodSearchView(
+    let container = (try? ModelContainer(for: MacroEntry.self, Recipe.self, NutritionCacheEntry.self, configurations: config))
+        ?? (try! ModelContainer(for: MacroEntry.self, Recipe.self, NutritionCacheEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true)))
+    return SmartFoodSearchView(
         macroEntryStore: MacroEntryStore(modelContext: container.mainContext),
         macroAIManager: MacroAIManager(
             foodVision: MockFoodVisionService(),

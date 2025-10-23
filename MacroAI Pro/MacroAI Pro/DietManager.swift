@@ -196,20 +196,55 @@ class DietManager: ObservableObject {
     }
     
     private func loadDiet(from fileName: String) -> Diet? {
-        guard let url = Bundle.main.url(forResource: fileName, withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let diet = try? JSONDecoder().decode(Diet.self, from: data) else {
-            print("❌ [DietManager] Failed to load diet: \(fileName)")
-            return nil
+        // Try common locations inside bundle in case JSONs are kept in subdirectories
+        let candidateSubdirectories: [String?] = [
+            nil, // bundle root
+            "Diets",
+            "Resources",
+            "Resources/Diets"
+        ]
+        
+        for subdir in candidateSubdirectories {
+            let url: URL?
+            if let subdir = subdir {
+                url = Bundle.main.url(forResource: fileName, withExtension: "json", subdirectory: subdir)
+            } else {
+                url = Bundle.main.url(forResource: fileName, withExtension: "json")
+            }
+            
+            if let url = url,
+               let data = try? Data(contentsOf: url),
+               let diet = try? JSONDecoder().decode(Diet.self, from: data) {
+                // Validate macro distribution
+                guard diet.macroDistribution.isValid else {
+                    print("❌ [DietManager] Invalid macro distribution for diet: \(fileName)")
+                    return nil
+                }
+                return diet
+            }
+        }
+
+        // As a final fallback, recursively scan the bundle for the file (handles nested folders)
+        if let resourceURL = Bundle.main.resourceURL {
+            let fm = FileManager.default
+            if let enumerator = fm.enumerator(at: resourceURL, includingPropertiesForKeys: nil) {
+                for case let url as URL in enumerator {
+                    if url.lastPathComponent == "\(fileName).json" {
+                        if let data = try? Data(contentsOf: url),
+                           let diet = try? JSONDecoder().decode(Diet.self, from: data) {
+                            guard diet.macroDistribution.isValid else {
+                                print("❌ [DietManager] Invalid macro distribution for diet: \(fileName)")
+                                return nil
+                            }
+                            return diet
+                        }
+                    }
+                }
+            }
         }
         
-        // Validate macro distribution
-        guard diet.macroDistribution.isValid else {
-            print("❌ [DietManager] Invalid macro distribution for diet: \(fileName)")
-            return nil
-        }
-        
-        return diet
+        print("❌ [DietManager] Failed to load diet: \(fileName) (searched root, Diets, Resources, Resources/Diets)")
+        return nil
     }
     
     // MARK: - Recipe Loading

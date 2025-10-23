@@ -52,6 +52,10 @@ struct UnifiedFoodSearchView: View {
         .sheet(isPresented: $showingCategoryPicker) {
             CategoryPickerView(selectedCategory: $selectedCategory)
         }
+        .onDisappear {
+            // Post notification when food search is dismissed to resume demo
+            NotificationCenter.default.post(name: Notification.Name("ResumeInteractiveDemo"), object: nil)
+        }
     }
     
     // MARK: - Search Tab
@@ -511,8 +515,10 @@ struct CategoryPickerView: View {
 }
 
 #Preview {
-    UnifiedFoodSearchView(
-        macroEntryStore: MacroEntryStore(modelContext: try! ModelContainer(for: MacroEntry.self).mainContext),
+    let container = (try? ModelContainer(for: MacroEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true)))
+        ?? (try! ModelContainer(for: MacroEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true)))
+    return UnifiedFoodSearchView(
+        macroEntryStore: MacroEntryStore(modelContext: container.mainContext),
         macroAIManager: MacroAIManager(
             foodVision: MockFoodVisionService(),
             nutrition: MockNutritionService(),

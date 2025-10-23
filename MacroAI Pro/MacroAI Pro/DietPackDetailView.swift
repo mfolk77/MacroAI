@@ -231,14 +231,20 @@ struct DietPackDetailView: View {
                     SubscriptionRequiredCard(
                         tier: "Pro",
                         message: "Upgrade to Pro to unlock this diet plan and more premium features.",
-                        action: { /* Navigate to paywall */ }
+                        action: {
+                            Analytics.paywallTriggered(source: "diet_detail", feature: dietPack.id)
+                            NotificationCenter.default.post(name: NSNotification.Name("ShowPaywallDueToScanLimit"), object: nil)
+                        }
                     )
                     
                 case .eliteRequired:
                     SubscriptionRequiredCard(
                         tier: "Elite",
                         message: "Upgrade to Elite to unlock this medical diet plan and advanced features.",
-                        action: { /* Navigate to paywall */ }
+                        action: {
+                            Analytics.paywallTriggered(source: "diet_detail", feature: dietPack.id)
+                            NotificationCenter.default.post(name: NSNotification.Name("ShowPaywallDueToScanLimit"), object: nil)
+                        }
                     )
                     
                 case .oneTimePurchase(let price, _), .seasonal(let price, _, _):

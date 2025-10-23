@@ -61,6 +61,36 @@ class OpenAIAPI {
             }
         }
     }
+
+    // MARK: - General Chat with context/history (for testing fallback)
+    static func chat(
+        adapter: AppleAIAPI.Adapter,
+        context: String?,
+        userMessage: String,
+        history: [String]?,
+        temperature: Double = 0.6,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+        guard let apiKey = getAPIKey(), hasValidAPIKey() else {
+            completion(.failure(APIError.noAPIKey))
+            return
+        }
+        Task {
+            do {
+                let response = try await makeOpenAIChatCall(
+                    adapter: adapter,
+                    context: context,
+                    userMessage: userMessage,
+                    history: history ?? [],
+                    temperature: temperature,
+                    apiKey: apiKey
+                )
+                DispatchQueue.main.async { completion(.success(response)) }
+            } catch {
+                DispatchQueue.main.async { completion(.failure(error)) }
+            }
+        }
+    }
     
     // MARK: - Real OpenAI API Integration
     
@@ -113,6 +143,63 @@ class OpenAIAPI {
             throw APIError.decodingError
         }
         
+        return content
+    }
+
+    private static func makeOpenAIChatCall(
+        adapter: AppleAIAPI.Adapter,
+        context: String?,
+        userMessage: String,
+        history: [String],
+        temperature: Double,
+        apiKey: String
+    ) async throws -> String {
+        let url = URL(string: "https://api.openai.com/v1/chat/completions")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        var messages: [[String: Any]] = []
+        let system: String
+        switch adapter {
+        case .general:
+            system = "You are a concise, helpful assistant for MacroAI. Be clear and practical."
+        case .nutrition:
+            system = "You are a nutrition planning assistant for MacroAI. Provide practical, evidence‑based suggestions. Avoid medical advice."
+        }
+        messages.append(["role": "system", "content": system])
+        if let ctx = context, !ctx.isEmpty {
+            messages.append(["role": "system", "content": "Context: \(ctx)"])
+        }
+        for h in history.prefix(10) {
+            if h.hasPrefix("user:") {
+                messages.append(["role": "user", "content": String(h.dropFirst(5)).trimmingCharacters(in: .whitespaces)])
+            } else if h.hasPrefix("assistant:") {
+                messages.append(["role": "assistant", "content": String(h.dropFirst(10)).trimmingCharacters(in: .whitespaces)])
+            }
+        }
+        messages.append(["role": "user", "content": userMessage])
+
+        let body: [String: Any] = [
+            "model": "gpt-4o-mini",
+            "messages": messages,
+            "max_tokens": 500,
+            "temperature": max(0, min(1, temperature))
+        ]
+        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+        guard let httpResponse = response as? HTTPURLResponse else { throw APIError.invalidResponse }
+        guard httpResponse.statusCode == 200 else {
+            if let err = String(data: data, encoding: .utf8) { print("❌ OpenAI chat error: \(httpResponse.statusCode) -> \(err)") }
+            throw APIError.apiError("HTTP \(httpResponse.statusCode)")
+        }
+        let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+        guard let choices = json?["choices"] as? [[String: Any]],
+              let first = choices.first,
+              let message = first["message"] as? [String: Any],
+              let content = message["content"] as? String else { throw APIError.decodingError }
         return content
     }
     

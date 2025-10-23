@@ -24,9 +24,9 @@ struct AnnoyingPaywallView: View {
                 .ignoresSafeArea()
             
             // Main content
-            VStack(spacing: 30) {
+            VStack(spacing: 20) {
                 // Simple header
-                VStack(spacing: 20) {
+                VStack(spacing: 10) {
                     Image(systemName: "crown.fill")
                         .font(.system(size: 60, weight: .medium))
                         .foregroundColor(.yellow)
@@ -43,12 +43,12 @@ struct AnnoyingPaywallView: View {
                             .padding(.horizontal, 20)
                     }
                 }
-                .padding(.top, 40)
+                .padding(.top, 75)
                 
                 Spacer()
                 
                 // Features list
-                VStack(spacing: 24) {
+                VStack(spacing: 5) {
                     PremiumFeatureRow(
                         icon: "crown.fill",
                         title: "Premium Diet Plans",
@@ -79,10 +79,10 @@ struct AnnoyingPaywallView: View {
                 }
                 .padding(.horizontal, 30)
                 
-                Spacer()
+               
                 
                 // Timer display (simplified)
-                VStack(spacing: 10) {
+                VStack(spacing: 5) {
                     Text("\(timeRemaining)")
                         .font(.system(size: 32, weight: .bold, design: .monospaced))
                         .foregroundColor(canDismiss ? .green : .white)
@@ -91,7 +91,7 @@ struct AnnoyingPaywallView: View {
                         .font(.caption)
                         .foregroundColor(.white.opacity(0.7))
                 }
-                .padding(.vertical, 20)
+                .padding(.vertical, 0)
                 
                 // Action buttons
                 VStack(spacing: 16) {
@@ -157,7 +157,7 @@ struct AnnoyingPaywallView: View {
                         .multilineTextAlignment(.center)
                 }
                 .padding(.horizontal, 40)
-                .padding(.bottom, 20)
+                .padding(.bottom, 75)
             }
             .padding(.vertical, 20)
         }

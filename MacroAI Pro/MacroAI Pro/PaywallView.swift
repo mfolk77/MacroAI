@@ -14,6 +14,7 @@ struct PaywallView: View {
     @State private var isPurchasing = false
     @State private var showingError = false
     @State private var errorMessage = ""
+    @State private var attemptedLoad = false
     
     var body: some View {
         NavigationView {
@@ -37,7 +38,13 @@ struct PaywallView: View {
                     Button("Close") { dismiss() }
                 }
             }
-            .onAppear { Analytics.screenView("paywall") }
+            .onAppear {
+                Analytics.screenView("paywall")
+                if !attemptedLoad {
+                    attemptedLoad = true
+                    Task { await subscriptionManager.loadProducts() }
+                }
+            }
         }
         .alert("Purchase Error", isPresented: $showingError) {
             Button("OK") { }
@@ -242,7 +249,17 @@ struct PaywallView: View {
                 .foregroundColor(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             }
-            .disabled(isPurchasing)
+            .disabled(isPurchasing || subscriptionManager.isLoadingProducts || subscriptionManager.products.isEmpty)
+            
+            if subscriptionManager.isLoadingProducts {
+                Text("Loading products…")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            } else if subscriptionManager.products.isEmpty {
+                Text(subscriptionManager.productLoadError ?? "No products found. Check StoreKit configuration.")
+                    .font(.caption)
+                    .foregroundColor(.red)
+            }
             
             // Restore Purchases Button
             Button(action: restorePurchases) {

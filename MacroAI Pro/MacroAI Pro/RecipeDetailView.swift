@@ -4,6 +4,7 @@ import SwiftUI
 import SwiftData
 
 struct RecipeDetailView: View {
+    @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @StateObject private var recipeManager: RecipeManager
     @StateObject private var entryStore: MacroEntryStore
@@ -347,9 +348,7 @@ struct RecipeDetailView: View {
             }
             .disabled(isAddingToMacros)
             
-            // TEMPORARILY DISABLED - Recipe analyze feature returning zeros
-            // TODO: Fix recipe analyze feature in next update
-            /*
+
             // Analyze Recipe Button (if has ingredients)
             if !(recipe.ingredients ?? []).isEmpty {
                 Button(action: analyzeRecipe) {
@@ -379,7 +378,6 @@ struct RecipeDetailView: View {
                 }
                 .disabled(isAnalyzing)
             }
-            */
             
             // Secondary Actions
             HStack(spacing: 16) {
@@ -442,6 +440,7 @@ struct RecipeDetailView: View {
             }
         }
     }
+    
     
     private func analyzeRecipe() {
         guard !(recipe.ingredients ?? []).isEmpty else { return }
@@ -665,7 +664,8 @@ struct ShareSheet: UIViewControllerRepresentable {
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Recipe.self, MacroEntry.self, configurations: config)
+    let container = (try? ModelContainer(for: Recipe.self, MacroEntry.self, configurations: config))
+        ?? (try! ModelContainer(for: Recipe.self, MacroEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true)))
     let recipeManager = RecipeManager(modelContext: container.mainContext)
     let entryStore = MacroEntryStore(modelContext: container.mainContext)
     let storeKit = StoreKitManager.shared

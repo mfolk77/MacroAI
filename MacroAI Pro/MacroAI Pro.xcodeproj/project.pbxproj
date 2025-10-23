@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		234FBED92E8F407A00F29174 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234FBED82E8F407A00F29174 /* AppEnvironment.swift */; };
+		2368261C2E9C254D00F4B753 /* VisionKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2368261B2E9C254D00F4B753 /* VisionKit.framework */; };
+		2368261E2E9C283700F4B753 /* FoundationModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2368261D2E9C283700F4B753 /* FoundationModels.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		23C39B322E2F259B00A8BE4A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +30,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		234FBED82E8F407A00F29174 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		2368261B2E9C254D00F4B753 /* VisionKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VisionKit.framework; path = System/Library/Frameworks/VisionKit.framework; sourceTree = SDKROOT; };
+		2368261D2E9C283700F4B753 /* FoundationModels.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FoundationModels.framework; path = System/Library/Frameworks/FoundationModels.framework; sourceTree = SDKROOT; };
 		23C39B242E2F259900A8BE4A /* MacroAI Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MacroAI Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23C39B312E2F259B00A8BE4A /* MacroAI ProTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MacroAI ProTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		23C39B3B2E2F259B00A8BE4A /* MacroAI ProUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MacroAI ProUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +61,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2368261C2E9C254D00F4B753 /* VisionKit.framework in Frameworks */,
+				2368261E2E9C283700F4B753 /* FoundationModels.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +83,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2368261A2E9C24D500F4B753 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2368261D2E9C283700F4B753 /* FoundationModels.framework */,
+				2368261B2E9C254D00F4B753 /* VisionKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		23C39B1B2E2F259900A8BE4A = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +99,8 @@
 				23C39B342E2F259B00A8BE4A /* MacroAI ProTests */,
 				23C39B3E2E2F259B00A8BE4A /* MacroAI ProUITests */,
 				23C39B252E2F259900A8BE4A /* Products */,
+				234FBED82E8F407A00F29174 /* AppEnvironment.swift */,
+				2368261A2E9C24D500F4B753 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -236,6 +258,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				234FBED92E8F407A00F29174 /* AppEnvironment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +427,8 @@
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "MacroAI Pro uses HealthKit to sync your nutrition data and meal tracking with the Health app, allowing you to view your macro intake alongside other health metrics.\n";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "MacroAI Pro saves your meal data and nutrition information to the Health app so you can track your daily macro intake and maintain a complete health record.\n";
 				INFOPLIST_KEY_NSHomeKitUsageDescription = "MacroAI Pro uses the camera to scan food items and barcodes for nutrition tracking.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "MacroAI Pro may save processed images back to your photo library when you choose to export or save.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "MacroAI Pro needs access to your photo library to import food images for nutrition analysis.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -413,7 +438,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "comFolkTechAI.MacroAI-Pro";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -441,6 +466,8 @@
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "MacroAI Pro uses HealthKit to sync your nutrition data and meal tracking with the Health app, allowing you to view your macro intake alongside other health metrics.\n";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "MacroAI Pro saves your meal data and nutrition information to the Health app so you can track your daily macro intake and maintain a complete health record.\n";
 				INFOPLIST_KEY_NSHomeKitUsageDescription = "MacroAI Pro uses the camera to scan food items and barcodes for nutrition tracking.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "MacroAI Pro may save processed images back to your photo library when you choose to export or save.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "MacroAI Pro needs access to your photo library to import food images for nutrition analysis.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -450,7 +477,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "comFolkTechAI.MacroAI-Pro";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;

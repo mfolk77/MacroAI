@@ -506,7 +506,8 @@ struct QuickFixButton: View {
             carbs: 30,
             fats: 0      // Wrong value
         )
-        let container = try! ModelContainer(for: MacroEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+        let container = (try? ModelContainer(for: MacroEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true)))
+            ?? (try! ModelContainer(for: MacroEntry.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true)))
         let store = MacroEntryStore(modelContext: container.mainContext)
         EditMacroEntryView(entry: sampleEntry, macroEntryStore: store)
     } else {
